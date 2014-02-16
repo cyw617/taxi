@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 public class MainActivity extends Activity {
 	
-	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+	public final static String EXTRA_MESSAGE = "com.example.helloworld.MESSAGE";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,14 @@ public class MainActivity extends Activity {
 	public void sendMessage(View view) {
 	    // Do something in response to button
 		Intent intent = new Intent(this, DisplayMessageActivity.class);
-		EditText editText = (EditText) findViewById(R.id.edit_message);
-		String message = editText.getText().toString();
+		
+		EditText editText1 = (EditText) findViewById(R.id.edit_message);
+		EditText editText2 = (EditText) findViewById(R.id.edit_message2);
+		String message1 = editText1.getText().toString();
+		String message2 = editText2.getText().toString();
+		
+		String message = message1+" "+message2;
+		
 		intent.putExtra(EXTRA_MESSAGE, message);
 		startActivity(intent);
 	}
