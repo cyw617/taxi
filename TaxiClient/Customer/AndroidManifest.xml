@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -21,6 +21,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="comp3111h.anytaxi.customer.DisplayMessageActivity"
+            android:label="@string/title_activity_display_message"
+            android:parentActivityName="comp3111h.anytaxi.customer.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="comp3111h.anytaxi.customer.MainActivity" />
         </activity>
     </application>
 
