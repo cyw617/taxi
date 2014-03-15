@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HelloWorld</string>
+    <string name="app_name">AnyTaxi</string>
     <string name="edit_message">Enter X</string>
     <string name="edit_message2">Enter Y</string>
     <string name="button_send">NewActivity</string>
