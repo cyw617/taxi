@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AnyTaxi - Driver</string>
+    <string name="hello_world">I am the Driver App</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
