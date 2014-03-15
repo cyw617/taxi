@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 		String message1 = editText1.getText().toString();
 		String message2 = editText2.getText().toString();
 		
-		String serverCon = excutePost("http://byronyi-diet.appspot.com/sign" , "content=testFromAndroid&guestbookName=default");
+		String serverCon = excutePost("http://byronyi-diet.appspot.com/sign" , "content=test+from+Android&guestbookName=default");
 		String message = message1+" "+message2+" "+serverCon;
 		
 		intent.putExtra(EXTRA_MESSAGE, message);
