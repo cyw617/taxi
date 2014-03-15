@@ -1,5 +1,9 @@
 package comp3111h.anytaxi.customer;
 
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,10 +38,38 @@ public class MainActivity extends Activity {
 		String message1 = editText1.getText().toString();
 		String message2 = editText2.getText().toString();
 		
-		String message = message1+" "+message2;
+		String serverCon = excutePost("http://byronyi-diet.appspot.com/sign" , "content=testFromAndroid&guestbookName=default");
+		String message = message1+" "+message2+" "+serverCon;
 		
 		intent.putExtra(EXTRA_MESSAGE, message);
 		startActivity(intent);
 	}
+	public static String excutePost(String targetURL, String urlParameters){
+		try {
+	        URL url = new URL(targetURL); 
+	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();           
+	        connection.setDoOutput(true);
+	        connection.setDoInput(true);
+	        connection.setInstanceFollowRedirects(false); 
+	        connection.setRequestMethod("POST"); 
+	        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+	        connection.setRequestProperty("charset", "utf-8");
+	        connection.setRequestProperty("Content-Length", "" + Integer.toString(urlParameters.getBytes().length));
+	        connection.setUseCaches (false);
 
+	        connection.connect();
+
+	        DataOutputStream wr = new DataOutputStream(connection.getOutputStream ());
+	        wr.writeBytes(urlParameters);
+	        wr.flush();
+	        wr.close();
+	        
+	        connection.disconnect();
+	        return "success"; 
+	    } catch (Exception e) {
+	      System.out.println("Exception");
+	      e.printStackTrace();
+	      return "failed";
+	    }
+	}
 }
