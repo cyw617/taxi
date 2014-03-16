@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">AnyTaxi - Driver</string>
-    <string name="hello_world">I am the Driver App</string>
     <string name="action_settings">Settings</string>
+    
+    <string name="hello_world">I am the Driver App</string>
 
 </resources>
