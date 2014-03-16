@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:padding="20dip">
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:padding="2dip">
+	
+		<com.google.android.gms.common.SignInButton
+			android:id="@+id/sign_in_button"
+			android:layout_width="120dip"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="30dip"
+			android:enabled="false" />
+	
+		<Button
+			android:id="@+id/sign_out_button"
+			android:layout_width="100dip"
+			android:layout_height="wrap_content"
+			android:text="@string/sign_out_button_name"
+			android:enabled="false" />
+	
+		<Button
+			android:id="@+id/revoke_access_button"
+			android:layout_width="100dip"
+			android:layout_height="wrap_content"
+			android:text="@string/revoke_access_button_name"
+			android:enabled="false" />
+	
+	</LinearLayout>
+    
+    <TextView
+        android:id="@+id/sign_in_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dip"
+        android:text="@string/status_signed_out" />
+
+</LinearLayout>
