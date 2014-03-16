@@ -1,25 +1,37 @@
 package comp3111h.anytaxi.driver;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends Activity {
+    GoogleApiManager googleApiManager;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+        googleApiManager = new GoogleApiManager(this);
 	}
 	
 	@Override
 	protected void onStart() {
 	    super.onStart();
+
+        googleApiManager.connect();
 	}
 	
 	@Override
 	protected void onStop() {
 	    super.onStop();
+
+        if (googleApiManager.isConnected()) {
+            googleApiManager.disconnect();
+        }
 	}
 
 	@Override
@@ -40,5 +52,10 @@ public class MainActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void setting_Login(View view) {
+	    Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
 	}
 }
