@@ -6,16 +6,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,11 +32,11 @@ public class LoginActivity extends FragmentActivity implements
 
     private static final int RC_SIGN_IN = 0;
 
-    private static final String SAVED_PROGRESS = "sign_in_progress";
+    private static final String SAVED_PROGRESS = "login_InProgress";
 
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient googleApiClient;
 
-    // Use mSignInProgress to track whether user has clicked sign in.
+    // Use login_Progress to track whether user has clicked sign in.
     //
     // STATE_DEFAULT:
     //         The default state of the application before the user
@@ -51,87 +53,95 @@ public class LoginActivity extends FragmentActivity implements
     //         This state indicates that we have started an intent to
     //         resolve an error, and so we should not start further
     //         intents until the current intent completes.
-    private int mSignInProgress;
+    private int login_Progress;
 
     // Used to store the PendingIntent most recently returned by Google Play
     // services until the user clicks 'sign in'.
-    private PendingIntent mSignInIntent;
+    private PendingIntent login_Intent;
 
-    private SignInButton mSignInButton;
-    private Button mSignOutButton;
-    private Button mRevokeButton;
-    private TextView mStatus;
+    private LinearLayout agreement_Layout;
+    private TextView agreement_Text;
+    private CheckBox agreement_Chkbox;
+    private SignInButton login_Btn_In;
+    private Button login_Btn_Out;
+    private Button login_Btn_Revoke;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        mSignOutButton = (Button) findViewById(R.id.sign_out_button);
-        mRevokeButton = (Button) findViewById(R.id.revoke_access_button);
-        mStatus = (TextView) findViewById(R.id.sign_in_status);
+        agreement_Layout = (LinearLayout) findViewById(R.id.login_Agreement_Layout);
+        agreement_Text = (TextView) findViewById(R.id.login_Agreement_Text);
+        agreement_Chkbox = (CheckBox) findViewById(R.id.login_Agreement_Chkbox);
+        login_Btn_In = (SignInButton) findViewById(R.id.login_Btn_In);
+        login_Btn_Out = (Button) findViewById(R.id.login_Btn_Out);
+        login_Btn_Revoke = (Button) findViewById(R.id.login_Btn_Revoke);
 
-        mSignInButton.setOnClickListener(this);
-        mSignOutButton.setOnClickListener(this);
-        mRevokeButton.setOnClickListener(this);
+        agreement_Text.setText(Html.fromHtml(getString(R.string.login_Agreement_Text)));
+
+        login_Btn_In.setOnClickListener(this);
+        login_Btn_Out.setOnClickListener(this);
+        login_Btn_Revoke.setOnClickListener(this);
 
         if (savedInstanceState != null) {
-            mSignInProgress = savedInstanceState.getInt(SAVED_PROGRESS, STATE_DEFAULT);
+            login_Progress = savedInstanceState.getInt(SAVED_PROGRESS, STATE_DEFAULT);
         }
 
-        mGoogleApiClient = build_GoogleApiClient();
+        googleApiClient = build_GoogleApiClient();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        googleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
+        if (googleApiClient.isConnected()) {
+            googleApiClient.disconnect();
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(SAVED_PROGRESS, mSignInProgress);
+        outState.putInt(SAVED_PROGRESS, login_Progress);
     }
 
     @Override
     public void onClick(View v) {
-        if (!mGoogleApiClient.isConnecting()) {
+        if (!googleApiClient.isConnecting()) {
             // Button clicks are only process when GoogleApiClient is not
             // transitioning between connected and not connected.
             switch (v.getId()) {
-            case R.id.sign_in_button:
-                mStatus.setText(R.string.status_signing_in);
-                resolveSignInError();
+            case R.id.login_Btn_In:
+                if (agreement_Chkbox.isChecked())
+                    resolveSignInError();
+                else
+                    Toast.makeText(this, "Please agree with our terms and conditions.", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.sign_out_button:
+            case R.id.login_Btn_Out:
                 // The default account is cleared on sign out so that Google
                 // Play services will not return an onConnected callback
                 // without user interaction.
-                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                mGoogleApiClient.disconnect();
-                mGoogleApiClient.connect();
+                Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                googleApiClient.disconnect();
+                googleApiClient.connect();
                 break;
-            case R.id.revoke_access_button:
+            case R.id.login_Btn_Revoke:
                 // After revoking permissions for the user with a
                 // GoogleApiClient instance, a new instance should be created.
                 // A callback on revokeAccessAndDisconnect should be
                 // registered to delete user data so as to comply with Google
                 // developer policies.
-                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
-                mGoogleApiClient = build_GoogleApiClient();
-                mGoogleApiClient.connect();
+                Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                Plus.AccountApi.revokeAccessAndDisconnect(googleApiClient);
+                googleApiClient = build_GoogleApiClient();
+                googleApiClient.connect();
                 break;
             }
         }
@@ -150,23 +160,16 @@ public class LoginActivity extends FragmentActivity implements
         Log.i(TAG, "onConnected");
 
         // Update the user interface to reflect that the user is signed in.
-        mSignInButton.setEnabled(false);
-        mSignOutButton.setEnabled(true);
-        mRevokeButton.setEnabled(true);
-
-        // Retrieve some profile information to personalize our app for the
-        // user.
-        Person currentUser = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-
-        mStatus.setText(String.format(
-            getResources().getString(R.string.signed_in_as),
-            currentUser.getDisplayName()
-        ));
+        login_Btn_In.setEnabled(false);
+        login_Btn_Out.setEnabled(true);
+        login_Btn_Revoke.setEnabled(true);
+        agreement_Layout.setVisibility(View.GONE);
+        login_Btn_In.setVisibility(View.GONE);
+        login_Btn_Out.setVisibility(View.VISIBLE);
+        login_Btn_Revoke.setVisibility(View.VISIBLE);
 
         // Indicate that the sign in process is complete.
-        mSignInProgress = STATE_DEFAULT;
-        
-        Toast.makeText(this, mStatus.getText(), Toast.LENGTH_LONG).show();
+        login_Progress = STATE_DEFAULT;
     }
 
     /*
@@ -181,13 +184,13 @@ public class LoginActivity extends FragmentActivity implements
         // might be returned in onConnectionFailed.
         Log.i(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
 
-        if (mSignInProgress != STATE_IN_PROGRESS) {
+        if (login_Progress != STATE_IN_PROGRESS) {
             // We do not have an intent in progress so we should store the
             // latest error resolution intent for use when the sign in button
             // is clicked.
-            mSignInIntent = result.getResolution();
+            login_Intent = result.getResolution();
 
-            if (mSignInProgress == STATE_SIGN_IN) {
+            if (login_Progress == STATE_SIGN_IN) {
                 // STATE_SIGN_IN indicates the user already clicked the sign in
                 // button so we should continue processing errors until the user
                 // is signed in or they click cancel.
@@ -208,7 +211,7 @@ public class LoginActivity extends FragmentActivity implements
      * to enable device networking, etc.
      */
     private void resolveSignInError() {
-        if (mSignInIntent != null) {
+        if (login_Intent != null) {
             // We have an intent which will allow our user to sign in or
             // resolve an error. For example if the user needs to
             // select an account to sign in with, or if they need to consent
@@ -219,17 +222,17 @@ public class LoginActivity extends FragmentActivity implements
                 // OnConnectionFailed callback. This will allow the user to
                 // resolve the error currently preventing our connection to
                 // Google Play services.
-                mSignInProgress = STATE_IN_PROGRESS;
+                login_Progress = STATE_IN_PROGRESS;
                 startIntentSenderForResult(
-                    mSignInIntent.getIntentSender(),
+                    login_Intent.getIntentSender(),
                     RC_SIGN_IN, null, 0, 0, 0
                 );
             } catch (SendIntentException e) {
                 Log.i(TAG, "Sign in intent could not be sent: " + e.getLocalizedMessage());
                 // The intent was canceled before it was sent. Attempt to
                 // connect to get an updated ConnectionResult.
-                mSignInProgress = STATE_SIGN_IN;
-                mGoogleApiClient.connect();
+                login_Progress = STATE_SIGN_IN;
+                googleApiClient.connect();
             }
         }
     }
@@ -241,18 +244,18 @@ public class LoginActivity extends FragmentActivity implements
             if (resultCode == RESULT_OK) {
                 // If the error resolution was successful we should continue
                 // processing errors.
-                mSignInProgress = STATE_SIGN_IN;
+                login_Progress = STATE_SIGN_IN;
             } else {
                 // If the error resolution was not successful or the user
                 // canceled, we should stop processing errors.
-                mSignInProgress = STATE_DEFAULT;
+                login_Progress = STATE_DEFAULT;
             }
 
-            if (!mGoogleApiClient.isConnecting()) {
+            if (!googleApiClient.isConnecting()) {
                 // If Google Play services resolved the issue with a dialog then
                 // onStart is not called so we need to re-attempt connection
                 // here.
-                mGoogleApiClient.connect();
+                googleApiClient.connect();
             }
             break;
         }
@@ -263,7 +266,7 @@ public class LoginActivity extends FragmentActivity implements
         // The connection to Google Play services was lost for some reason.
         // We call connect() to attempt to re-establish the connection or get a
         // ConnectionResult that we can attempt to resolve.
-        mGoogleApiClient.connect();
+        googleApiClient.connect();
     }
 
     private GoogleApiClient build_GoogleApiClient() {
@@ -280,10 +283,13 @@ public class LoginActivity extends FragmentActivity implements
 
     private void onSignedOut() {
         // Update the UI to reflect that the user is signed out.
-        mSignInButton.setEnabled(true);
-        mSignOutButton.setEnabled(false);
-        mRevokeButton.setEnabled(false);
-
-        mStatus.setText(R.string.status_signed_out);
+        agreement_Chkbox.setChecked(false);
+        login_Btn_In.setEnabled(true);
+        login_Btn_Out.setEnabled(false);
+        login_Btn_Revoke.setEnabled(false);
+        agreement_Layout.setVisibility(View.VISIBLE);
+        login_Btn_In.setVisibility(View.VISIBLE);
+        login_Btn_Out.setVisibility(View.GONE);
+        login_Btn_Revoke.setVisibility(View.GONE);
     }
 }

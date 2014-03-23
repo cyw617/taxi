@@ -49,7 +49,7 @@ public class GoogleApiManager implements ConnectionCallbacks, OnConnectionFailed
         Log.i(TAG, "onConnectionFailed");
         
         // alert the user to login
-        Toast.makeText(this.context, "Please login to enjoy AnyTaxi :)", Toast.LENGTH_LONG).show();
+        Toast.makeText(this.context, "Please login to enjoy AnyTaxi :)", Toast.LENGTH_SHORT).show();
         
         // redirect the user to login
         Intent login = new Intent(this.context, LoginActivity.class);

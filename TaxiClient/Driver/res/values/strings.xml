@@ -3,15 +3,55 @@
 
     <string name="app_name">AnyTaxi - Driver</string>
     <string name="action_settings">Settings</string>
-    <string name="setting_login">Settings > Login</string>
     
     <string name="hello_world">I am the Driver App</string>
     
-    <string name="sign_out_button_name">Sign out</string>
-    <string name="revoke_access_button_name">Revoke</string>
+    <!-- - - - - - - - - - - - - - Start: LoginActivity - - - - - - - - - - - - - -->
+    <string name="login_ActivityTitle">Login</string>
     
-    <string name="status_signed_out">Signed out</string>
-    <string name="status_signing_in">Signing in&#8230;</string>
-    <string name="signed_in_as">Welcome, %s</string>
+    <string name="login_Agreement_Text">
+		<![CDATA[
+		    <p>
+		    	<big><b>Terms and Conditions</b></big>
+		    </p>
+		    <p>
+		    	<b><u>1. Love AnyTaxi</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>2. Condition 2</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>3. Condition 3</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>4. Condition 4</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>5. Condition 5</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>6. Condition 6</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>7. Condition 7</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>8. Condition 8</u></b><br />
+		    	blablabla......
+		    </p>
+		]]>
+	</string>
+    <string name="login_Agreement_Chkbox">I have read this agreement and agree to the terms and conditions.</string>
+    
+    <string name="login_Btn_Out">Sign out</string>
+    <string name="login_Btn_Revoke">Revoke</string>
+    <!-- - - - - - - - - - - - - - End: LoginActivity - - - - - - - - - - - - - - -->
 
 </resources>

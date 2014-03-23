@@ -4,41 +4,62 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical"
 	android:padding="20dip">
+	
+    <TableLayout
+        android:id="@+id/login_Agreement_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dip"
+        android:orientation="vertical">
+        
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dip"
+	        android:background="@drawable/border">
+	        
+		    <TextView
+		        android:id="@+id/login_Agreement_Text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="5dip"
+		        android:textSize="16sp" />
+		    
+	    </ScrollView>
+	    
+	    <CheckBox
+	        android:id="@+id/login_Agreement_Chkbox"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:textSize="14sp"
+	        android:text="@string/login_Agreement_Chkbox" />
+	    
+    </TableLayout>
 
 	<LinearLayout
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:padding="2dip">
+		android:orientation="vertical">
 	
 		<com.google.android.gms.common.SignInButton
-			android:id="@+id/sign_in_button"
-			android:layout_width="120dip"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="30dip"
-			android:enabled="false" />
+			android:id="@+id/login_Btn_In"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
 	
 		<Button
-			android:id="@+id/sign_out_button"
-			android:layout_width="100dip"
+			android:id="@+id/login_Btn_Out"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/sign_out_button_name"
-			android:enabled="false" />
+			android:text="@string/login_Btn_Out" />
 	
 		<Button
-			android:id="@+id/revoke_access_button"
-			android:layout_width="100dip"
+			android:id="@+id/login_Btn_Revoke"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/revoke_access_button_name"
-			android:enabled="false" />
+			android:text="@string/login_Btn_Revoke" />
 	
 	</LinearLayout>
-    
-    <TextView
-        android:id="@+id/sign_in_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dip"
-        android:text="@string/status_signed_out" />
 
 </LinearLayout>

@@ -13,7 +13,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/setting_login"
+        android:text="@string/login_ActivityTitle"
         android:onClick="setting_Login" />
 
 </LinearLayout>
