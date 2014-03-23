@@ -7,13 +7,17 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.plus.Plus;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends FragmentActivity implements
+public class LoginActivity extends ActionBarActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, View.OnClickListener {
 
     private static final String TAG = "LoginActivity";
@@ -67,7 +71,7 @@ public class LoginActivity extends FragmentActivity implements
     private Button login_Btn_Revoke;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -110,6 +114,30 @@ public class LoginActivity extends FragmentActivity implements
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_PROGRESS, login_Progress);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        // Respond to the action bar's Up/Home button
+        case android.R.id.home:
+            if (googleApiClient.isConnected())
+                NavUtils.navigateUpFromSameTask(this);
+            else {
+                exit();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    public void onBackPressed() {
+        if (googleApiClient.isConnected())
+            super.onBackPressed();
+        else {
+            exit();
+        }
     }
 
     @Override
@@ -291,5 +319,21 @@ public class LoginActivity extends FragmentActivity implements
         login_Btn_In.setVisibility(View.VISIBLE);
         login_Btn_Out.setVisibility(View.GONE);
         login_Btn_Revoke.setVisibility(View.GONE);
+    }
+    
+    private void exit() {
+        new AlertDialog.Builder(this)
+        .setTitle(R.string.app_name)
+        .setMessage("Do you want to exit?")
+        .setPositiveButton("Yes",
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    moveTaskToBack(true);
+                    finish();
+                }
+            })
+        .setNegativeButton("No", null)
+        .show();
     }
 }
