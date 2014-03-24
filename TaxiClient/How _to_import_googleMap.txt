@@ -1,0 +1,23 @@
+how to integrate google map api in our project:
+Method one:
+1. go to webiste: get started: https://developers.google.com/maps/documentation/android/start
+2. Just follow every step mentioned in "get started".
+Method two:
+0. go to webiste: get started: 
+https://developers.google.com/maps/documentation/android/start
+1.
+Just follow every step mentioned in "get started" until "Obtain a Google Maps API key"
+when it comes to obtain the SHA-1, it is no need to use the "key-tool".
+you can obtain it on eclipse easily.
+just watch the following video(from 16.25):
+http://www.youtube.com/watch?v=vUsBOZ7-qBE
+After u get the SHA-1, go back to "get started "and continue the remaining step.
+P.S:
+1.
+Before running the "sample code" in module(Add a map), it is good to follow every step mentioned in "Getting Started" except obtaining the "SHA-1" in module (Obtain a Google Maps API key" module).
+2.
+I have encounter some unknown problems although I have run it successfully on my mobile phone somehow.
+3.
+Remember Google map api is not able to run on emulator.
+4.
+Good luck! Hope it helps!
