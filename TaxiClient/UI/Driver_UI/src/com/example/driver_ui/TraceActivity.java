@@ -26,6 +26,15 @@ public class TraceActivity extends Activity{
 		
 	}
 	
+	public void accept(View view){
+		// block cloud message
+		Intent intent = new Intent(TraceActivity.this, TrackingActivity.class);
+		startActivity(intent);
+		CustomerListActivity.removeItemInList(index); //test cases needed
+		finish();
+		
+	}
+	
 	public void decline(View view){
 		CustomerListActivity.removeItemInList(index); //test cases needed
 		finish();

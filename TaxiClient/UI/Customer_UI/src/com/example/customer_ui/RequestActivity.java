@@ -40,4 +40,8 @@ public class RequestActivity extends Activity{
 	public void Dismiss(View view){
 		popup.dismiss();
 	}
+	
+	public void logout(View view){
+		finish();
+	}
 }

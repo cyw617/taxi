@@ -39,6 +39,14 @@
                 android:value="com.example.driver_ui.CustomerListActivity" />
         </activity>
         
+        <activity
+            android:name="com.example.driver_ui.TrackingActivity"
+            android:label="Tracking"> 
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.driver_ui.TraceActivity" />
+        </activity>
+        
     </application>
 
 </manifest>

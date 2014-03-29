@@ -1,18 +1,17 @@
-package com.example.customer_ui;
+package com.example.driver_ui;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-public class MoreOption extends Activity{
-	
+public class TrackingActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.more_option);
+		setContentView(R.layout.activity_tracking);
 	}
 	
-	public void goBack(View view){
+	public void finishActivity(View view){
 		finish();
 	}
 }

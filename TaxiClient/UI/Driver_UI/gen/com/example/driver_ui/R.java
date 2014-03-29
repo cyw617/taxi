@@ -38,7 +38,8 @@ public final class R {
         public static final int activity_customer_list=0x7f030000;
         public static final int activity_login=0x7f030001;
         public static final int activity_trace=0x7f030002;
-        public static final int customer_list_view_layout=0x7f030003;
+        public static final int activity_tracking=0x7f030003;
+        public static final int customer_list_view_layout=0x7f030004;
     }
     public static final class menu {
         public static final int login=0x7f070000;

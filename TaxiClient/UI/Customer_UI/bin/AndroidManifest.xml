@@ -25,8 +25,7 @@
         
         <activity
             android:name="com.example.customer_ui.RequestActivity"
-            android:label="@string/title_map_message"
-            android:parentActivityName="com.example.customer_ui.LoginActivity" > 
+            android:label="@string/title_map_message" > 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.customer_ui.LoginActivity" />
@@ -34,8 +33,7 @@
         
         <activity
             android:name="com.example.customer_ui.MoreOption"
-            android:label="@string/title_more_option"
-            android:parentActivityName="com.example.customer_ui.RequestActivity" > 
+            android:label="@string/title_more_option" > 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.customer_ui.RequestActivity" />

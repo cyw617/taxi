@@ -12,7 +12,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="94dp"
         android:layout_marginLeft="71dp"
-        android:text="Accept" />
+        android:text="Accept"
+        android:onClick="accept" />
 
     <Button
         android:id="@+id/button2"
