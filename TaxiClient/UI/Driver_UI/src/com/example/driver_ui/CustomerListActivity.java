@@ -7,6 +7,7 @@ import com.example.driver_ui.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,8 +19,8 @@ public class CustomerListActivity extends Activity{
 	
 	private EditText editText;
 	private ListView listView;
-	private ArrayList<String> strArr;
-	private ArrayAdapter<String> arrAdapter;
+	private static ArrayList<String> strArr;
+	private static ArrayAdapter<String> arrAdapter;
 	
 	
 	@Override
@@ -30,8 +31,10 @@ public class CustomerListActivity extends Activity{
 		editText = (EditText) findViewById(R.id.editText1);
 		listView = (ListView) findViewById(R.id.listView1);
 		strArr = new ArrayList<String>();
+		//arrAdapter = new ArrayAdapter<String>(getApplicationContext(), 
+			//	android.R.layout.simple_list_item_1, strArr);
 		arrAdapter = new ArrayAdapter<String>(getApplicationContext(), 
-				android.R.layout.simple_list_item_1, strArr);
+				R.layout.customer_list_view_layout, strArr);
 		
 		listView.setAdapter(arrAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -42,6 +45,7 @@ public class CustomerListActivity extends Activity{
 				Intent intent = new Intent(CustomerListActivity.this, TraceActivity.class);
 				String msg=(String)parent.getItemAtPosition(position);
 				intent.putExtra("customer_list_info", msg);
+				intent.putExtra("customer_list_id", position);
 				startActivity(intent);
 			}
 		});
@@ -66,5 +70,11 @@ public class CustomerListActivity extends Activity{
 	
 	public void logout(View view){
 		finish();
+	}
+	
+	public static void removeItemInList(int index){
+		if(index>=0 && index<strArr.size() )
+		strArr.remove(index);
+		arrAdapter.notifyDataSetChanged();
 	}
 }
