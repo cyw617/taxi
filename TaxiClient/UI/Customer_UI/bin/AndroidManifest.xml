@@ -41,6 +41,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.customer_ui.RequestActivity" />
         </activity>
+        
+        <activity
+            android:name="com.example.customer_ui.TrackingActivity"
+            android:label="Tracking Activity" > 
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.customer_ui.RequestActivity" />
+        </activity>
+        
         <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
     		android:value="AIzaSyDTfkyOLgOWLjZpLUToxTN2oBX4gLUWWUM"/>

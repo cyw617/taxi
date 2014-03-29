@@ -58,7 +58,7 @@ int drawable ic_plusone_medium_off_client 0x7f020019
 int drawable ic_plusone_small_off_client 0x7f02001a
 int drawable ic_plusone_standard_off_client 0x7f02001b
 int drawable ic_plusone_tall_off_client 0x7f02001c
-int id action_settings 0x7f05000d
+int id action_settings 0x7f05000e
 int id button1 0x7f05000a
 int id button2 0x7f050008
 int id button3 0x7f050007
@@ -66,12 +66,13 @@ int id button4 0x7f050009
 int id editText1 0x7f050005
 int id hybrid 0x7f050004
 int id listView1 0x7f050006
+int id map 0x7f05000b
 int id none 0x7f050000
 int id normal 0x7f050001
 int id satellite 0x7f050002
 int id terrain 0x7f050003
-int id text1 0x7f05000c
-int id textView1 0x7f05000b
+int id text1 0x7f05000d
+int id textView1 0x7f05000c
 int integer google_play_services_version 0x7f070000
 int layout activity_customer_list 0x7f030000
 int layout activity_login 0x7f030001

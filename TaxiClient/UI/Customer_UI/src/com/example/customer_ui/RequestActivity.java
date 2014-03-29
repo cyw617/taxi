@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 
 public class RequestActivity extends Activity{
@@ -26,7 +27,8 @@ public class RequestActivity extends Activity{
 		    	  
 		    	    @Override
 		            public void onClick(DialogInterface dialog, int id) {
-		              dialog.dismiss();
+		    	    	Intent intent = new Intent(RequestActivity.this, TrackingActivity.class);
+		    			startActivity(intent);
 		            }
 		          })
 		          .setNegativeButton(android.R.string.cancel, 
@@ -46,7 +48,10 @@ public class RequestActivity extends Activity{
 	}
 	
 	public void Request(View view){
-		showDialog("test");
+		String x = ((EditText)findViewById(R.id.editText1)).getText().toString();
+		String y = ((EditText)findViewById(R.id.editText2)).getText().toString();
+		String des = ((EditText)findViewById(R.id.editText3)).getText().toString();
+		showDialog("This will send to sever "+x+" "+y+" "+des);
 	}
 	
 	public void logout(View view){
