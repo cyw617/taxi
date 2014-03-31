@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <integer name="google_play_services_version">4242000</integer>
+=======
+    <integer name="google_play_services_version">4132500</integer>
+>>>>>>> 4765e76db464ac5145236558f5a644106e14e374
 </resources>
