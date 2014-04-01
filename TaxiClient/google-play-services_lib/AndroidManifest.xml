@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.google.android.gms"
-<<<<<<< HEAD
     android:versionCode="4242030"
     android:versionName="4.2.42 (1018832-030)" >
 
     <uses-sdk android:minSdkVersion="9"/>
-=======
-    android:versionCode="4132530"
-    android:versionName="4.1.32 (978161-30)" >
-
-    <uses-sdk android:minSdkVersion="8"/>
->>>>>>> 4765e76db464ac5145236558f5a644106e14e374
 
 </manifest>

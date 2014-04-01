@@ -73,10 +73,6 @@
     <string name="common_signin_button_text_long">Sign in with Google</string>
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4765e76db464ac5145236558f5a644106e14e374
   <!-- Auth client code resources (prefix with auth_client --><skip />
   <!--  Title for notification shown when a bad version of GooglePlayServices
         has been installed and needs correction for an application to work.
