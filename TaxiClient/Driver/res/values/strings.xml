@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">AnyTaxi - Driver</string>
-    <string name="action_settings">Settings</string>
     
     <string name="hello_world">I am the Driver App</string>
     
@@ -53,5 +52,12 @@
     <string name="login_Btn_Out">Sign out</string>
     <string name="login_Btn_Revoke">Revoke</string>
     <!-- - - - - - - - - - - - - - End: LoginActivity - - - - - - - - - - - - - - -->
+    
+    <!-- - - - - - - - - - - - - - Start: Preferences - - - - - - - - - - - - - - -->
+    <string name="settings_ActivityTitle">Settings</string>
+    
+    <string name="signOut">Sign Out</string>
+    <string name="signOut_Summary">Unlink your Google+ account.</string>
+    <!-- - - - - - - - - - - - - - End: Preferences - - - - - - - - - - - - - - - -->
 
 </resources>

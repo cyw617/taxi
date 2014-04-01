@@ -34,6 +34,14 @@
             android:label="@string/login_ActivityTitle" >
             <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="comp3111h.anytaxi.driver.SettingsActivity" />
+        </activity>
+        
+        <activity
+            android:name="comp3111h.anytaxi.driver.SettingsActivity"
+            android:label="@string/settings_ActivityTitle" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="comp3111h.anytaxi.driver.MainActivity" />
         </activity>
     </application>

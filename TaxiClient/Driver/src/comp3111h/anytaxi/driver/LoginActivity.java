@@ -74,6 +74,8 @@ public class LoginActivity extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         agreement_Layout = (LinearLayout) findViewById(R.id.login_Agreement_Layout);
         agreement_Text = (TextView) findViewById(R.id.login_Agreement_Text);
