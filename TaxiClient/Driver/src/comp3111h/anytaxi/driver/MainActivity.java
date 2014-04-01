@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
     GoogleApiManager googleApiManager;
@@ -54,10 +53,5 @@ public class MainActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	public void setting_Login(View view) {
-	    Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
 	}
 }
