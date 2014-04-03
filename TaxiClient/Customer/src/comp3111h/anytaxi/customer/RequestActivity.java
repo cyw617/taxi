@@ -54,8 +54,4 @@ public class RequestActivity extends Activity{
 		String des = ((EditText)findViewById(R.id.editText3)).getText().toString();
 		showDialog("This will send to sever "+x+" "+y+" "+des);
 	}
-	
-	public void logout(View view){
-		finish();
-	}
 }
