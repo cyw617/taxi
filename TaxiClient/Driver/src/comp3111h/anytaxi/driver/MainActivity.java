@@ -20,8 +20,11 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onStart() {
 	    super.onStart();
-
+        
         googleApiManager.connect();
+
+    	Intent intent = new Intent(this, CustomerListActivity.class);
+        startActivity(intent);
 	}
 	
 	@Override
