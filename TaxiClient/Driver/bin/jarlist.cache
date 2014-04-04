@@ -1,5 +1,5 @@
 # cache for current jar dependency. DO NOT EDIT.
 # format is <lastModified> <length> <SHA-1> <path>
 # Encoding is UTF-8
-1396524625000 627582 db0f122c99ef9f90dbab3fada6d191f2880cbb8e /Users/Maohongzi/git/taxi/TaxiClient/Driver/libs/android-support-v4.jar
-1396524625000 627582 db0f122c99ef9f90dbab3fada6d191f2880cbb8e /Users/Maohongzi/git/taxi/TaxiClient/appcompat_v7/libs/android-support-v4.jar
+1394992006645 627582 db0f122c99ef9f90dbab3fada6d191f2880cbb8e Y:\Dropbox\Projects\AnyTaxi\TaxiClient\appcompat_v7\libs\android-support-v4.jar
+1394992006124 627582 db0f122c99ef9f90dbab3fada6d191f2880cbb8e Y:\Dropbox\Projects\AnyTaxi\TaxiClient\Driver\libs\android-support-v4.jar

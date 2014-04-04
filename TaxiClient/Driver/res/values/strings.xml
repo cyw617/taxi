@@ -59,5 +59,11 @@
     <string name="signOut">Sign Out</string>
     <string name="signOut_Summary">Unlink your Google+ account.</string>
     <!-- - - - - - - - - - - - - - End: Preferences - - - - - - - - - - - - - - - -->
+    
+    <!-- - - - - - - - - - - - - - Start: Miscellaneous - - - - - - - - - - - - - -->
+    <string name="quit_Message">Do you want to exit?</string>
+    <string name="quit_Positive">Yes</string>
+    <string name="quit_Negative">No</string>
+    <!-- - - - - - - - - - - - - - End: Miscellaneous - - - - - - - - - - - - - - -->
 
 </resources>

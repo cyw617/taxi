@@ -12,6 +12,14 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+	
+	<uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -49,10 +57,7 @@
         
         <activity
             android:name="comp3111h.anytaxi.customer.RequestActivity"
-            android:label="Map Page" > 
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="comp3111h.anytaxi.customer.LoginActivity" />
+            android:label="Map Page" >
         </activity>
         
         <activity
@@ -73,14 +78,6 @@
         
         <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyDTfkyOLgOWLjZpLUToxTN2oBX4gLUWWUM"/>
+    		android:value="AIzaSyArX92QESvzdmGBKIuMJnA8mcqW3vvmt0M"/>
     </application>
-
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-	
-	<uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true"/>
 </manifest>

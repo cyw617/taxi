@@ -5,7 +5,7 @@
         android:summary="@string/signOut_Summary">
         <intent
              android:action="android.intent.action.VIEW"
-             android:targetPackage="comp3111h.anytaxi.driver"
-             android:targetClass="comp3111h.anytaxi.driver.LoginActivity" />
+             android:targetPackage="comp3111h.anytaxi.customer"
+             android:targetClass="comp3111h.anytaxi.customer.LoginActivity" />
     </Preference>
 </PreferenceScreen>

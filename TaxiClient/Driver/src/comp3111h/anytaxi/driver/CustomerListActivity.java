@@ -1,12 +1,10 @@
 package comp3111h.anytaxi.driver;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-import comp3111h.anytaxi.driver.R;
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -74,6 +72,11 @@ public class CustomerListActivity extends ActionBarActivity{
 		}
 		return super.onOptionsItemSelected(item);
 	}
+    
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
 	
 	public void addItem(View view){
 		strArr.add(editText.getText().toString());
@@ -97,4 +100,19 @@ public class CustomerListActivity extends ActionBarActivity{
 		strArr.remove(index);
 		arrAdapter.notifyDataSetChanged();
 	}
+    
+    private void exit() {
+        new AlertDialog.Builder(this)
+        .setMessage(getString(R.string.quit_Message))
+        .setPositiveButton(getString(R.string.quit_Positive),
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    moveTaskToBack(true);
+                    finish();
+                }
+            })
+        .setNegativeButton(getString(R.string.quit_Negative), null)
+        .show();
+    }
 }

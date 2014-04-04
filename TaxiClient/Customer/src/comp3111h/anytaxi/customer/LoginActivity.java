@@ -326,9 +326,8 @@ public class LoginActivity extends ActionBarActivity implements
     
     private void exit() {
         new AlertDialog.Builder(this)
-        .setTitle(R.string.app_name)
-        .setMessage("Do you want to exit?")
-        .setPositiveButton("Yes",
+        .setMessage(getString(R.string.quit_Message))
+        .setPositiveButton(getString(R.string.quit_Positive),
             new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -336,7 +335,7 @@ public class LoginActivity extends ActionBarActivity implements
                     finish();
                 }
             })
-        .setNegativeButton("No", null)
+        .setNegativeButton(getString(R.string.quit_Negative), null)
         .show();
     }
 }
