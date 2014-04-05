@@ -34,7 +34,7 @@ public class RequestActivity extends ActionBarActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_request);
 		
-		credential = GoogleAccountCredential.usingAudience(this, "server:client_id" + WEB_CLIENT_ID);
+		credential = GoogleAccountCredential.usingAudience(this,"server:client_id:" + WEB_CLIENT_ID);
 		startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
 	}
 
