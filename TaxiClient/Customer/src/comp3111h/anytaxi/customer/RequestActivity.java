@@ -3,6 +3,7 @@ package comp3111h.anytaxi.customer;
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi.AddDriver;
 import com.appspot.hk_taxi.anyTaxi.model.Driver;
+import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson.JacksonFactory;
@@ -98,9 +99,6 @@ public class RequestActivity extends ActionBarActivity{
 		    	    @Override
 		            public void onClick(DialogInterface dialog, int id) {
 		    	    	
-		    	    	Driver d = new Driver();
-		 	    		d.setEmail(credential.getSelectedAccountName());
-		    	    	new EndpointsTask(RequestActivity.this, endpoint, d).execute();
 		    	    	Intent intent = new Intent(RequestActivity.this, TrackingActivity.class);
 		    			startActivity(intent);
 		            }
@@ -125,6 +123,16 @@ public class RequestActivity extends ActionBarActivity{
 		String x = ((EditText)findViewById(R.id.editText1)).getText().toString();
 		String y = ((EditText)findViewById(R.id.editText2)).getText().toString();
 		String des = ((EditText)findViewById(R.id.editText3)).getText().toString();
+		
+		Driver d = new Driver();
+		d.setLicense("mylicense");
+		GeoPt p = new GeoPt();
+		p.setLatitude((float)1.00);     // @ Ryan please get 1.00 from map
+		p.setLongitude((float)2.00);    // @ Ryan please get 2.00 from map
+		d.setLoc(p);
+ 		d.setEmail(credential.getSelectedAccountName());
+    	new EndpointsTask(RequestActivity.this, endpoint, d).execute();
+    	
 		showDialog("This will send to sever "+x+" "+y+" "+des);
 	}
     
