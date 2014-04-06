@@ -1,14 +1,5 @@
 package comp3111h.anytaxi.customer;
 
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi.AddDriver;
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi.RemoveDriver;
-import com.appspot.hk_taxi.anyTaxi.model.Driver;
-import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.jackson.JacksonFactory;
-
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,6 +13,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi.AddDriver;
+import com.appspot.hk_taxi.anyTaxi.model.Driver;
+import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.jackson.JacksonFactory;
 
 public class RequestActivity extends ActionBarActivity{
 	

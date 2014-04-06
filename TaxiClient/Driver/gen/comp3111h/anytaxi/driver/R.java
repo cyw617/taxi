@@ -1191,8 +1191,10 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070019;
         public static final int action_menu_presenter=0x7f07001a;
         public static final int action_mode_close_button=0x7f070027;
-        public static final int action_settings=0x7f07004d;
+        public static final int action_settings=0x7f070052;
         public static final int activity_chooser_view_content=0x7f070028;
+        public static final int address=0x7f07004d;
+        public static final int address_progress=0x7f070050;
         public static final int always=0x7f07000f;
         public static final int beginning=0x7f070014;
         public static final int button1=0x7f070043;
@@ -1215,6 +1217,7 @@ containing a value of this type.
         public static final int icon=0x7f07002d;
         public static final int ifRoom=0x7f07000e;
         public static final int image=0x7f07002a;
+        public static final int lat_lng=0x7f07004c;
         public static final int listMode=0x7f070005;
         public static final int listView1=0x7f070040;
         public static final int list_item=0x7f07002c;
@@ -1251,8 +1254,10 @@ containing a value of this type.
         public static final int submit_area=0x7f07003c;
         public static final int tabMode=0x7f070006;
         public static final int terrain=0x7f070003;
-        public static final int text1=0x7f07004c;
+        public static final int text1=0x7f070051;
         public static final int textView1=0x7f07004b;
+        public static final int text_connection_state=0x7f07004e;
+        public static final int text_connection_status=0x7f07004f;
         public static final int title=0x7f07002e;
         public static final int top_action_bar=0x7f070023;
         public static final int up=0x7f070024;
@@ -1321,6 +1326,7 @@ containing a value of this type.
         public static final int main=0x7f0d0000;
     }
     public static final class string {
+        public static final int IO_Exception_getFromLocation=0x7f080042;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abc_action_bar_home_description=0x7f08001b;
@@ -1361,6 +1367,14 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f080025;
+        /**  Menu title 
+         */
+        public static final int action_settings=0x7f080036;
+        public static final int address=0x7f080038;
+        /**  - - - - - - - - - - - - - End: Miscellaneous - - - - - - - - - - - - - - 
+ - - - - - - - - - - - - - Start: MapManip - - - - - - - - - - - - - 
+         */
+        public static final int address_output_string=0x7f080034;
         public static final int app_name=0x7f080027;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
@@ -1456,7 +1470,31 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f080013;
+        /**  Messages 
+         */
+        public static final int connected=0x7f080039;
+        public static final int connection_error_code_unknown=0x7f08003a;
+        public static final int connection_failed=0x7f08003b;
+        public static final int disconnected=0x7f08003c;
+        public static final int get_address=0x7f08003d;
+        public static final int get_location=0x7f08003e;
         public static final int hello_world=0x7f080028;
+        public static final int illegal_argument_exception=0x7f08003f;
+        public static final int invalid_action=0x7f080040;
+        public static final int invalid_integer_id=0x7f080041;
+        /**  Latitude, longitude format 
+         */
+        public static final int latitude_longitude=0x7f080035;
+        /**  Labels 
+         */
+        public static final int latlng=0x7f080037;
+        public static final int location_requested=0x7f080043;
+        public static final int location_update_error=0x7f080045;
+        public static final int location_update_error_detail=0x7f080046;
+        public static final int location_update_missing_update=0x7f080047;
+        public static final int location_updated=0x7f080044;
+        public static final int location_updates_stopped=0x7f080048;
+        public static final int log_new_location=0x7f080049;
         /**  - - - - - - - - - - - - - Start: LoginActivity - - - - - - - - - - - - - 
          */
         public static final int login_ActivityTitle=0x7f080029;
@@ -1464,18 +1502,33 @@ containing a value of this type.
         public static final int login_Agreement_Text=0x7f08002a;
         public static final int login_Btn_Out=0x7f08002c;
         public static final int login_Btn_Revoke=0x7f08002d;
+        public static final int no_address_found=0x7f08004a;
+        public static final int no_connection=0x7f08004b;
+        public static final int no_geocoder_available=0x7f08004c;
+        public static final int no_location_available=0x7f08004d;
+        public static final int no_resolution=0x7f08004f;
+        public static final int periodic_update_stop=0x7f080050;
+        public static final int play_services_available=0x7f080051;
         /**  - - - - - - - - - - - - - End: Preferences - - - - - - - - - - - - - - - 
  - - - - - - - - - - - - - Start: Miscellaneous - - - - - - - - - - - - - 
          */
         public static final int quit_Message=0x7f080031;
         public static final int quit_Negative=0x7f080033;
         public static final int quit_Positive=0x7f080032;
+        public static final int request_location_updates_in_progress=0x7f080052;
+        public static final int resolved=0x7f08004e;
         /**  - - - - - - - - - - - - - End: LoginActivity - - - - - - - - - - - - - - 
  - - - - - - - - - - - - - Start: Preferences - - - - - - - - - - - - - - 
          */
         public static final int settings_ActivityTitle=0x7f08002e;
         public static final int signOut=0x7f08002f;
         public static final int signOut_Summary=0x7f080030;
+        public static final int start_updates=0x7f080053;
+        public static final int stop_updates=0x7f080054;
+        public static final int title_activity_locate=0x7f080057;
+        public static final int title_activity_map=0x7f080058;
+        public static final int unknown=0x7f080055;
+        public static final int unknown_activity_request_code=0x7f080056;
     }
     public static final class style {
         /** 
