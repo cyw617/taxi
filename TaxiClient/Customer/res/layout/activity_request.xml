@@ -10,16 +10,84 @@
           android:layout_height="match_parent"
           android:name="com.google.android.gms.maps.MapFragment"/>
 
-    <EditText
-        android:id="@+id/editText3"
+    
+
+
+
+    <TextView
+        android:id="@+id/lat_lng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/request"
+        android:layout_alignBottom="@+id/request"
+        android:layout_alignParentLeft="true"
+        android:text="lat_lng" 
+        android:textColor="#ff0000" />
+
+    <TextView
+        android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/request"
+        android:text="address" 
+        android:textColor="#ff0000" />
+    
+    <ProgressBar
+        android:id="@+id/address_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lat_lng"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/text_connection_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/more"
+        android:layout_alignParentLeft="true"
+        android:text="text_connection_status"
+        android:textColor="#ff0000" />
+
+    <TextView
+        android:id="@+id/text_connection_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/text_connection_state"
+        android:text="text_connection_status"
+        android:textColor="#ff0000" />
+
+    <Button
+        android:id="@+id/request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/more"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/editText1"
-        android:layout_marginTop="16dp"
-        android:ems="10" 
-        android:hint="Destination">
+        android:onClick="Request"
+        android:text="Taxi" />
+
+    <Button
+        android:id="@+id/more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="40dp"
+        android:onClick="MoreOption"
+        android:text="More.." />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/editText2"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="x (in map)"  >
 
         <requestFocus />
     </EditText>
@@ -28,39 +96,19 @@
         android:id="@+id/editText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editText1"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/request"
-        android:ems="10"
-        android:hint="y (in map)" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editText1"
+        android:ems="10" 
+        android:hint="y (in map)"/>
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/editText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/request"
-        android:ems="10"
-        android:hint="x (in map)" />
-
-    <Button
-        android:id="@+id/more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="35dp"
-        android:onClick="MoreOption"
-        android:text="More.." />
-
-    <Button
-        android:id="@+id/request"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/more"
-        android:layout_centerHorizontal="true"
-        android:onClick="Request"
-        android:text="Taxi" />
+        android:layout_below="@+id/editText2"
+        android:layout_marginTop="20dp"
+        android:ems="10"  
+        android:hint="Destination"/>
 
 </RelativeLayout>

@@ -1191,32 +1191,35 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060027;
-        public static final int action_settings=0x7f060050;
+        public static final int action_settings=0x7f060055;
         public static final int activity_chooser_view_content=0x7f060028;
+        public static final int address=0x7f060048;
+        public static final int address_progress=0x7f060049;
         public static final int always=0x7f06000b;
         public static final int beginning=0x7f060011;
         public static final int checkbox=0x7f060030;
         public static final int collapseActionView=0x7f06000d;
-        public static final int datePicker=0x7f06004d;
+        public static final int datePicker=0x7f060052;
         public static final int default_activity_button=0x7f06002b;
         public static final int dialog=0x7f06000e;
         public static final int disableHome=0x7f060008;
         public static final int dropdown=0x7f06000f;
-        public static final int editText1=0x7f060047;
-        public static final int editText2=0x7f060048;
-        public static final int editText3=0x7f060046;
+        public static final int editText1=0x7f06004d;
+        public static final int editText2=0x7f06004e;
+        public static final int editText3=0x7f06004f;
         public static final int edit_query=0x7f060033;
         public static final int end=0x7f060013;
         public static final int expand_activities_button=0x7f060029;
         public static final int expanded_menu=0x7f06002f;
-        public static final int futureDestination=0x7f06004c;
-        public static final int goback=0x7f06004f;
+        public static final int futureDestination=0x7f060051;
+        public static final int goback=0x7f060054;
         public static final int home=0x7f060014;
         public static final int homeAsUp=0x7f060005;
         public static final int hybrid=0x7f06001c;
         public static final int icon=0x7f06002d;
         public static final int ifRoom=0x7f06000a;
         public static final int image=0x7f06002a;
+        public static final int lat_lng=0x7f060046;
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f06002c;
         public static final int login_Agreement_Chkbox=0x7f060041;
@@ -1225,17 +1228,17 @@ containing a value of this type.
         public static final int login_Btn_In=0x7f060042;
         public static final int login_Btn_Out=0x7f060043;
         public static final int login_Btn_Revoke=0x7f060044;
-        public static final int logout=0x7f06004b;
+        public static final int logout=0x7f060050;
         public static final int map=0x7f060045;
         public static final int middle=0x7f060012;
-        public static final int more=0x7f06004a;
+        public static final int more=0x7f06004b;
         public static final int never=0x7f060009;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060000;
         public static final int progress_circular=0x7f060018;
         public static final int progress_horizontal=0x7f060019;
         public static final int radio=0x7f060032;
-        public static final int request=0x7f060049;
+        public static final int request=0x7f060047;
         public static final int satellite=0x7f06001a;
         public static final int search_badge=0x7f060035;
         public static final int search_bar=0x7f060034;
@@ -1255,7 +1258,9 @@ containing a value of this type.
         public static final int submit_area=0x7f06003c;
         public static final int tabMode=0x7f060002;
         public static final int terrain=0x7f06001b;
-        public static final int timePicker=0x7f06004e;
+        public static final int text_connection_state=0x7f06004a;
+        public static final int text_connection_status=0x7f06004c;
+        public static final int timePicker=0x7f060053;
         public static final int title=0x7f06002e;
         public static final int top_action_bar=0x7f060023;
         public static final int up=0x7f060024;
@@ -1323,6 +1328,7 @@ containing a value of this type.
         public static final int main=0x7f0d0000;
     }
     public static final class string {
+        public static final int IO_Exception_getFromLocation=0x7f0b0042;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abc_action_bar_home_description=0x7f0b0001;
@@ -1363,6 +1369,14 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0b000b;
+        /**  Menu title 
+         */
+        public static final int action_settings=0x7f0b0036;
+        public static final int address=0x7f0b0038;
+        /**  - - - - 1072316261853-u0gafkut9f919bau91gh9bgjb9555hh2.apps.googleusercontent.com- - - - - - - - - End: Miscellaneous - - - - - - - - - - - - - - 
+ - - - - - - - - - - - - - Start: MapManip - - - - - - - - - - - - - 
+         */
+        public static final int address_output_string=0x7f0b0034;
         public static final int app_name=0x7f0b0027;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
@@ -1458,7 +1472,35 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f0b0020;
+        /**  Messages 
+         */
+        public static final int connected=0x7f0b0039;
+        public static final int connection_error_code_unknown=0x7f0b003a;
+        public static final int connection_failed=0x7f0b003b;
+        public static final int disconnected=0x7f0b003c;
+        public static final int get_address=0x7f0b003d;
+        public static final int get_location=0x7f0b003e;
         public static final int hello_world=0x7f0b0028;
+        public static final int illegal_argument_exception=0x7f0b003f;
+        public static final int invalid_action=0x7f0b0040;
+        public static final int invalid_integer_id=0x7f0b0041;
+        /**  - - - - - - - - - - - - - End: MapManip - - - - - - - - - - - - - - 
+         */
+        public static final int lat=0x7f0b0059;
+        /**  Latitude, longitude format 
+         */
+        public static final int latitude_longitude=0x7f0b0035;
+        /**  Labels 
+         */
+        public static final int latlng=0x7f0b0037;
+        public static final int lnt=0x7f0b005a;
+        public static final int location_requested=0x7f0b0043;
+        public static final int location_update_error=0x7f0b0045;
+        public static final int location_update_error_detail=0x7f0b0046;
+        public static final int location_update_missing_update=0x7f0b0047;
+        public static final int location_updated=0x7f0b0044;
+        public static final int location_updates_stopped=0x7f0b0048;
+        public static final int log_new_location=0x7f0b0049;
         /**  - - - - - - - - - - - - - Start: LoginActivity - - - - - - - - - - - - - 
          */
         public static final int login_ActivityTitle=0x7f0b0029;
@@ -1466,18 +1508,33 @@ containing a value of this type.
         public static final int login_Agreement_Text=0x7f0b002a;
         public static final int login_Btn_Out=0x7f0b002c;
         public static final int login_Btn_Revoke=0x7f0b002d;
+        public static final int no_address_found=0x7f0b004a;
+        public static final int no_connection=0x7f0b004b;
+        public static final int no_geocoder_available=0x7f0b004c;
+        public static final int no_location_available=0x7f0b004d;
+        public static final int no_resolution=0x7f0b004f;
+        public static final int periodic_update_stop=0x7f0b0050;
+        public static final int play_services_available=0x7f0b0051;
         /**  - - - - - - - - - - - - - End: Preferences - - - - - - - - - - - - - - - 
  - - - - - - - - - - - - - Start: Miscellaneous - - - - - - - - - - - - - 
          */
         public static final int quit_Message=0x7f0b0031;
         public static final int quit_Negative=0x7f0b0033;
         public static final int quit_Positive=0x7f0b0032;
+        public static final int request_location_updates_in_progress=0x7f0b0052;
+        public static final int resolved=0x7f0b004e;
         /**  - - - - - - - - - - - - - End: LoginActivity - - - - - - - - - - - - - - 
  - - - - - - - - - - - - - Start: Preferences - - - - - - - - - - - - - - 
          */
         public static final int settings_ActivityTitle=0x7f0b002e;
         public static final int signOut=0x7f0b002f;
         public static final int signOut_Summary=0x7f0b0030;
+        public static final int start_updates=0x7f0b0053;
+        public static final int stop_updates=0x7f0b0054;
+        public static final int title_activity_locate=0x7f0b0057;
+        public static final int title_activity_map=0x7f0b0058;
+        public static final int unknown=0x7f0b0055;
+        public static final int unknown_activity_request_code=0x7f0b0056;
     }
     public static final class style {
         /** 
