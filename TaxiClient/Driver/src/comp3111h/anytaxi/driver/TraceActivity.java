@@ -26,8 +26,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.DialogFragment;
@@ -42,7 +44,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi.AddDriver;
+import com.appspot.hk_taxi.anyTaxi.model.Driver;
+import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.jackson.JacksonFactory;
 public class TraceActivity extends FragmentActivity implements
 		LocationListener,
 		GooglePlayServicesClient.ConnectionCallbacks,
@@ -61,6 +69,9 @@ public class TraceActivity extends FragmentActivity implements
 	private TextView mConnectionState;
 	private TextView mConnectionStatus;
     
+	//The lat and lng passed by CusTomerListActivity
+	private double latDouble;
+	private double lntDouble;
 	
     // Handle to SharedPreferences for this app
     SharedPreferences mPrefs;
@@ -81,6 +92,16 @@ public class TraceActivity extends FragmentActivity implements
 	public static GoogleMap mMap;
 	
 	int index; // index of item onclick in customer list
+	
+	
+	/*Variables for transmitting msg to server*/
+	private AnyTaxi endpoint;
+	private String accountName;
+	private GoogleAccountCredential credential;
+	static final String WEB_CLIENT_ID = "1072316261853-u0gafkut9f919bau91gh9bgjb9555hh2.apps.googleusercontent.com"; 
+	static final int REQUEST_ACCOUNT_PICKER = 1; 
+	/*Variables for transmitting msg to server*/
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -103,13 +124,24 @@ public class TraceActivity extends FragmentActivity implements
         //mMap.animateCamera(cameraup);
 		
 		Intent intent = getIntent();
-		String msg = intent.getStringExtra("customer_list_info");
+		String latString = intent.getStringExtra("Latitude");
+		String lntString = intent.getStringExtra("Longitude");
 		index = intent.getIntExtra("customer_list_id", 0);
 		//test cases needed
 		
+		if(latString!=null&&lntString!=null)
+		{
+			latDouble = Double.parseDouble(latString);
+			lntDouble = Double.parseDouble(lntString);
+		}
+		else
+		{
+			showError(this,"FuckTheCode!latlntParseFailed");
+		}
+		
 		
 		TextView textView = (TextView)findViewById(R.id.textView1);
-		textView.setText(msg);
+		textView.setText(latString+" "+lntString);
 		
 		
         // Create a new global location parameters object
@@ -142,9 +174,29 @@ public class TraceActivity extends FragmentActivity implements
         mLocationClient = new LocationClient(this, this, this);
         
         
+        //Identity user's identity, used to communicate with the server
+		credential = GoogleAccountCredential.usingAudience(this,"server:client_id:" + WEB_CLIENT_ID);
+		startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+		
+		
+		LatLng locationNew = new LatLng(latDouble,lntDouble);
+        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,6);
+        mMap.animateCamera(cameraup);
+        
 		
 		
 	}
+	
+	public static void showError(final Activity activity, String message) {
+		  final String errorMessage = message == null ? "Error" : "[Error ] "
+		      + message;
+		  activity.runOnUiThread(new Runnable() {
+		    public void run() {
+		      Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG)
+		          .show();
+		    }
+		  });
+		}
 	
 	public void accept(View view){
 		// block cloud message
@@ -159,6 +211,8 @@ public class TraceActivity extends FragmentActivity implements
 		CustomerListActivity.removeItemInList(index); //test cases needed
 		finish();
 	}
+	
+
 	
 	
     /*
@@ -227,13 +281,14 @@ public class TraceActivity extends FragmentActivity implements
             // Display the current location in the UI
             mLatLng.setText(LocationUtils.getLatLng(this, currentLocation));
             
-            Double lat=currentLocation.getLatitude();
-            Double lnt=currentLocation.getLongitude();
+            //Double lat=currentLocation.getLatitude();
+            //Double lnt=currentLocation.getLongitude();
             
-            LatLng locationNew = new LatLng(lat,lnt);
+       
             
-            CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
-            mMap.animateCamera(cameraup);
+            
+            
+
         }
     }
 
@@ -327,21 +382,10 @@ public class TraceActivity extends FragmentActivity implements
     public void onConnected(Bundle bundle) {
         mConnectionStatus.setText(R.string.connected);
 
-        //if (mUpdatesRequested) {
-            startPeriodicUpdates();
-        //}
         
+        startPeriodicUpdates();
         getAddress();
-        
-        //Double lat=location.getLatitude();
-        //Double lnt=location.getLongitude();
-        
-        //LatLng locationNew = new LatLng(lat,lnt);
-        
-        //CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,10);
-        //mMap.animateCamera(cameraup);
-        
-        
+           
     }
 
 
@@ -460,16 +504,8 @@ public class TraceActivity extends FragmentActivity implements
         // In the UI, set the latitude and longitude to the value received
         mLatLng.setText(LocationUtils.getLatLng(this, location));
         
-        
-        Double lat=location.getLatitude();
-        Double lnt=location.getLongitude();
-        
-        LatLng locationNew = new LatLng(lat,lnt);
-        
-        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,10);
-        mMap.animateCamera(cameraup);
-        
-        getLocation();
+        //Changes only need to be done in getLocation to cosntantly update the location info
+        //getLocation();
         
     }
     /*
@@ -547,6 +583,9 @@ public class TraceActivity extends FragmentActivity implements
             return false;
         }
     }    
+    
+ 
+    
     /**
      * An AsyncTask that calls getFromLocation() in the background.
      * The class uses the following generic types:

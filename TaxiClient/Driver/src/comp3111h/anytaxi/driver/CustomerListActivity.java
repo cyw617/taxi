@@ -17,7 +17,8 @@ import android.widget.ListView;
 
 public class CustomerListActivity extends ActionBarActivity{
 	
-	private EditText editText;
+	private EditText latText;
+	private EditText lntText;
 	private ListView listView;
 	private static ArrayList<String> strArr;
 	private static ArrayAdapter<String> arrAdapter;
@@ -28,7 +29,7 @@ public class CustomerListActivity extends ActionBarActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customer_list);
 		
-		editText = (EditText) findViewById(R.id.editText1);
+
 		listView = (ListView) findViewById(R.id.listView1);
 		strArr = new ArrayList<String>();
 		//arrAdapter = new ArrayAdapter<String>(getApplicationContext(), 
@@ -43,9 +44,19 @@ public class CustomerListActivity extends ActionBarActivity{
 			public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 				
 				Intent intent = new Intent(CustomerListActivity.this, TraceActivity.class);
-				String msg=(String)parent.getItemAtPosition(position);
-				intent.putExtra("customer_list_info", msg);
-				intent.putExtra("customer_list_id", position);
+				String latlnt=(String)parent.getItemAtPosition(position);
+				/*
+				 * Set up the string delimiter as "\t"
+				 * The lat and lnt are separated by a "\t"
+				 */
+				String delims = "[\t]+";
+				String[] tokens = latlnt.split(delims);
+				String latString=tokens[0];
+				String lntString=tokens[1];
+				
+				
+				intent.putExtra("Latitude", latString);
+				intent.putExtra("Longitude", lntString);
 				startActivity(intent);
 			}
 		});
@@ -78,8 +89,17 @@ public class CustomerListActivity extends ActionBarActivity{
         exit();
     }
 	
+    
+    /*
+     * Add Item to the textList. First Latitude then Longitude. 
+     * They will be separated by tab
+     */
 	public void addItem(View view){
-		strArr.add(editText.getText().toString());
+		
+		latText = (EditText) findViewById(R.id.lat);
+		lntText = (EditText) findViewById(R.id.lnt);
+		strArr.add(latText.getText().toString()+"\t"+lntText.getText().toString());
+
 		arrAdapter.notifyDataSetChanged();
 	}
 	

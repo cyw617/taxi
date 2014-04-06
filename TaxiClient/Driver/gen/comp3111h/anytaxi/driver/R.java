@@ -1191,10 +1191,10 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070019;
         public static final int action_menu_presenter=0x7f07001a;
         public static final int action_mode_close_button=0x7f070027;
-        public static final int action_settings=0x7f070052;
+        public static final int action_settings=0x7f070055;
         public static final int activity_chooser_view_content=0x7f070028;
-        public static final int address=0x7f07004d;
-        public static final int address_progress=0x7f070050;
+        public static final int address=0x7f070050;
+        public static final int address_progress=0x7f070053;
         public static final int always=0x7f07000f;
         public static final int beginning=0x7f070014;
         public static final int button1=0x7f070043;
@@ -1206,7 +1206,6 @@ containing a value of this type.
         public static final int dialog=0x7f070012;
         public static final int disableHome=0x7f07000c;
         public static final int dropdown=0x7f070013;
-        public static final int editText1=0x7f07003f;
         public static final int edit_query=0x7f070033;
         public static final int end=0x7f070016;
         public static final int expand_activities_button=0x7f070029;
@@ -1217,17 +1216,21 @@ containing a value of this type.
         public static final int icon=0x7f07002d;
         public static final int ifRoom=0x7f07000e;
         public static final int image=0x7f07002a;
-        public static final int lat_lng=0x7f07004c;
+        public static final int lat=0x7f070040;
+        public static final int latTextView=0x7f070045;
+        public static final int lat_lng=0x7f07004f;
         public static final int listMode=0x7f070005;
-        public static final int listView1=0x7f070040;
+        public static final int listView1=0x7f07003f;
         public static final int list_item=0x7f07002c;
-        public static final int login_Agreement_Chkbox=0x7f070046;
-        public static final int login_Agreement_Layout=0x7f070044;
-        public static final int login_Agreement_Text=0x7f070045;
-        public static final int login_Btn_In=0x7f070047;
-        public static final int login_Btn_Out=0x7f070048;
-        public static final int login_Btn_Revoke=0x7f070049;
-        public static final int map=0x7f07004a;
+        public static final int lnt=0x7f070044;
+        public static final int lntTextView=0x7f070046;
+        public static final int login_Agreement_Chkbox=0x7f070049;
+        public static final int login_Agreement_Layout=0x7f070047;
+        public static final int login_Agreement_Text=0x7f070048;
+        public static final int login_Btn_In=0x7f07004a;
+        public static final int login_Btn_Out=0x7f07004b;
+        public static final int login_Btn_Revoke=0x7f07004c;
+        public static final int map=0x7f07004d;
         public static final int middle=0x7f070015;
         public static final int never=0x7f07000d;
         public static final int none=0x7f070000;
@@ -1254,10 +1257,10 @@ containing a value of this type.
         public static final int submit_area=0x7f07003c;
         public static final int tabMode=0x7f070006;
         public static final int terrain=0x7f070003;
-        public static final int text1=0x7f070051;
-        public static final int textView1=0x7f07004b;
-        public static final int text_connection_state=0x7f07004e;
-        public static final int text_connection_status=0x7f07004f;
+        public static final int text1=0x7f070054;
+        public static final int textView1=0x7f07004e;
+        public static final int text_connection_state=0x7f070051;
+        public static final int text_connection_status=0x7f070052;
         public static final int title=0x7f07002e;
         public static final int top_action_bar=0x7f070023;
         public static final int up=0x7f070024;
@@ -1482,12 +1485,16 @@ containing a value of this type.
         public static final int illegal_argument_exception=0x7f08003f;
         public static final int invalid_action=0x7f080040;
         public static final int invalid_integer_id=0x7f080041;
+        /**  - - - - - - - - - - - - - End: MapManip - - - - - - - - - - - - - - 
+         */
+        public static final int lat=0x7f080059;
         /**  Latitude, longitude format 
          */
         public static final int latitude_longitude=0x7f080035;
         /**  Labels 
          */
         public static final int latlng=0x7f080037;
+        public static final int lnt=0x7f08005a;
         public static final int location_requested=0x7f080043;
         public static final int location_update_error=0x7f080045;
         public static final int location_update_error_detail=0x7f080046;

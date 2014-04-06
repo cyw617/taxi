@@ -114,5 +114,8 @@
     <string name="title_activity_locate">LocateActivity</string>
     <string name="title_activity_map">MapActivity</string>
     <!-- - - - - - - - - - - - - - End: MapManip - - - - - - - - - - - - - - -->
+    
+    <string name="lat">Latitude</string>
+    <string name="lnt">"Longitude"</string>
 
 </resources>
