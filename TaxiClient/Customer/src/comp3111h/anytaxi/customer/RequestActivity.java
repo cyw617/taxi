@@ -2,6 +2,7 @@ package comp3111h.anytaxi.customer;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi.AddDriver;
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi.RemoveDriver;
 import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -151,7 +152,7 @@ public class RequestActivity extends ActionBarActivity{
         .show();
     }
     
-    private class EndpointsTask extends AsyncTask<Void, Void, Driver> {
+    private class EndpointsTask extends AsyncTask<Void, Void, Void> {
 		Exception exceptionThrown = null;
 		AnyTaxi endpoint;
 		Driver d;
@@ -162,11 +163,11 @@ public class RequestActivity extends ActionBarActivity{
 		}
 
 		@Override
-		protected Driver doInBackground(Void... params) {
+		protected Void doInBackground(Void... params) {
 			try {
 				AddDriver task = endpoint.addDriver(d);
-				Driver driver = task.execute();
-				return driver;
+				task.execute();
+				return null;
 			} catch (Exception e) {
 				exceptionThrown = e;
 			}
