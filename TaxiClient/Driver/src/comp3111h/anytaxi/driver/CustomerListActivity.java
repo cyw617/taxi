@@ -1,10 +1,15 @@
 package comp3111h.anytaxi.driver;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -51,8 +56,8 @@ public class CustomerListActivity extends ActionBarActivity{
 				 */
 				String delims = "[\t]+";
 				String[] tokens = latlnt.split(delims);
-				String latString=tokens[0];
-				String lntString=tokens[1];
+				String latString=tokens[1];
+				String lntString=tokens[2];
 				
 				
 				intent.putExtra("Latitude", latString);
@@ -98,9 +103,21 @@ public class CustomerListActivity extends ActionBarActivity{
 		
 		latText = (EditText) findViewById(R.id.lat);
 		lntText = (EditText) findViewById(R.id.lnt);
-		strArr.add(latText.getText().toString()+"\t"+lntText.getText().toString());
+		Geocoder geocoder;
+		List<Address> addresses;
+		geocoder = new Geocoder(this, Locale.getDefault());
+		try {
+			addresses = geocoder.getFromLocation(Double.parseDouble(latText.getText().toString()), Double.parseDouble(lntText.getText().toString()), 1);
+			String address = addresses.get(0).getAddressLine(0) + addresses.get(0).getAddressLine(1);
+			
+			strArr.add(address+"\t"+latText.getText().toString()+"\t"+lntText.getText().toString());
 
-		arrAdapter.notifyDataSetChanged();
+			arrAdapter.notifyDataSetChanged();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void removeItem(View view){

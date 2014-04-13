@@ -5,6 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<CustomerListActivity>{
@@ -12,6 +13,7 @@ public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<C
     private CustomerListActivity mActivity;
     Button Add, Remove, Clear;
     ListView dynamicList;
+    EditText lat, lnt;
     
     private static final double DELTA = 1e-2;
     
@@ -30,6 +32,8 @@ public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<C
 		Remove = (Button) mActivity.findViewById(comp3111h.anytaxi.driver.R.id.button2);
 		Clear = (Button) mActivity.findViewById(comp3111h.anytaxi.driver.R.id.button3);
 		dynamicList = (ListView) mActivity.findViewById(comp3111h.anytaxi.driver.R.id.listView1);
+		lat = (EditText) mActivity.findViewById(comp3111h.anytaxi.driver.R.id.lat);
+		lnt = (EditText) mActivity.findViewById(comp3111h.anytaxi.driver.R.id.lnt);
 	}
 	
 	@Override
@@ -46,6 +50,13 @@ public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<C
 	
 	@SmallTest
 	public void testAddItem(){ // checks if items are added on dynamic list
+		TouchUtils.tapView(this, lat);
+		sendKeys("2");
+		sendKeys("2");
+		TouchUtils.tapView(this, lnt);
+		sendKeys("1");
+		sendKeys("1");
+		sendKeys("4");
 		TouchUtils.clickView(this, Add);
 		int size = mActivity.numItemsInStrArr();
 		assertEquals("1 item should be added on list", 1, size, DELTA);
@@ -53,6 +64,13 @@ public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<C
 	
 	@SmallTest
 	public void testRemoveitem(){ //checks if items are removed from list
+		TouchUtils.tapView(this, lat);
+		sendKeys("2");
+		sendKeys("2");
+		TouchUtils.tapView(this, lnt);
+		sendKeys("1");
+		sendKeys("1");
+		sendKeys("4");
 		TouchUtils.clickView(this, Add);
 		TouchUtils.clickView(this, Remove);
 		int size = mActivity.numItemsInStrArr();
@@ -61,6 +79,13 @@ public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<C
 	
 	@SmallTest
 	public void testMultipleAddItems(){ // checks if multiple items are added on dynamic list
+		TouchUtils.tapView(this, lat);
+		sendKeys("2");
+		sendKeys("2");
+		TouchUtils.tapView(this, lnt);
+		sendKeys("1");
+		sendKeys("1");
+		sendKeys("4");
 		TouchUtils.clickView(this, Add);
 		TouchUtils.clickView(this, Add);
 		TouchUtils.clickView(this, Add);
@@ -72,6 +97,13 @@ public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<C
 	
 	@SmallTest
 	public void testMultipleRemoveItems(){ // checks if multiple items are removed on dynamic list
+		TouchUtils.tapView(this, lat);
+		sendKeys("2");
+		sendKeys("2");
+		TouchUtils.tapView(this, lnt);
+		sendKeys("1");
+		sendKeys("1");
+		sendKeys("4");
 		TouchUtils.clickView(this, Add);
 		TouchUtils.clickView(this, Add);
 		TouchUtils.clickView(this, Add);
@@ -85,7 +117,13 @@ public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<C
 	
 	@SmallTest
 	public void testClearItems(){ // checks if multiple items are added on dynamic list
-
+		TouchUtils.tapView(this, lat);
+		sendKeys("2");
+		sendKeys("2");
+		TouchUtils.tapView(this, lnt);
+		sendKeys("1");
+		sendKeys("1");
+		sendKeys("4");
 		TouchUtils.clickView(this, Add);
 		TouchUtils.clickView(this, Add);
 		TouchUtils.clickView(this, Add);
