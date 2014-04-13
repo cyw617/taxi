@@ -29,6 +29,9 @@ public class TrackingActivity extends ActionBarActivity{
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         mMap.setMyLocationEnabled(true);
         
+        Double latDouble = 22.3367;
+        Double lngDouble = 114.2639;
+        
         
 		final Handler h = new Handler();
 		final int delay = 1000; //milliseconds
