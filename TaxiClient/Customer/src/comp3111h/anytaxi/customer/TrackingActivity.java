@@ -35,6 +35,10 @@ public class TrackingActivity extends ActionBarActivity{
         
 		final Handler h = new Handler();
 		final int delay = 1000; //milliseconds
+		
+		LatLng locationNew = new LatLng(latDouble,lngDouble);
+        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,6);
+        mMap.animateCamera(cameraup);
 
 		h.postDelayed(new Runnable(){
 	        Double latDouble = 22.3367;
@@ -56,9 +60,7 @@ public class TrackingActivity extends ActionBarActivity{
         
         
         
-		LatLng locationNew = new LatLng(latDouble,lngDouble);
-        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,6);
-        mMap.animateCamera(cameraup);
+		
         
         
         
