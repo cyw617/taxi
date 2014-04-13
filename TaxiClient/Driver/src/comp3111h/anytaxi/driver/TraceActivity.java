@@ -1,6 +1,7 @@
 package comp3111h.anytaxi.driver;
 
 import comp3111h.anytaxi.driver.LocationUtils;
+
 import comp3111h.anytaxi.driver.R;
 import comp3111h.anytaxi.driver.TraceActivity.ErrorDialogFragment;
 import comp3111h.anytaxi.driver.TraceActivity;
@@ -39,6 +40,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Context;
 
 import java.io.IOException;
 import java.util.List;
