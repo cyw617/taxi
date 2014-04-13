@@ -7,8 +7,10 @@ import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -21,6 +23,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,8 +35,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import comp3111h.anytaxi.customer.LocationUtils.ErrorDialogFragment;
 
@@ -226,6 +232,53 @@ public class RequestActivity extends FragmentActivity implements
         }
     }    
     
+	public void Request(View view){
+
+		String des = ((EditText)findViewById(R.id.editText3)).getText().toString();
+		
+		showDialog("This will send to sever "+mLocationClient.getLastLocation().toString()+" "+des);
+		
+
+        
+        
+       /* 
+		Driver d = new Driver();
+		d.setLicense("mylicense");
+		GeoPt p = new GeoPt();
+		p.setLatitude(latCurrent);     // @ Ryan please get 1.00 from map
+		p.setLongitude(lntCurrent);    // @ Ryan please get 2.00 from map
+		d.setLoc(p);
+ 		d.setEmail(credential.getSelectedAccountName());
+    	new EndpointsTask(RequestActivity.this, endpoint, d).execute();
+    	
+		
+		*/
+	}
+	
+	
+	private void showDialog(String message) {
+		  new AlertDialog.Builder(this)
+		      .setMessage(message)
+		      .setPositiveButton(android.R.string.ok,
+		          new DialogInterface.OnClickListener() {
+		    	  
+		    	    @Override
+		            public void onClick(DialogInterface dialog, int id) {
+		    	    	
+		    	    	Intent intent = new Intent(RequestActivity.this, TrackingActivity.class);
+		    			startActivity(intent);
+		            }
+		          })
+		          .setNegativeButton(android.R.string.cancel, 
+		        		  new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.dismiss();
+								
+							}
+						}).show();
+		}
     
     
     
@@ -330,6 +383,10 @@ public class RequestActivity extends FragmentActivity implements
         
         startPeriodicUpdates();
         getAddress();
+        Location currentLoc = mLocationClient.getLastLocation();
+        LatLng locationNew = new LatLng(currentLoc.getLatitude(),currentLoc.getLongitude());
+        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
+        mMap.animateCamera(cameraup);
            
     }
     
@@ -468,7 +525,8 @@ public class RequestActivity extends FragmentActivity implements
         mLatLng.setText(LocationUtils.getLatLng(this, location));
         
         //Changes only need to be done in getLocation to cosntantly update the location info
-        //getLocation();
+        
+		
         
     }
     

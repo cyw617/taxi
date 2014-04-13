@@ -1178,6 +1178,7 @@ containing a value of this type.
         public static final int ic_plusone_small_off_client=0x7f020072;
         public static final int ic_plusone_standard_off_client=0x7f020073;
         public static final int ic_plusone_tall_off_client=0x7f020074;
+        public static final int taxipointer=0x7f020075;
     }
     public static final class id {
         public static final int action_bar=0x7f06001f;
@@ -1199,20 +1200,20 @@ containing a value of this type.
         public static final int beginning=0x7f060011;
         public static final int checkbox=0x7f060030;
         public static final int collapseActionView=0x7f06000d;
-        public static final int datePicker=0x7f060052;
+        public static final int datePicker=0x7f060050;
         public static final int default_activity_button=0x7f06002b;
         public static final int dialog=0x7f06000e;
         public static final int disableHome=0x7f060008;
         public static final int dropdown=0x7f06000f;
-        public static final int editText1=0x7f06004d;
-        public static final int editText2=0x7f06004e;
-        public static final int editText3=0x7f06004f;
+        public static final int editText1=0x7f060053;
+        public static final int editText2=0x7f060054;
+        public static final int editText3=0x7f06004d;
         public static final int edit_query=0x7f060033;
         public static final int end=0x7f060013;
         public static final int expand_activities_button=0x7f060029;
         public static final int expanded_menu=0x7f06002f;
-        public static final int futureDestination=0x7f060051;
-        public static final int goback=0x7f060054;
+        public static final int futureDestination=0x7f06004f;
+        public static final int goback=0x7f060052;
         public static final int home=0x7f060014;
         public static final int homeAsUp=0x7f060005;
         public static final int hybrid=0x7f06001c;
@@ -1228,7 +1229,7 @@ containing a value of this type.
         public static final int login_Btn_In=0x7f060042;
         public static final int login_Btn_Out=0x7f060043;
         public static final int login_Btn_Revoke=0x7f060044;
-        public static final int logout=0x7f060050;
+        public static final int logout=0x7f06004e;
         public static final int map=0x7f060045;
         public static final int middle=0x7f060012;
         public static final int more=0x7f06004b;
@@ -1260,7 +1261,7 @@ containing a value of this type.
         public static final int terrain=0x7f06001b;
         public static final int text_connection_state=0x7f06004a;
         public static final int text_connection_status=0x7f06004c;
-        public static final int timePicker=0x7f060053;
+        public static final int timePicker=0x7f060051;
         public static final int title=0x7f06002e;
         public static final int top_action_bar=0x7f060023;
         public static final int up=0x7f060024;
@@ -1752,7 +1753,8 @@ containing a value of this type.
         public static final int Widget_AppCompat_Spinner_DropDown_ActionBar=0x7f0c0022;
     }
     public static final class xml {
-        public static final int preferences=0x7f050000;
+        public static final int activity_request=0x7f050000;
+        public static final int preferences=0x7f050001;
     }
     public static final class styleable {
         /**  ============================================ 
