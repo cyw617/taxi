@@ -1,9 +1,17 @@
 package comp3111h.anytaxi.customer;
 
+import android.app.Activity;
+import android.content.Context;
+import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.util.Log;
+import android.widget.Toast;
 
-import comp3111h.anytaxi.customer.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public final class LocationUtils {
 
@@ -48,6 +56,39 @@ public final class LocationUtils {
     // Create an empty string for initializing strings
     public static final String EMPTY_STRING = new String();
     
+    
+    
+    public static class ErrorDialogFragment extends DialogFragment {
+
+        // Global field to contain the error dialog
+        private Dialog mDialog;
+
+        /**
+         * Default constructor. Sets the dialog field to null
+         */
+        public ErrorDialogFragment() {
+            super();
+            mDialog = null;
+        }
+
+        /**
+         * Set the dialog to display
+         *
+         * @param dialog An error dialog
+         */
+        public void setDialog(Dialog dialog) {
+            mDialog = dialog;
+        }
+
+        /*
+         * This method must return a Dialog to the DialogFragment.
+         */
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return mDialog;
+        }
+    }
+    
     /**
      * Get the latitude and longitude from the Location object returned by
      * Location Services.
@@ -71,6 +112,22 @@ public final class LocationUtils {
             return EMPTY_STRING;
         }
     }
+    
+	public static void showError(final Activity activity, String message) {
+	  final String errorMessage = message == null ? "Error" : "[Error ] "
+	      + message;
+	  activity.runOnUiThread(new Runnable() {
+	    public void run() {
+	      Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG)
+	          .show();
+	    }
+	  });
+	}
+	
+
+	
+
+	  
     
     
  
