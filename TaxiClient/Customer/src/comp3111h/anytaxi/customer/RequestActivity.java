@@ -70,6 +70,9 @@ public class RequestActivity extends FragmentActivity implements
 	private TextView mConnectionState;
 	private TextView mConnectionStatus;
     
+	 float latCurrent;
+     float lntCurrent;
+	
 	//The lat and lng passed by CusTomerListActivity
 	private double latDouble;
 	private double lntDouble;
@@ -262,13 +265,14 @@ public class RequestActivity extends FragmentActivity implements
 		LatLng locationNew = new LatLng(latDouble,lntDouble);
         CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,6);
         mMap.animateCamera(cameraup);
-		
-		
+        
+        
+        
 		Driver d = new Driver();
 		d.setLicense("mylicense");
 		GeoPt p = new GeoPt();
-		p.setLatitude((float)1.00);     // @ Ryan please get 1.00 from map
-		p.setLongitude((float)2.00);    // @ Ryan please get 2.00 from map
+		p.setLatitude(latCurrent);     // @ Ryan please get 1.00 from map
+		p.setLongitude(lntCurrent);    // @ Ryan please get 2.00 from map
 		d.setLoc(p);
  		d.setEmail(credential.getSelectedAccountName());
     	new EndpointsTask(RequestActivity.this, endpoint, d).execute();
@@ -304,6 +308,8 @@ public class RequestActivity extends FragmentActivity implements
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
+				
+				
 				AddDriver task = endpoint.addDriver(d);
 				task.execute();
 				return null;
@@ -414,14 +420,9 @@ public class RequestActivity extends FragmentActivity implements
           // Display the current location in the UI
           mLatLng.setText(LocationUtils.getLatLng(this, currentLocation));
           
-          //Double lat=currentLocation.getLatitude();
-          //Double lnt=currentLocation.getLongitude();
-          
-     
-          
-          
-          
-
+          latCurrent=(float) currentLocation.getLatitude();
+          lntCurrent=(float) currentLocation.getLongitude();
+       
       }
   }
 
