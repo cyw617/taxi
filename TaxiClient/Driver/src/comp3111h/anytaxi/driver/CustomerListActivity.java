@@ -121,6 +121,10 @@ public class CustomerListActivity extends ActionBarActivity{
 		arrAdapter.notifyDataSetChanged();
 	}
     
+	public int numItemsInStrArr(){ // for test
+		return strArr.size();
+	}
+	
     private void exit() {
         new AlertDialog.Builder(this)
         .setMessage(getString(R.string.quit_Message))
