@@ -34,7 +34,8 @@
         
         <activity
             android:name="comp3111h.anytaxi.customer.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,7 +45,8 @@
         
         <activity
             android:name="comp3111h.anytaxi.customer.LoginActivity"
-            android:label="@string/login_ActivityTitle" >
+            android:label="@string/login_ActivityTitle" 
+            android:screenOrientation="portrait">
             <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="comp3111h.anytaxi.customer.SettingsActivity" />
@@ -52,7 +54,8 @@
         
         <activity
             android:name="comp3111h.anytaxi.customer.SettingsActivity"
-            android:label="@string/settings_ActivityTitle" >
+            android:label="@string/settings_ActivityTitle" 
+            android:screenOrientation="portrait">
             <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="comp3111h.anytaxi.customer.CustomerListActivity" />
@@ -60,12 +63,14 @@
         
         <activity
             android:name="comp3111h.anytaxi.customer.RequestActivity"
-            android:label="Map Page" >
+            android:label="Map Page" 
+            android:screenOrientation="portrait">
         </activity>
         
         <activity
             android:name="comp3111h.anytaxi.customer.MoreOption"
-            android:label="Map Option" > 
+            android:label="Map Option" 
+            android:screenOrientation="portrait"> 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comp3111h.anytaxi.customer.RequestActivity" />
@@ -73,7 +78,8 @@
         
         <activity
             android:name="comp3111h.anytaxi.customer.TrackingActivity"
-            android:label="Tracking Activity" > 
+            android:label="Tracking Activity" 
+            android:screenOrientation="portrait"> 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comp3111h.anytaxi.customer.RequestActivity" />
@@ -81,7 +87,7 @@
         
         <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyBjV-xt3nkgx4W4yIne2IiJg2S6QDtOQR4"/>
+    		android:value="AIzaSyDTfkyOLgOWLjZpLUToxTN2oBX4gLUWWUM"/>
         
       
     </application>
