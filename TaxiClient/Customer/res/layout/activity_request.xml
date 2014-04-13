@@ -56,32 +56,40 @@
         android:text="text_connection_status"
         android:textColor="#ff0000" />
 
-    <Button
-        android:id="@+id/request"
+    <EditText
+        android:id="@+id/editText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/more"
-        android:layout_alignParentRight="true"
-        android:onClick="Request"
-        android:text="Taxi" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:hint="Destination" >
+
+        <requestFocus />
+    </EditText>
 
     <Button
         android:id="@+id/more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="26dp"
         android:onClick="MoreOption"
         android:text="More.." />
 
-    <EditText
-        android:id="@+id/editText3"
+    <Button
+        android:id="@+id/request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="Destination" />
+        android:layout_above="@+id/more"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/custom_button"
+        android:height="50dp"
+        android:onClick="Request"
+        android:text="AnyTaxi"
+        android:width="250dp" />
 
 </RelativeLayout>
