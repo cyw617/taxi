@@ -52,8 +52,8 @@ public class MainActivity extends Activity
 		deleteText = (EditText) findViewById(R.id.deleteText);
 
 		sendLocButton.setOnClickListener(sendLocButtonListener);
-		getCustomerListButton.setOnClickListener(showClientListListener);
-		deleteButton.setOnClickListener(deleteButtonListener);
+//		getCustomerListButton.setOnClickListener(showClientListListener);
+//		deleteButton.setOnClickListener(deleteButtonListener);
 	}
 
 	@Override
@@ -73,25 +73,25 @@ public class MainActivity extends Activity
 		} // end method onClick
 	};
 
-	private OnClickListener showClientListListener = new OnClickListener()
-	{
-		@Override
-		public void onClick(View v)
-		{
-			showClientList show = new showClientList();
-			show.execute(); // pass selected Button to submitGuess
-		} // end method onClick
-	};
+//	private OnClickListener showClientListListener = new OnClickListener()
+//	{
+//		@Override
+//		public void onClick(View v)
+//		{
+//			showClientList show = new showClientList();
+//			show.execute(); // pass selected Button to submitGuess
+//		} // end method onClick
+//	};
 
-	private OnClickListener deleteButtonListener = new OnClickListener()
-	{
-		@Override
-		public void onClick(View v)
-		{
-			deleteTask client = new deleteTask();
-			client.execute(); // pass selected Button to submitGuess
-		} // end method onClick
-	};
+//	private OnClickListener deleteButtonListener = new OnClickListener()
+//	{
+//		@Override
+//		public void onClick(View v)
+//		{
+//			deleteTask client = new deleteTask();
+//			client.execute(); // pass selected Button to submitGuess
+//		} // end method onClick
+//	};
 
 	private class insertTask extends AsyncTask<String, Void, String>
 	{
@@ -159,112 +159,112 @@ public class MainActivity extends Activity
 
 	}
 
-	private class showClientList extends AsyncTask<String, Void, String>
-	{
-		@Override
-		protected String doInBackground(String... arg0)
-		{
-			try
-			{
-				String host = "143.89.168.85";
-				int port = 4568;
-
-				Socket Clientsocket;
-
-				String feedback = "Error";
-
-				Clientsocket = new Socket(host, port);
-
-				Scanner networkInput = new Scanner(
-						Clientsocket.getInputStream());
-
-				PrintWriter networkOutput = new PrintWriter(
-						Clientsocket.getOutputStream(), true);
-
-				networkOutput.println("getCusList");
-
-				feedback = networkInput.nextLine();
-
-				Clientsocket.close();
-
-				Gson gson = new Gson();
-				String[] clientArray = feedback.split(" ");
-
-				String temp = "";
-				for (String o : clientArray)
-				{
-					Client c = gson.fromJson(o, Client.class);
-					temp = temp + c.toString() + "\n";
-				}
-
-				return temp;
-
-			} catch (Exception e)
-			{
-				return "Error!!!!";
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(String feedback)
-		{
-			tv.setText(feedback);
-
-			// Toast.makeText(send.getContext(), result,
-			// Toast.LENGTH_LONG).show();
-
-		}
-	}
-
-	private class deleteTask extends AsyncTask<String, Void, String>
-	{
-		@Override
-		protected String doInBackground(String... arg0)
-		{
-			try
-			{
-				String host = "143.89.168.85";
-				int port = 4568;
-
-				Socket Clientsocket;
-
-				String feedback = "Error";
-
-				Clientsocket = new Socket(host, port);
-
-				PrintWriter networkOutput = new PrintWriter(
-						Clientsocket.getOutputStream(), true);
-
-				networkOutput.println("delete");
-
-				String deleteID = deleteText.getText().toString();
-
-				networkOutput.println(deleteID);
-
-				Clientsocket.close();
-
-				feedback="delete successfully!";
-				
-				return feedback;
-
-			} catch (Exception e)
-			{
-				return "Error!!!!";
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(String feedback)
-		{
-			Toast.makeText(deleteButton.getContext(), feedback,
-					Toast.LENGTH_LONG).show();
-			// tv.setText(feedback);
-
-			// Toast.makeText(send.getContext(), result,
-			// Toast.LENGTH_LONG).show();
-		}
-	}
+//	private class showClientList extends AsyncTask<String, Void, String>
+//	{
+//		@Override
+//		protected String doInBackground(String... arg0)
+//		{
+//			try
+//			{
+//				String host = "143.89.168.85";
+//				int port = 4568;
+//
+//				Socket Clientsocket;
+//
+//				String feedback = "Error";
+//
+//				Clientsocket = new Socket(host, port);
+//
+//				Scanner networkInput = new Scanner(
+//						Clientsocket.getInputStream());
+//
+//				PrintWriter networkOutput = new PrintWriter(
+//						Clientsocket.getOutputStream(), true);
+//
+//				networkOutput.println("getCusList");
+//
+//				feedback = networkInput.nextLine();
+//
+//				Clientsocket.close();
+//
+//				Gson gson = new Gson();
+//				String[] clientArray = feedback.split(" ");
+//
+//				String temp = "";
+//				for (String o : clientArray)
+//				{
+//					Client c = gson.fromJson(o, Client.class);
+//					temp = temp + c.toString() + "\n";
+//				}
+//
+//				return temp;
+//
+//			} catch (Exception e)
+//			{
+//				return "Error!!!!";
+//			}
+//
+//		}
+//
+//		@Override
+//		protected void onPostExecute(String feedback)
+//		{
+//			tv.setText(feedback);
+//
+//			// Toast.makeText(send.getContext(), result,
+//			// Toast.LENGTH_LONG).show();
+//
+//		}
+//	}
+//
+//	private class deleteTask extends AsyncTask<String, Void, String>
+//	{
+//		@Override
+//		protected String doInBackground(String... arg0)
+//		{
+//			try
+//			{
+//				String host = "143.89.168.85";
+//				int port = 4568;
+//
+//				Socket Clientsocket;
+//
+//				String feedback = "Error";
+//
+//				Clientsocket = new Socket(host, port);
+//
+//				PrintWriter networkOutput = new PrintWriter(
+//						Clientsocket.getOutputStream(), true);
+//
+//				networkOutput.println("delete");
+//
+//				String deleteID = deleteText.getText().toString();
+//
+//				networkOutput.println(deleteID);
+//
+//				Clientsocket.close();
+//
+//				feedback="delete successfully!";
+//				
+//				return feedback;
+//
+//			} catch (Exception e)
+//			{
+//				return "Error!!!!";
+//			}
+//
+//		}
+//
+//		@Override
+//		protected void onPostExecute(String feedback)
+//		{
+//			Toast.makeText(deleteButton.getContext(), feedback,
+//					Toast.LENGTH_LONG).show();
+//			// tv.setText(feedback);
+//
+//			// Toast.makeText(send.getContext(), result,
+//			// Toast.LENGTH_LONG).show();
+//		}
+//	}
 
 }
