@@ -1,13 +1,5 @@
 package comp3111h.anytaxi.customer;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.plus.Plus;
-
-import comp3111h.anytaxi.customer.R;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
@@ -25,6 +17,13 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.plus.Plus;
 
 public class LoginActivity extends ActionBarActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, View.OnClickListener {
@@ -322,10 +321,6 @@ public class LoginActivity extends ActionBarActivity implements
         login_Btn_In.setVisibility(View.VISIBLE);
         login_Btn_Out.setVisibility(View.GONE);
         login_Btn_Revoke.setVisibility(View.GONE);
-    }
-    
-    public GoogleApiClient get_GoogleApiClient() {
-        return googleApiClient;
     }
     
     private void exit() {

@@ -1,17 +1,16 @@
 package comp3111h.anytaxi.customer;
 
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import android.app.Activity;
-import android.content.Context;
 import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.widget.Toast;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public final class LocationUtils {
 
@@ -123,12 +122,17 @@ public final class LocationUtils {
 	    }
 	  });
 	}
-	
 
-	
+	public static GoogleMap mMap;
 
-	  
-    
-    
+	/*CURRENT LOCATION INFO VAR END*/
+	
+	/*Variables for transmitting msg to server*/
+	static AnyTaxi endpoint;
+	static String accountName;
+	static GoogleAccountCredential credential;
+	static final String WEB_CLIENT_ID = "1072316261853-u0gafkut9f919bau91gh9bgjb9555hh2.apps.googleusercontent.com"; 
+	static final int REQUEST_ACCOUNT_PICKER = 1; 
+	/*Variables for transmitting msg to server*/
  
 }

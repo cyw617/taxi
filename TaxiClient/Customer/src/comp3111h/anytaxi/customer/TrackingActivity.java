@@ -1,20 +1,25 @@
 package comp3111h.anytaxi.customer;
 
+import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import android.annotation.SuppressLint;
-import android.graphics.Canvas;
-import android.graphics.Point;
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi.GetDriver;
+import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,7 +44,7 @@ public class TrackingActivity extends ActionBarActivity{
         Double latDouble = 22.3367;
         Double lngDouble = 114.2639;
         LatLng locationNew = new LatLng(latDouble,lngDouble);
-        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,6);
+        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
         mMap.animateCamera(cameraup);
         
         
@@ -59,60 +64,16 @@ public class TrackingActivity extends ActionBarActivity{
 		        lngDouble+= locationVariation2;
 		       
 				LatLng locationNew = new LatLng(latDouble,lngDouble);
-		        //CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
-		        //mMap.animateCamera(cameraup);
 		        
 		        marker.setPosition(locationNew);
 		    	
 		        h.postDelayed(this, delay);
 		    }
 		}, delay);
-        
-        
 	}
 	
 	public void goBack(View view){
 		finish();
 	}
 	
-	/*
-	
-    private class EndpointsTask extends AsyncTask<Void, Void, Void> {
-		Exception exceptionThrown = null;
-		AnyTaxi endpoint;
-		Driver d;
-
-		public EndpointsTask(Activity activity, AnyTaxi endpoint, LatLng startLocation) {
-			this.endpoint = endpoint;
-			this.d = d;
-		}
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			try {
-
-			} catch (Exception e) {
-				exceptionThrown = e;
-			}
-			return null;
-		}
-
-		protected void onPostExecute(Driver driver) {
-			// Check if exception was thrown
-			if (exceptionThrown != null) {
-				Log.e(MainActivity.class.getName(), 
-						"Exception when submitting data" 
-				+ Log.getStackTraceString(exceptionThrown));
-				
-				showDialog("Failed to submit the data via " +
-						"the endpoint at " + endpoint.getBaseUrl() +
-						", check log for details");
-			}
-			else {
-				showDialog("Successfully submitted the data via " +
-						"the endpoint at " + endpoint.getBaseUrl());
-			}
-		}   
-	}
-	*/
 }
