@@ -1,0 +1,126 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/input1"
+        android:layout_alignParentTop="true"
+        android:text="ShowCustomerList" />
+
+    <Button
+        android:id="@+id/getCustomer"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/sendLocation"
+        android:layout_marginBottom="38dp"
+        android:layout_toRightOf="@+id/textView5"
+        android:text="getCustomerList" />
+
+    <Button
+        android:id="@+id/sendLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/getCustomer"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignRight="@+id/lat"
+        android:text="SendLocation" />
+
+    <EditText
+        android:id="@+id/lon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lat"
+        android:layout_alignParentRight="true"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/lat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sendLocation"
+        android:layout_alignLeft="@+id/lon"
+        android:layout_marginBottom="21dp"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lon"
+        android:layout_alignLeft="@+id/lon"
+        android:layout_marginBottom="18dp"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/CustomerId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/notes"
+        android:layout_alignLeft="@+id/notes"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/CustomerId"
+        android:layout_alignLeft="@+id/textView1"
+        android:text="CustomerID" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/notes"
+        android:layout_alignParentLeft="true"
+        android:text="NOTES" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="LON" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lat"
+        android:layout_alignBottom="@+id/lat"
+        android:layout_alignLeft="@+id/sendLocation"
+        android:text="LAT" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/lat"
+        android:text="deleteCustomer" />
+
+    <EditText
+        android:id="@+id/deleteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/deleteButton"
+        android:layout_toRightOf="@+id/textView1"
+        android:ems="10" />
+
+</RelativeLayout>
