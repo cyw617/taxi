@@ -254,7 +254,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 		 */
 	}
-
+	
+    public void MoreOption(View v) {
+        Intent intent = new Intent(this, MoreOption.class);
+        startActivity(intent);
+    }
 
 	private void showDialog(String message) {
 		new AlertDialog.Builder(this)
