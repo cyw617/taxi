@@ -436,6 +436,10 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		mConnectionStatus.setText(R.string.connected);
 
 		Location currentLoc = mLocationClient.getLastLocation();
+		while(currentLoc==null)
+		{
+			currentLoc = mLocationClient.getLastLocation();
+		}
 		LatLng locationNew = new LatLng(currentLoc.getLatitude(),currentLoc.getLongitude());
 		CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
 		LocationUtils.mMap.animateCamera(cameraup);
