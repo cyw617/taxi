@@ -1188,6 +1188,7 @@ containing a value of this type.
         public static final int ic_plusone_small_off_client=0x7f020073;
         public static final int ic_plusone_standard_off_client=0x7f020074;
         public static final int ic_plusone_tall_off_client=0x7f020075;
+        public static final int taxipointer=0x7f020076;
     }
     public static final class id {
         public static final int action_bar=0x7f06001f;
@@ -1201,7 +1202,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060027;
-        public static final int action_settings=0x7f060053;
+        public static final int action_settings=0x7f060055;
         public static final int activity_chooser_view_content=0x7f060028;
         public static final int address=0x7f060048;
         public static final int address_progress=0x7f060049;
@@ -1214,6 +1215,8 @@ containing a value of this type.
         public static final int dialog=0x7f06000e;
         public static final int disableHome=0x7f060008;
         public static final int dropdown=0x7f06000f;
+        public static final int editText1=0x7f060053;
+        public static final int editText2=0x7f060054;
         public static final int editText3=0x7f06004d;
         public static final int edit_query=0x7f060033;
         public static final int end=0x7f060013;
@@ -1760,7 +1763,8 @@ containing a value of this type.
         public static final int Widget_AppCompat_Spinner_DropDown_ActionBar=0x7f0c0022;
     }
     public static final class xml {
-        public static final int preferences=0x7f050000;
+        public static final int activity_request=0x7f050000;
+        public static final int preferences=0x7f050001;
     }
     public static final class styleable {
         /**  ============================================ 
