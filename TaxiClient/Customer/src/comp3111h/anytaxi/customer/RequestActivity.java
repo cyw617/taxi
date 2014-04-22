@@ -435,13 +435,13 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public void onConnected(Bundle bundle) {
 		mConnectionStatus.setText(R.string.connected);
 
-
-		startPeriodicUpdates();
-		getAddress();
 		Location currentLoc = mLocationClient.getLastLocation();
 		LatLng locationNew = new LatLng(currentLoc.getLatitude(),currentLoc.getLongitude());
 		CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
 		LocationUtils.mMap.animateCamera(cameraup);
+		
+		getAddress();
+		startPeriodicUpdates();
 
 	}
 
@@ -672,8 +672,19 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			 */
 			Geocoder geocoder = new Geocoder(localContext, Locale.getDefault());
 
+			
+			
+			
 			// Get the current location from the input parameter list
 			Location location = params[0];
+			
+			//Consider the case when location is null
+			//A dumb solution to address the issue
+			//More consideration needed
+			while(location==null)
+			{
+				location = mLocationClient.getLastLocation();
+			}
 
 			// Create a list to contain the result address
 			List <Address> addresses = null;
@@ -731,7 +742,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 								address.getAddressLine(0) : "",
 
 								// Locality is usually a city
-								address.getLocality(),
+								address.getLocality() != null ?
+								address.getLocality() : "",
 
 								// The country of the address
 								address.getCountryName()
