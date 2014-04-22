@@ -21,7 +21,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -41,9 +44,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import comp3111h.anytaxi.customer.LocationUtils.ErrorDialogFragment;
 
-public class RequestActivity extends FragmentActivity implements
+import comp3111h.anytaxi.customer.LocationUtils.ErrorDialogFragment;
+import comp3111h.anytaxi.customer.R;
+import comp3111h.anytaxi.customer.SettingsActivity;
+
+public class RequestActivity extends ActionBarActivity implements
 	LocationListener,
 	GooglePlayServicesClient.ConnectionCallbacks,
 	GooglePlayServicesClient.OnConnectionFailedListener{
@@ -232,15 +238,61 @@ public class RequestActivity extends FragmentActivity implements
         }
     }    
     
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+		    Intent intent = new Intent(this, SettingsActivity.class);
+	        startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+    
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+    
+    private void exit() {
+        new AlertDialog.Builder(this)
+        .setMessage(getString(R.string.quit_Message))
+        .setPositiveButton(getString(R.string.quit_Positive),
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    moveTaskToBack(true);
+                    finish();
+                }
+            })
+        .setNegativeButton(getString(R.string.quit_Negative), null)
+        .show();
+    }
+    
 	public void Request(View view){
 
 		String des = ((EditText)findViewById(R.id.editText3)).getText().toString();
+		Location current = mLocationClient.getLastLocation();
+		String latString = Double.valueOf((current.getLatitude())).toString();
+		String lngString = Double.valueOf((current.getLongitude())).toString();
 		
-		showDialog("This will send to sever "+mLocationClient.getLastLocation().toString()+" "+des);
+		
+		
+		showDialog("This will send to sever "+latString+" "+lngString+" "+des);
 		
 
-        
-        
        /* 
 		Driver d = new Driver();
 		d.setLicense("mylicense");
