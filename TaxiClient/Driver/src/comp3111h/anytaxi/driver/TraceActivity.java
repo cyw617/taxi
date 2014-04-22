@@ -1,11 +1,32 @@
 package comp3111h.anytaxi.driver;
 
-import comp3111h.anytaxi.driver.LocationUtils;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
-import comp3111h.anytaxi.driver.R;
-import comp3111h.anytaxi.driver.TraceActivity.ErrorDialogFragment;
-import comp3111h.anytaxi.driver.TraceActivity;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentSender;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.content.Context;
 
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -17,42 +38,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-
-import android.content.IntentSender;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.content.Context;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi.AddDriver;
-import com.appspot.hk_taxi.anyTaxi.model.Driver;
-import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
-import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.jackson.JacksonFactory;
 public class TraceActivity extends FragmentActivity implements
 		LocationListener,
 		GooglePlayServicesClient.ConnectionCallbacks,
@@ -117,13 +105,9 @@ public class TraceActivity extends FragmentActivity implements
         mConnectionState = (TextView) findViewById(R.id.text_connection_state);
         mConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
 		
-		//locationNew = new LatLng(MainActivity.lat,MainActivity.longt);
-        //locationNew = new LatLng(22.2,1);
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         mMap.setMyLocationEnabled(true);
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        //CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,10);
-        //mMap.animateCamera(cameraup);
+        
 		
 		Intent intent = getIntent();
 		String latString = intent.getStringExtra("Latitude");
@@ -182,11 +166,11 @@ public class TraceActivity extends FragmentActivity implements
 		
 		
 		LatLng locationNew = new LatLng(latDouble,lntDouble);
-        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,6);
+        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
         mMap.animateCamera(cameraup);
         
-		
-		
+        final Marker marker = mMap.addMarker(new MarkerOptions().position(locationNew));
+     
 	}
 	
 	public static void showError(final Activity activity, String message) {

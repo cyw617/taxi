@@ -1,6 +1,5 @@
 package comp3111h.anytaxi.customer;
 
-import comp3111h.anytaxi.customer.R;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 

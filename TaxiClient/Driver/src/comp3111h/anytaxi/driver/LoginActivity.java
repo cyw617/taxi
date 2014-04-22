@@ -323,6 +323,10 @@ public class LoginActivity extends ActionBarActivity implements
         login_Btn_Revoke.setVisibility(View.GONE);
     }
     
+    public GoogleApiClient get_GoogleApiClient() {
+        return googleApiClient;
+    }
+    
     private void exit() {
         new AlertDialog.Builder(this)
         .setMessage(getString(R.string.quit_Message))

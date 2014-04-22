@@ -12,6 +12,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,19 +106,48 @@ public class CustomerListActivity extends ActionBarActivity{
 		lntText = (EditText) findViewById(R.id.lnt);
 		Geocoder geocoder;
 		List<Address> addresses;
+		String address;
 		geocoder = new Geocoder(this, Locale.getDefault());
 		try {
 			addresses = geocoder.getFromLocation(Double.parseDouble(latText.getText().toString()), Double.parseDouble(lntText.getText().toString()), 1);
-			String address = addresses.get(0).getAddressLine(0) + addresses.get(0).getAddressLine(1);
-			
-			strArr.add(address+"\t"+latText.getText().toString()+"\t"+lntText.getText().toString());
+			 // If the reverse geocode returned an address
+	        if (addresses != null && addresses.size() > 0) {
 
-			arrAdapter.notifyDataSetChanged();
+	            // Get the first address
+	        	address = addresses.get(0).getAddressLine(0) + addresses.get(0).getAddressLine(1);
+				
+				strArr.add(address+"\t"+latText.getText().toString()+"\t"+lntText.getText().toString());
+
+				arrAdapter.notifyDataSetChanged();
+
+	        // If there aren't any addresses, post a message
+	        } else {
+	          //return getString(R.string.no_address_found);
+	        }
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (IOException exception1) {
+
+            // Log an error and return an error message
+            Log.e(LocationUtils.APPTAG, getString(R.string.IO_Exception_getFromLocation));
+
+            // print the stack trace
+            exception1.printStackTrace();
+
+
+        // Catch incorrect latitude or longitude values
+        } catch (IllegalArgumentException exception2) {
+
+            // Construct a message containing the invalid arguments
+            String errorString = getString(
+                    R.string.illegal_argument_exception,
+                    latText.getText().toString(),
+                    lntText.getText().toString()
+            );
+            // Log the error and print the stack trace
+            Log.e(LocationUtils.APPTAG, errorString);
+            exception2.printStackTrace();
+
+        }
 	}
 	
 	public void removeItem(View view){
