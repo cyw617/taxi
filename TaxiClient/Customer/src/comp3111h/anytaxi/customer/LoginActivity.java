@@ -133,7 +133,10 @@ public class LoginActivity extends ActionBarActivity {
 			 } else {
 				 Intent intent = new Intent(this.context, RequestActivity.class);
 				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				 context.startActivity(intent);
+				 // TODO: since RequestActivity currently has a bug, we display the message 
+				 // from server instead.
+				 // context.startActivity(intent);
+				 CloudEndpointUtils.logAndShow(LoginActivity.this, TAG, "Successfully logged in!");
 			 }
 		 }
 
