@@ -30,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi.Builder;
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi.GetDriver;
 import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.google.android.gms.common.ConnectionResult;
@@ -46,7 +45,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
-
 import comp3111h.anytaxi.customer.LocationUtils.ErrorDialogFragment;
 
 public class RequestActivity extends FragmentActivity implements
@@ -83,8 +81,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 *
 	 */
 	boolean mUpdatesRequested = true;
-
-	private SharedPreferences settings;
 
 	/*CURRENT LOCATION INFO VAR END*/
 
@@ -718,7 +714,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
     private class EndpointsTask extends AsyncTask<Void, Void, Driver> {
 		Exception exceptionThrown = null;
 		AnyTaxi endpoint;
-		Driver d;
 		String email;
 
 		public EndpointsTask(Activity activity, AnyTaxi endpoint, String email) {
