@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:padding="20dip">
+	
+    <TableLayout
+        android:id="@+id/login_Agreement_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dip"
+        android:orientation="vertical">
+        
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dip"
+	        android:background="@drawable/border">
+	        
+		    <TextView
+		        android:id="@+id/login_Agreement_Text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="5dip"
+		        android:textSize="16sp" />
+		    
+	    </ScrollView>
+	    
+	    <CheckBox
+	        android:id="@+id/login_Agreement_Chkbox"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:textSize="14sp"
+	        android:text="@string/login_Agreement_Chkbox" />
+	    
+    </TableLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+	
+		<com.google.android.gms.common.SignInButton
+			android:id="@+id/login_Btn_In"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+	
+		<Button
+			android:id="@+id/login_Btn_Out"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/login_Btn_Out" />
+	
+		<Button
+			android:id="@+id/login_Btn_Revoke"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/login_Btn_Revoke" />
+	
+	</LinearLayout>
+
+</LinearLayout>
