@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="@string/signOut"
+        android:summary="@string/signOut_Summary">
+        <intent
+             android:action="android.intent.action.VIEW"
+             android:targetPackage="comp3111h.anytaxi.driver"
+             android:targetClass="comp3111h.anytaxi.driver.LoginActivity" />
+    </Preference>
+</PreferenceScreen>
