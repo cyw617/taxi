@@ -22,7 +22,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -46,11 +49,13 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import comp3111h.anytaxi.customer.LocationUtils.ErrorDialogFragment;
+import comp3111h.anytaxi.customer.R;
+import comp3111h.anytaxi.customer.SettingsActivity;
 
-public class RequestActivity extends FragmentActivity implements
-LocationListener,
-GooglePlayServicesClient.ConnectionCallbacks,
-GooglePlayServicesClient.OnConnectionFailedListener{
+public class RequestActivity extends ActionBarActivity implements
+	LocationListener,
+	GooglePlayServicesClient.ConnectionCallbacks,
+	GooglePlayServicesClient.OnConnectionFailedListener{
 
 	/*CUURENT LOCATION INFO VAR START*/
 	// A request to connect to Location Services
@@ -228,16 +233,144 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		}
 	}    
 
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+		    Intent intent = new Intent(this, SettingsActivity.class);
+	        startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+    
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+    
+    private void exit() {
+        new AlertDialog.Builder(this)
+        .setMessage(getString(R.string.quit_Message))
+        .setPositiveButton(getString(R.string.quit_Positive),
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    moveTaskToBack(true);
+                    finish();
+                }
+            })
+        .setNegativeButton(getString(R.string.quit_Negative), null)
+        .show();
+    }
+    
 	public void Request(View view){
 
 		String des = ((EditText)findViewById(R.id.editText3)).getText().toString();
+		Location current = mLocationClient.getLastLocation();
+		String latString = Double.valueOf((current.getLatitude())).toString();
+		String lngString = Double.valueOf((current.getLongitude())).toString();
 
-		showDialog("This will send to sever "+mLocationClient.getLastLocation().toString()+" "+des);
 
-
+		
+		showDialog("This will send to sever "+latString+" "+lngString+" "+des);
 
 
 		/* 
+    /**
+     * Invoked by the "Taxi" button.
+     *
+     * The button will retrieve the current location and send it to server
+     *
+     * Calls getLastLocation() to get the current location
+     *
+     * @param v The view object associated with this method, in this case a Button.
+     */
+    
+    public void getLocation() {
+
+        // If Google Play Services is available
+        if (servicesConnected()) {
+            // Get the current location
+            Location currentLocation = mLocationClient.getLastLocation();
+
+            // Display the current location in the UI
+            mLatLng.setText(LocationUtils.getLatLng(this, currentLocation));
+            
+            latCurrent=(float) currentLocation.getLatitude();
+            lntCurrent=(float) currentLocation.getLongitude();
+         
+        }
+    }    
+    
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+		    Intent intent = new Intent(this, SettingsActivity.class);
+	        startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+    
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+    
+    private void exit() {
+        new AlertDialog.Builder(this)
+        .setMessage(getString(R.string.quit_Message))
+        .setPositiveButton(getString(R.string.quit_Positive),
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    moveTaskToBack(true);
+                    finish();
+                }
+            })
+        .setNegativeButton(getString(R.string.quit_Negative), null)
+        .show();
+    }
+    
+	public void Request(View view){
+
+		String des = ((EditText)findViewById(R.id.editText3)).getText().toString();
+		Location current = mLocationClient.getLastLocation();
+		String latString = Double.valueOf((current.getLatitude())).toString();
+		String lngString = Double.valueOf((current.getLongitude())).toString();
+		
+		
+		
+		showDialog("This will send to sever "+latString+" "+lngString+" "+des);
+		
+
+       /* 
 		Driver d = new Driver();
 		d.setLicense("mylicense");
 		GeoPt p = new GeoPt();
@@ -380,13 +513,17 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public void onConnected(Bundle bundle) {
 		mConnectionStatus.setText(R.string.connected);
 
-
-		startPeriodicUpdates();
-		getAddress();
 		Location currentLoc = mLocationClient.getLastLocation();
+		while(currentLoc==null)
+		{
+			currentLoc = mLocationClient.getLastLocation();
+		}
 		LatLng locationNew = new LatLng(currentLoc.getLatitude(),currentLoc.getLongitude());
 		CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
 		LocationUtils.mMap.animateCamera(cameraup);
+		
+		getAddress();
+		startPeriodicUpdates();
 
 	}
 
@@ -617,8 +754,19 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			 */
 			Geocoder geocoder = new Geocoder(localContext, Locale.getDefault());
 
+			
+			
+			
 			// Get the current location from the input parameter list
 			Location location = params[0];
+			
+			//Consider the case when location is null
+			//A dumb solution to address the issue
+			//More consideration needed
+			while(location==null)
+			{
+				location = mLocationClient.getLastLocation();
+			}
 
 			// Create a list to contain the result address
 			List <Address> addresses = null;
@@ -676,7 +824,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 								address.getAddressLine(0) : "",
 
 								// Locality is usually a city
-								address.getLocality(),
+								address.getLocality() != null ?
+								address.getLocality() : "",
 
 								// The country of the address
 								address.getCountryName()
