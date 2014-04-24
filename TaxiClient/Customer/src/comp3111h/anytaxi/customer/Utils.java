@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.appspot.hk_taxi.anyTaxi.model.Customer;
+import com.appspot.hk_taxi.anyTaxi.model.PhoneNumber;
+import com.google.api.client.util.DateTime;
+
 /**
  * @author Yi.Bairen
  * @version 0.9
@@ -11,12 +15,14 @@ import android.preference.PreferenceManager;
  */
 public class Utils {
 	
+	public static Customer customer;
+	
     public static final String PREFS_ACCOUNT_KEY = "__EMAIL__" ;
     public static final String PREFS_DEVICE_INFO_KEY = "__DEVICE__";
     public static final String PREFS_NAME_KEY = "__NAME__";
     public static final String PREFS_TEL_KEY = "__TEL__";
     public static final String PREFS_LOC_KEY = "__LOC__";
-    public static final String PREFS_LICENCE_KEY = "__LICENSE__";
+    public static final String PREFS_REGDATE_KEY = "__REGDATE__";
 	
     public static final String SUCCESS_SERVICE_KEY = "__SUCCESS__";   
 
@@ -55,5 +61,56 @@ public class Utils {
              e.printStackTrace();
              return defaultValue;
         }
+    }
+    
+    public static void updateCustomer(Context context) {
+    	updateCustomer(context, Utils.customer);
+    }
+    
+    /**
+     * Called to store the customer information to shared preferences.
+     * Won't store customer if its email is null
+     * @param context Context of caller activity
+     * @param cutomer customer information to store in shared preferences
+     */
+    public static void updateCustomer(Context context, Customer customer) {		
+    	if (customer == null || customer.getEmail() == null)
+    		return;
+    	Utils.customer = customer;
+    	Utils.putPreference(context, Utils.PREFS_ACCOUNT_KEY, customer.getEmail());
+		Utils.putPreference(context, Utils.PREFS_NAME_KEY, customer.getName());
+		Utils.putPreference(context, Utils.PREFS_TEL_KEY, customer.getPhoneNumber().getNumber());
+		Utils.putPreference(context, Utils.PREFS_DEVICE_INFO_KEY, customer.getDeviceRegistrationID());
+		Utils.putPreference(context, Utils.PREFS_REGDATE_KEY, customer.getRegDate().toString());
+    }
+    
+    /**
+     * Called to get the customer information to shared preferences.
+     * Default value will be returned of no value found or error occurred.
+     * @param context Context of caller activity
+     * @return Customer return null if no account is found
+     */
+    public static Customer getCustomer(Context context) {
+    	Customer customer = new Customer();		
+    	
+    	customer.setEmail(Utils.getPreference(context, Utils.PREFS_ACCOUNT_KEY, null));
+    	customer.setName(Utils.getPreference(context, Utils.PREFS_NAME_KEY, null));
+    	customer.setDeviceRegistrationID(Utils.getPreference(context, Utils.PREFS_DEVICE_INFO_KEY, null));
+    	
+    	PhoneNumber phoneNumber = new PhoneNumber();
+    	phoneNumber.setNumber(Utils.getPreference(context, Utils.PREFS_DEVICE_INFO_KEY, null));
+    	customer.setPhoneNumber(phoneNumber);
+    	
+    	String dateTimeString = Utils.getPreference(context, Utils.PREFS_REGDATE_KEY, null);
+    	if (dateTimeString != null) {
+    		DateTime dateTime = new DateTime(dateTimeString);
+    		customer.setRegDate(dateTime);
+    	}
+
+    	if (customer.getEmail() != null) {
+    		return customer; 
+    	} else {
+    		return null;
+    	}
     }
 }

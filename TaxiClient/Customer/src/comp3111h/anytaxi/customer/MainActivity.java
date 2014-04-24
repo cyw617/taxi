@@ -27,12 +27,18 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);  
+        Utils.customer = Utils.getCustomer(this);
 	}
 	
 	@Override
 	protected void onStart() {
 	    super.onStart();    
-	    new CheckLoginTask(this).execute();
+		if (Utils.customer == null) {
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+		} else {			
+			new CheckLoginTask(this).execute();
+		}
 	}
 	
 	@Override
@@ -51,19 +57,15 @@ public class MainActivity extends ActionBarActivity {
 			this.context = context.getApplicationContext();
 		}
 		@Override
-		protected Customer doInBackground(Void... params) {
-			String accountName = Utils.getPreference(context, Utils.PREFS_ACCOUNT_KEY, null);
-			if (accountName == null) {
-				return null;
-			}				
-			credential.setSelectedAccountName(accountName);
+		protected Customer doInBackground(Void... params) {	
+			credential.setSelectedAccountName(Utils.customer.getEmail());
 			endpoint = CloudEndpointUtils.updateBuilder(
 					new AnyTaxi.Builder(
 							AndroidHttp.newCompatibleTransport(),
 							new JacksonFactory(),
 							credential)).build();
 			try {
-				Customer result = endpoint.getCustomer(accountName).execute();
+				Customer result = endpoint.getCustomer(Utils.customer.getEmail()).execute();
 				return result;
 			} catch (IOException e) {
 				exceptionThrown = e;
@@ -83,9 +85,13 @@ public class MainActivity extends ActionBarActivity {
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(intent);
 			} else {
+				Utils.updateCustomer(context, result);
 				Intent intent = new Intent(this.context, RequestActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(intent);
+				 // TODO: since RequestActivity currently has a bug, we display the message 
+				 // from server instead.
+				 // context.startActivity(intent);
+				 CloudEndpointUtils.logAndShow(MainActivity.this, TAG, "Successfully logged in!");
 			}
 		}
 		
