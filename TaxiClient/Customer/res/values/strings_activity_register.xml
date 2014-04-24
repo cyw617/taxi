@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="register_ActivityTitle">Register</string>
+    <string name="register_ActivityTitle">Registration</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -13,5 +13,48 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    
+    <string name="register_Agreement_Text">
+		<![CDATA[
+		    <p>
+		    	<big><b>Terms and Conditions</b></big>
+		    </p>
+		    <p>
+		    	<b><u>1. Love AnyTaxi</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>2. Condition 2</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>3. Condition 3</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>4. Condition 4</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>5. Condition 5</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>6. Condition 6</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>7. Condition 7</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>8. Condition 8</u></b><br />
+		    	blablabla......
+		    </p>
+		]]>
+	</string>
+    <string name="register_Agreement_Chkbox">I agree to the terms and conditions.</string>
+    
+    <string name="register_Confirm_Btn">Sign-up</string>
 
 </resources>

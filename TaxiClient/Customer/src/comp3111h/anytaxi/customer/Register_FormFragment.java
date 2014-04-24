@@ -10,6 +10,6 @@ public class Register_FormFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        return null;
+        return inflater.inflate(R.layout.fragment_register_form, container, false);
     }
 }
