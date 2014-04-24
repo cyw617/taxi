@@ -47,11 +47,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-<<<<<<< HEAD
 import com.google.api.client.json.jackson2.JacksonFactory;
-=======
-
->>>>>>> 5c7011c... Temp, No change
 import comp3111h.anytaxi.customer.LocationUtils.ErrorDialogFragment;
 import comp3111h.anytaxi.customer.R;
 import comp3111h.anytaxi.customer.SettingsActivity;
@@ -60,7 +56,7 @@ public class RequestActivity extends ActionBarActivity implements
 	LocationListener,
 	GooglePlayServicesClient.ConnectionCallbacks,
 	GooglePlayServicesClient.OnConnectionFailedListener{
-	
+
 	/*CUURENT LOCATION INFO VAR START*/
 	// A request to connect to Location Services
 	private LocationRequest mLocationRequest;
@@ -238,17 +234,62 @@ public class RequestActivity extends ActionBarActivity implements
 		}
 	}    
 
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+		    Intent intent = new Intent(this, SettingsActivity.class);
+	        startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+    
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+    
+    private void exit() {
+        new AlertDialog.Builder(this)
+        .setMessage(getString(R.string.quit_Message))
+        .setPositiveButton(getString(R.string.quit_Positive),
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    moveTaskToBack(true);
+                    finish();
+                }
+            })
+        .setNegativeButton(getString(R.string.quit_Negative), null)
+        .show();
+    }
+    
 	public void Request(View view){
 
 		String des = ((EditText)findViewById(R.id.editText3)).getText().toString();
+		Location current = mLocationClient.getLastLocation();
+		String latString = Double.valueOf((current.getLatitude())).toString();
+		String lngString = Double.valueOf((current.getLongitude())).toString();
 
-		showDialog("This will send to sever "+mLocationClient.getLastLocation().toString()+" "+des);
 
-
+		
+		showDialog("This will send to sever "+latString+" "+lngString+" "+des);
 
 
 		/* 
-=======
     /**
      * Invoked by the "Taxi" button.
      *
@@ -331,7 +372,6 @@ public class RequestActivity extends ActionBarActivity implements
 		
 
        /* 
->>>>>>> 5c7011c... Temp, No change
 		Driver d = new Driver();
 		d.setLicense("mylicense");
 		GeoPt p = new GeoPt();
