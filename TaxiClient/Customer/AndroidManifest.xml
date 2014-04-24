@@ -45,9 +45,12 @@
             android:name="comp3111h.anytaxi.customer.LoginActivity"
             android:label="@string/login_ActivityTitle"
             android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="comp3111h.anytaxi.customer.SettingsActivity" />
+        </activity>
+        <activity
+            android:name="comp3111h.anytaxi.customer.RegisterActivity"
+            android:label="@string/register_ActivityTitle"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
             android:name="comp3111h.anytaxi.customer.SettingsActivity"
@@ -81,13 +84,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCWAbMtcRCU0ZBcPj2m-4s9DxeaNPEJwI0" />
-
-        <activity
-            android:name="comp3111h.anytaxi.customer.RegisterActivity"
-            android:label="@string/title_activity_register"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
-        </activity>
+            android:value="AIzaSyA6-MJX2PLN1OIjqmUcjRuquSZ9SorkSpY" />
     </application>
 
 </manifest>
