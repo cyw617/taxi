@@ -47,6 +47,12 @@ public class RegisterActivity extends ActionBarActivity
             if (formFragment == null)
                 formFragment = new Register_FormFragment();
             
+            String email = Utils.getPreference(getApplicationContext(), Utils.PREFS_ACCOUNT_KEY, null);
+            Bundle args = new Bundle();
+            args.putString(Utils.PREFS_ACCOUNT_KEY, email);
+            
+            formFragment.setArguments(args);
+            
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.register_fragment_container, formFragment)
                     .addToBackStack(null)
