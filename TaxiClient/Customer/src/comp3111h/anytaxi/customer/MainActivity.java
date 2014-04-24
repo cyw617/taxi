@@ -1,60 +1,93 @@
 package comp3111h.anytaxi.customer;
 
+import java.io.IOException;
+
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.appspot.hk_taxi.anyTaxi.model.Customer;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 public class MainActivity extends ActionBarActivity {
-    GoogleApiManager googleApiManager;
-    
-	@Override
+
+	public static final String TAG = "MainActivity"; 
+	
+    protected static GoogleAccountCredential credential;  
+    protected static AnyTaxi endpoint;
+	
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-		
-        googleApiManager = new GoogleApiManager(this);
+        credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);  
 	}
 	
 	@Override
 	protected void onStart() {
-	    super.onStart();
-        
-        googleApiManager.connect();
-
-    	Intent intent = new Intent(this, RequestActivity.class);
-        startActivity(intent);
+	    super.onStart();    
+	    new CheckLoginTask(this).execute();
 	}
 	
 	@Override
-	protected void onStop() {
-	    super.onStop();
-
-        if (googleApiManager.isConnected()) {
-            googleApiManager.disconnect();
-        }
+	protected void onResume() {
+		super.onResume();
+        Toast.makeText(this, "Checking account status, please wait...", 
+        		Toast.LENGTH_LONG).show();
 	}
+	
+	private class CheckLoginTask extends AsyncTask<Void, Void, Customer> {
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-		    Intent intent = new Intent(this, SettingsActivity.class);
-	        startActivity(intent);
-			return true;
+		Context context;
+		Exception exceptionThrown;
+		
+		public CheckLoginTask(Context context) {
+			this.context = context.getApplicationContext();
 		}
-		return super.onOptionsItemSelected(item);
+		@Override
+		protected Customer doInBackground(Void... params) {
+			String accountName = Utils.getPreference(context, Utils.PREFS_ACCOUNT_KEY, null);
+			if (accountName == null) {
+				return null;
+			}				
+			credential.setSelectedAccountName(accountName);
+			endpoint = CloudEndpointUtils.updateBuilder(
+					new AnyTaxi.Builder(
+							AndroidHttp.newCompatibleTransport(),
+							new JacksonFactory(),
+							credential)).build();
+			try {
+				Customer result = endpoint.getCustomer(accountName).execute();
+				return result;
+			} catch (IOException e) {
+				exceptionThrown = e;
+				return null;
+			}			
+		}
+		
+		@Override
+		protected void onPostExecute(Customer result) {
+			super.onPostExecute(result);
+			if (exceptionThrown != null) {
+				CloudEndpointUtils.logAndShow(MainActivity.this, TAG, exceptionThrown);
+				return;
+			}
+			if (result == null) {
+				Intent intent = new Intent(this.context, LoginActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(intent);
+			} else {
+				Intent intent = new Intent(this.context, RequestActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(intent);
+			}
+		}
+		
 	}
 }

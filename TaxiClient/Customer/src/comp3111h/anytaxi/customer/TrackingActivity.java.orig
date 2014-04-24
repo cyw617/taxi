@@ -38,16 +38,16 @@ public class TrackingActivity extends ActionBarActivity{
         
         Double latDouble = 22.3367;
         Double lngDouble = 114.2639;
-<<<<<<< HEAD
+
         
-=======
+
         LatLng locationNew = new LatLng(latDouble,lngDouble);
         CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,6);
         mMap.animateCamera(cameraup);
         
         
         final Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(22.3367, 114.2639)));
->>>>>>> bf7e40ed4ffc34f488e49a08745bfa9f3dc87691
+
         
 		final Handler h = new Handler();
 		final int delay = 1000; //milliseconds
@@ -76,15 +76,7 @@ public class TrackingActivity extends ActionBarActivity{
 		    }
 		}, delay);
         
-        
-<<<<<<< HEAD
-        
-		
-        
-        
-        
-=======
->>>>>>> bf7e40ed4ffc34f488e49a08745bfa9f3dc87691
+       
 	}
 	
 	public void goBack(View view){

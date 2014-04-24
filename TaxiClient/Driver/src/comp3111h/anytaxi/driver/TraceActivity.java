@@ -1,8 +1,22 @@
 package comp3111h.anytaxi.driver;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
+import comp3111h.anytaxi.driver.LocationUtils;
+
+import comp3111h.anytaxi.driver.R;
+import comp3111h.anytaxi.driver.TraceActivity.ErrorDialogFragment;
+import comp3111h.anytaxi.driver.TraceActivity;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

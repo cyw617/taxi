@@ -1,21 +1,13 @@
 package comp3111h.anytaxi.customer;
 
-import java.io.IOException;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi.GetDriver;
-import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

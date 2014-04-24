@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <EditText android:id="@+id/futureDestination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter destination" />
+    
+     <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:calendarViewShown="false" />
+    
+    <TimePicker 
+        android:id="@+id/timePicker"  
+    	android:layout_width="wrap_content"   
+    	android:layout_height="wrap_content"  
+    	android:layout_gravity="center_horizontal" /> 
+    
+    <Button 
+        android:id ="@+id/goback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Go Back"
+        android:onClick="goBack"/>
+    
+</LinearLayout>
