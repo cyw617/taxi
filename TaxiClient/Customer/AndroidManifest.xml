@@ -81,7 +81,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyA6-MJX2PLN1OIjqmUcjRuquSZ9SorkSpY" />
+            android:value="AIzaSyCWAbMtcRCU0ZBcPj2m-4s9DxeaNPEJwI0" />
 
         <activity
             android:name="comp3111h.anytaxi.customer.RegisterActivity"
