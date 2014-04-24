@@ -16,6 +16,8 @@ public class RegisterActivity extends ActionBarActivity
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "Registration process starts.");
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         

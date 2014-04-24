@@ -1,18 +1,21 @@
 <resources>
 
     <string name="register_ActivityTitle">Registration</string>
+    
+    <string name="register_signing_up">Signing up&#8230;</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in_register"><b>Sign in</b> or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="action_forgot_password">Recover lost password</string>
-    <string name="login_progress_signing_in">Signing in&#8230;</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="register_email">Your Email:</string>
+    <string name="register_email_hint">Email</string>
+    <string name="register_name">Please tell us your name :)</string>
+    <string name="register_first_name_hint">First Name</string>
+    <string name="register_last_name_hint">Last Name</string>
+    <string name="register_phone">How can a driver contact you?</string>
+    <string name="register_phone_hint">Phone Number</string>
+    <string name="register_confirm_btn">Sign-up</string>
+    <string name="register_error_invalid_email">This email address is invalid</string>
+    <string name="register_error_invalid_password">This password is too short</string>
+    <string name="register_error_incorrect_password">This password is incorrect</string>
+    <string name="register_error_field_required">This field is required</string>
     
     <string name="register_Agreement_Text">
 		<![CDATA[
@@ -54,7 +57,5 @@
 		]]>
 	</string>
     <string name="register_Agreement_Chkbox">I agree to the terms and conditions.</string>
-    
-    <string name="register_Confirm_Btn">Sign-up</string>
 
 </resources>
