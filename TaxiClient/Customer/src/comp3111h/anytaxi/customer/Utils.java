@@ -78,10 +78,19 @@ public class Utils {
     		return;
     	Utils.customer = customer;
     	Utils.putPreference(context, Utils.PREFS_ACCOUNT_KEY, customer.getEmail());
-		Utils.putPreference(context, Utils.PREFS_NAME_KEY, customer.getName());
-		Utils.putPreference(context, Utils.PREFS_TEL_KEY, customer.getPhoneNumber().getNumber());
-		Utils.putPreference(context, Utils.PREFS_DEVICE_INFO_KEY, customer.getDeviceRegistrationID());
-		Utils.putPreference(context, Utils.PREFS_REGDATE_KEY, customer.getRegDate().toString());
+		Utils.putPreference(context, Utils.PREFS_NAME_KEY, customer.getName());    
+		
+    	if (customer.getPhoneNumber() != null) {
+    		Utils.putPreference(context, Utils.PREFS_TEL_KEY, customer.getPhoneNumber().getNumber());
+    	} else {
+    		Utils.putPreference(context, Utils.PREFS_TEL_KEY, "");
+    	}
+    	
+    	if (customer.getRegDate() != null) {
+    		Utils.putPreference(context, Utils.PREFS_REGDATE_KEY, customer.getRegDate().toString());
+    	} else {
+    		Utils.putPreference(context, Utils.PREFS_REGDATE_KEY, "");
+    	}
     }
     
     /**
