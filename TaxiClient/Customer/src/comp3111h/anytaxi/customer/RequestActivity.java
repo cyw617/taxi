@@ -141,7 +141,6 @@ public class RequestActivity extends ActionBarActivity implements
 	}
 
 
-<<<<<<< HEAD
 	/*
 	 * Called when the Activity is restarted, even before it becomes visible.
 	 */
