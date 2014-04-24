@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.model.Customer;
@@ -131,6 +132,11 @@ public class LoginActivity extends ActionBarActivity {
 				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				 context.startActivity(intent);
 			 } else {
+				Utils.updateCustomer(context, result);
+				
+				// TODO: remove this in the final version
+				Toast.makeText(context, result.toString(), Toast.LENGTH_LONG).show();
+				
 				 Intent intent = new Intent(this.context, RequestActivity.class);
 				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				 // TODO: since RequestActivity currently has a bug, we display the message 
