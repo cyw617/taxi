@@ -1,35 +1,36 @@
 package comp3111h.anytaxi.customer;
 
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.widget.Toast;
+import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi.GetDriver;
+import com.appspot.hk_taxi.anyTaxi.model.Driver;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 public final class LocationUtils {
 
     // Debugging tag for the application
-    public static final String APPTAG = "MapIntRyan";
+    public static final String APPTAG = "AnyTaxiCustomer";
 
     // Name of shared preferences repository that stores persistent state
     public static final String SHARED_PREFERENCES =
-            "com.mapintryan.SHARED_PREFERENCES";
+            "comp3111h.anytaxi.customer.SHARED_PREFERENCES";
 	
     // Key for storing the "updates requested" flag in shared preferences
     public static final String KEY_UPDATES_REQUESTED =
-            "com.mapintryan.KEY_UPDATES_REQUESTED";
-    
-    /*
-     * Define a request code to send to Google Play services
-     * This code is returned in Activity.onActivityResult
-     */
-    public final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+            "comp3111h.anytaxi.customer.KEY_UPDATES_REQUESTED";
     
     /*
      * Constants for location update parameters
@@ -57,37 +58,6 @@ public final class LocationUtils {
     
     
     
-    public static class ErrorDialogFragment extends DialogFragment {
-
-        // Global field to contain the error dialog
-        private Dialog mDialog;
-
-        /**
-         * Default constructor. Sets the dialog field to null
-         */
-        public ErrorDialogFragment() {
-            super();
-            mDialog = null;
-        }
-
-        /**
-         * Set the dialog to display
-         *
-         * @param dialog An error dialog
-         */
-        public void setDialog(Dialog dialog) {
-            mDialog = dialog;
-        }
-
-        /*
-         * This method must return a Dialog to the DialogFragment.
-         */
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            return mDialog;
-        }
-    }
-    
     /**
      * Get the latitude and longitude from the Location object returned by
      * Location Services.
@@ -111,28 +81,9 @@ public final class LocationUtils {
             return EMPTY_STRING;
         }
     }
-    
-	public static void showError(final Activity activity, String message) {
-	  final String errorMessage = message == null ? "Error" : "[Error ] "
-	      + message;
-	  activity.runOnUiThread(new Runnable() {
-	    public void run() {
-	      Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG)
-	          .show();
-	    }
-	  });
-	}
-
+ 
 	public static GoogleMap mMap;
 
-	/*CURRENT LOCATION INFO VAR END*/
-	
-	/*Variables for transmitting msg to server*/
-	static AnyTaxi endpoint;
-	static String accountName;
-	static GoogleAccountCredential credential;
-	static final String WEB_CLIENT_ID = "1072316261853-u0gafkut9f919bau91gh9bgjb9555hh2.apps.googleusercontent.com"; 
-	static final int REQUEST_ACCOUNT_PICKER = 1; 
-	/*Variables for transmitting msg to server*/
+
  
 }
