@@ -141,7 +141,7 @@ public class LoginActivity extends ActionBarActivity {
 				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				 // TODO: since RequestActivity currently has a bug, we display the message 
 				 // from server instead.
-				 // context.startActivity(intent);
+				 context.startActivity(intent);
 				 CloudEndpointUtils.logAndShow(LoginActivity.this, TAG, "Successfully logged in!");
 			 }
 		 }
