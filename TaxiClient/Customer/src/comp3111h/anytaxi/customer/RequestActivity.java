@@ -62,6 +62,7 @@ public class RequestActivity extends ActionBarActivity implements
 	static TextView mConnectionState;
 	static TextView mConnectionStatus;
 	static TextView mAddress;
+	static TextView mLatLng;
 	static ProgressBar mActivityIndicator;
 	
 	
@@ -84,6 +85,7 @@ public class RequestActivity extends ActionBarActivity implements
 		mConnectionState = (TextView) findViewById(R.id.text_connection_state);
 		mConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
 		mAddress = (TextView) findViewById(R.id.address);
+		mLatLng = (TextView) findViewById(R.id.lat_lng);
 		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
 		
 		
