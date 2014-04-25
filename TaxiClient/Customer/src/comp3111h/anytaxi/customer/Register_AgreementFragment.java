@@ -58,8 +58,10 @@ public class Register_AgreementFragment extends Fragment {
     }
     
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
+        
+        Log.i(TAG, "User is reading the agreemnet.");
 
         agreement_Chkbox.setChecked(false);
     }

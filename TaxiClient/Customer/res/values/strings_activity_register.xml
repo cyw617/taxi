@@ -2,20 +2,22 @@
 
     <string name="register_ActivityTitle">Registration</string>
     
-    <string name="register_signing_up">Signing up&#8230;</string>
+    <string name="register_signing_up">Signing up&#8230;&#8230;</string>
 
     <string name="register_email">Your Email:</string>
     <string name="register_email_hint">Email</string>
     <string name="register_name">Please tell us your name :)</string>
     <string name="register_first_name_hint">First Name</string>
     <string name="register_last_name_hint">Last Name</string>
-    <string name="register_phone">How can a driver contact you?</string>
+    <string name="register_phone">How could a driver contact you?</string>
     <string name="register_phone_hint">Phone Number</string>
+    <string name="register_error_required_field">This is required.</string>
+    <string name="register_error_only_alphabet">Only A-Z, a-z, and space are allowed.</string>
+    <string name="register_error_only_number">Only numbers are allowed.</string>
+    <string name="register_error_unreal_name">Please provide a real name.</string>
+    <string name="register_error_unreal_phone">Please provide a real phone number.</string>
+    <string name="register_error_mobile_phone">We would like to have your mobile phone number.</string>
     <string name="register_confirm_btn">Sign-up</string>
-    <string name="register_error_invalid_email">This email address is invalid</string>
-    <string name="register_error_invalid_password">This password is too short</string>
-    <string name="register_error_incorrect_password">This password is incorrect</string>
-    <string name="register_error_field_required">This field is required</string>
     
     <string name="register_Agreement_Text">
 		<![CDATA[

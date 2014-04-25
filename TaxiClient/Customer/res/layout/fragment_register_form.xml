@@ -54,6 +54,7 @@
 			    android:layout_height="wrap_content"
 			    android:hint="@string/register_first_name_hint"
 			    android:inputType="textPersonName"
+			    android:maxLength="25"
 			    android:maxLines="1"
 			    android:singleLine="true" />
 	
@@ -63,6 +64,7 @@
 			    android:layout_height="wrap_content"
 			    android:hint="@string/register_last_name_hint"
 			    android:inputType="textPersonName"
+			    android:maxLength="25"
 			    android:maxLines="1"
 			    android:singleLine="true" />
 
@@ -88,6 +90,7 @@
 			    android:layout_height="wrap_content"
 			    android:hint="@string/register_phone_hint"
 			    android:inputType="phone"
+			    android:maxLength="8"
 			    android:maxLines="1"
 			    android:singleLine="true" />
 			
