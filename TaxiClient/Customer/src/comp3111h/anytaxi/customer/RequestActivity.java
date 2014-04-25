@@ -61,6 +61,9 @@ public class RequestActivity extends ActionBarActivity implements
 	//Inspecting the connection status
 	static TextView mConnectionState;
 	static TextView mConnectionStatus;
+	static TextView mAddress;
+	static ProgressBar mActivityIndicator;
+	
 	
 	// Stores the current instantiation of the location client in this object
 	private LocationClient mLocationClient;
@@ -78,9 +81,11 @@ public class RequestActivity extends ActionBarActivity implements
 				*/
 		
 		mLocationClient = new LocationClient(this, this, this);
-		
 		mConnectionState = (TextView) findViewById(R.id.text_connection_state);
 		mConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
+		mAddress = (TextView) findViewById(R.id.address);
+		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
+		
 		
 		LocationUtils.mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		LocationUtils.mMap.setMyLocationEnabled(true);
@@ -134,9 +139,9 @@ public class RequestActivity extends ActionBarActivity implements
 		CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
 		LocationUtils.mMap.animateCamera(cameraup);
 		
-		/*
-		getAddress();
-		*/
+		
+		LocationUtils.getAddress(this,currentLoc);
+		
 	}
 	
 	@Override
