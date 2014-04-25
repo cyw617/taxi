@@ -89,7 +89,7 @@ public class Utils {
     	if (customer.getRegDate() != null) {
     		Utils.putPreference(context, Utils.PREFS_REGDATE_KEY, customer.getRegDate().toString());
     	} else {
-    		Utils.putPreference(context, Utils.PREFS_REGDATE_KEY, "");
+    		Utils.putPreference(context, Utils.PREFS_REGDATE_KEY, null);
     	}
     }
     
