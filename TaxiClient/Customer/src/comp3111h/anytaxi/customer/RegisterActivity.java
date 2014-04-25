@@ -3,6 +3,7 @@ package comp3111h.anytaxi.customer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 public class RegisterActivity extends ActionBarActivity
         implements Register_AgreementFragment.OnAgreementCheckedListener {
@@ -16,8 +17,6 @@ public class RegisterActivity extends ActionBarActivity
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "Registration process starts.");
-        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         
@@ -35,6 +34,15 @@ public class RegisterActivity extends ActionBarActivity
                         .add(R.id.register_fragment_container, agreementFragment).commit();
             }
         }
+    }
+    
+    @Override
+    public void onStart() {
+        super.onStart();
+        
+        Log.i(TAG, "Registration process begins.");
+
+        Toast.makeText(this, "Please sign up to enjoy AnyTaxi :)", Toast.LENGTH_SHORT).show();
     }
     
     @Override
