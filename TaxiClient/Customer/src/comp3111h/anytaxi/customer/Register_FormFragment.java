@@ -2,6 +2,9 @@ package comp3111h.anytaxi.customer;
 
 import java.util.ArrayList;
 
+import com.appspot.hk_taxi.anyTaxi.model.Customer;
+import com.appspot.hk_taxi.anyTaxi.model.PhoneNumber;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -23,23 +26,29 @@ public class Register_FormFragment extends Fragment {
     private final static int PHONE = 3;
     private final static int NUM_OF_FIELD = 4;
     
-    private ArrayList<EditText> rField = new ArrayList<EditText>(NUM_OF_FIELD);
+    private ArrayList<EditText> rField;
     private Button rConfirm_Btn;
     
-    private ArrayList<String> rInput = new ArrayList<String>(NUM_OF_FIELD);
+    private ArrayList<String> rInput;
+    
+    private Customer rCustomer;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_register_form, container, false);
+        rCustomer = new Customer();
         
+        View view = inflater.inflate(R.layout.fragment_register_form, container, false);
+
+        rField = new ArrayList<EditText>(NUM_OF_FIELD);
         rField.add(EMAIL, (EditText) view.findViewById(R.id.register_email));
         rField.add(FIRSTNAME, (EditText) view.findViewById(R.id.register_first_name));
         rField.add(LASTNAME, (EditText) view.findViewById(R.id.register_last_name));
         rField.add(PHONE, (EditText) view.findViewById(R.id.register_phone));
         rConfirm_Btn = (Button) view.findViewById(R.id.register_confirm_btn);
-        
-        rInput.add(EMAIL, getArguments().getString(Utils.PREFS_ACCOUNT_KEY));
+
+        rInput = new ArrayList<String>(NUM_OF_FIELD);
+        rInput.add(EMAIL, Utils.getPreference(getActivity().getApplicationContext(), Utils.PREFS_ACCOUNT_KEY, null));
         rInput.add(FIRSTNAME, null);
         rInput.add(LASTNAME, null);
         rInput.add(PHONE, null);
@@ -93,10 +102,26 @@ public class Register_FormFragment extends Fragment {
         // Cancel the registration attempt
         // if any input is invalid.
         if (isCancelled) {
+            Log.i(TAG, "Registration has not been accepted, due to invalid inputs.");
+            
             return;
         }
         
+        // TODO: Signing-up message
         
+        // Create a customer model
+        // TODO: rCustomer.setDeviceRegistrationID(deviceRegistrationID);
+        rCustomer.setEmail(rInput.get(EMAIL));
+        rCustomer.setName(rInput.get(FIRSTNAME) + ", " + rInput.get(LASTNAME));
+        rCustomer.setPhoneNumber(new PhoneNumber().setNumber(rInput.get(PHONE)));
+        // TODO: rCustomer.setRegDate(regDate);
+        
+        // Store the user information into sharedPreference
+        Log.i(TAG, "Registration information is saving into sharedPreference.");
+        
+        Utils.updateCustomer(getActivity(), rCustomer);
+        
+        // TODO: Register the user to the server
     }
     
     private boolean isValid(final int field) {
@@ -146,6 +171,10 @@ public class Register_FormFragment extends Fragment {
             rName_Field.setError(getString(R.string.register_error_unreal_name));
             return false;
         }
+        
+        // TODO: Make the name more appealing
+        // remove last "space"
+        // capitalize first letter
         
         return true;
     }
