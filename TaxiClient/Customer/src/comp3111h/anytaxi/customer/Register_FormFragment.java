@@ -2,13 +2,7 @@ package comp3111h.anytaxi.customer;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.model.Customer;
-import com.appspot.hk_taxi.anyTaxi.model.PhoneNumber;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +18,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.appspot.hk_taxi.anyTaxi.model.Customer;
+import com.appspot.hk_taxi.anyTaxi.model.PhoneNumber;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 public class Register_FormFragment extends Fragment {
     
@@ -165,8 +166,8 @@ public class Register_FormFragment extends Fragment {
         case FIRSTNAME:
         case LASTNAME:
             rName_Field = rField.get(field);
-            rInput.set(field, rName_Field.getText().toString());
-            rName_Input = rInput.get(field);
+            rName_Input = nameBeautifier(rName_Field.getText().toString());
+            rInput.set(field, rName_Input);
             break;
         default:
             Log.e(TAG, "Invalid Name Field: " + field);
@@ -190,13 +191,9 @@ public class Register_FormFragment extends Fragment {
             return false;
         }
         
-        // TODO: Make the name more appealing
-        // remove last "space"
-        // capitalize first letter
-        
         return true;
     }
-    
+
     private boolean isValidPhone() {
         EditText rPhone_Field;
         String rPhone_Input;
@@ -221,8 +218,28 @@ public class Register_FormFragment extends Fragment {
             rPhone_Field.setError(getString(R.string.register_error_unreal_phone));
             return false;
         }
+        if (rPhone_Input.charAt(0) != '5'
+                && rPhone_Input.charAt(0) != '6'
+                && rPhone_Input.charAt(0) != '9') {
+            rPhone_Field.setError(getString(R.string.register_error_mobile_phone));
+            return false;
+        }
         
         return true;
+    }
+    
+    // Beautify a name by
+    // trimming the white spaces at the front and back,
+    // and capitalizing the first letter of each word
+    private String nameBeautifier(String name) {
+        String[] partialNames = TextUtils.split(name.trim().toUpperCase(Locale.getDefault()), " +");
+        for (int i = 0; i < partialNames.length; i++)
+            partialNames[i] = partialNames[i].charAt(0)
+                    + partialNames[i].substring(1).toLowerCase(Locale.getDefault());
+        
+        name = TextUtils.join(" ", partialNames);
+        
+        return name;
     }
     
     private class RegistrationTask extends AsyncTask<Void, Void, Void> {
