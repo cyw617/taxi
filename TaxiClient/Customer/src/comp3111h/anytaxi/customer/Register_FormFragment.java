@@ -1,10 +1,18 @@
 package comp3111h.anytaxi.customer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.model.Customer;
 import com.appspot.hk_taxi.anyTaxi.model.PhoneNumber;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -15,10 +23,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Register_FormFragment extends Fragment {
     
     public static String TAG = "Register_FormFragment";
+    
+    private static GoogleAccountCredential credential;
+    private static AnyTaxi endpoint;
     
     private final static int EMAIL = 0;
     private final static int FIRSTNAME = 1;
@@ -76,10 +88,12 @@ public class Register_FormFragment extends Fragment {
     }
     
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
 
         Log.i(TAG, "User is filling the registration form.");
+        
+        credential = GoogleAccountCredential.usingAudience(getActivity(), Utils.AUDIENCE);
     }
     
     private void attemptRegister() {
@@ -102,17 +116,18 @@ public class Register_FormFragment extends Fragment {
         // Cancel the registration attempt
         // if any input is invalid.
         if (isCancelled) {
-            Log.i(TAG, "Registration has not been accepted, due to invalid inputs.");
+            Log.i(TAG, "Registration has not been accepted due to invalid inputs.");
             
             return;
         }
         
-        // TODO: Signing-up message
+        // Show a message to tell user that sign-up is under progress
+        Toast.makeText(getActivity(), getString(R.string.register_signing_up), Toast.LENGTH_LONG).show();
         
         // Create a customer model
         // TODO: rCustomer.setDeviceRegistrationID(deviceRegistrationID);
         rCustomer.setEmail(rInput.get(EMAIL));
-        rCustomer.setName(rInput.get(FIRSTNAME) + ", " + rInput.get(LASTNAME));
+        rCustomer.setName(rInput.get(FIRSTNAME) + " " + rInput.get(LASTNAME));
         rCustomer.setPhoneNumber(new PhoneNumber().setNumber(rInput.get(PHONE)));
         // TODO: rCustomer.setRegDate(regDate);
         
@@ -121,7 +136,10 @@ public class Register_FormFragment extends Fragment {
         
         Utils.updateCustomer(getActivity(), rCustomer);
         
-        // TODO: Register the user to the server
+        // Register the user to the server
+        Log.i(TAG, "Registration information is sending to server.");
+        
+        new RegistrationTask(getActivity()).execute();
     }
     
     private boolean isValid(final int field) {
@@ -205,5 +223,53 @@ public class Register_FormFragment extends Fragment {
         }
         
         return true;
+    }
+    
+    private class RegistrationTask extends AsyncTask<Void, Void, Void> {
+        
+        private Context context;
+        private Exception exception;
+        
+        protected RegistrationTask(Context context) {
+            this.context = context;
+        }
+        
+        @Override
+        protected Void doInBackground(Void... params) {
+            credential.setSelectedAccountName(rCustomer.getEmail());
+            endpoint = CloudEndpointUtils.updateBuilder(
+                    new AnyTaxi.Builder(
+                            AndroidHttp.newCompatibleTransport(),
+                            new JacksonFactory(),
+                            credential))
+                            .build();
+            
+            try {
+                endpoint.addCustomer(rCustomer).execute();
+            } catch (IOException e) {
+                exception = e;
+            }
+            
+            return null;
+        }
+        
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (exception != null) {
+                CloudEndpointUtils.logAndShow(getActivity(), TAG, exception);
+                return;
+            }
+            
+            Intent intent = new Intent(this.context, RequestActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            // TODO: since RequestActivity currently has a bug, we display the message
+            // from server instead.
+            // context.startActivity(intent);
+
+            Toast.makeText(context, "Congrats! You've signed up!", Toast.LENGTH_SHORT).show();
+            
+            Log.i(TAG, "Sign-up progress is completed.");
+        }
     }
 }
