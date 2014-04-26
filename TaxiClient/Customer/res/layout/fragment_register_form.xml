@@ -53,7 +53,7 @@
 			    android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
 			    android:hint="@string/register_first_name_hint"
-			    android:inputType="textPersonName"
+			    android:inputType="textCapWords|textPersonName"
 			    android:maxLength="25"
 			    android:maxLines="1"
 			    android:singleLine="true" />
@@ -63,7 +63,7 @@
 			    android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
 			    android:hint="@string/register_last_name_hint"
-			    android:inputType="textPersonName"
+			    android:inputType="textCapWords|textPersonName"
 			    android:maxLength="25"
 			    android:maxLines="1"
 			    android:singleLine="true" />
