@@ -74,9 +74,12 @@ public class Utils {
      * @param cutomer customer information to store in shared preferences
      */
     public static void updateCustomer(Context context, Customer customer) {		
-    	if (customer == null || customer.getEmail() == null)
-    		return;
-    	Utils.customer = customer;
+    	if (customer == null || customer.getEmail() == null) {
+    		Utils.customer = null;
+    		customer = new Customer();
+    	} else {
+    	   	Utils.customer = customer;
+    	}
     	Utils.putPreference(context, Utils.PREFS_ACCOUNT_KEY, customer.getEmail());
 		Utils.putPreference(context, Utils.PREFS_NAME_KEY, customer.getName());    
 		
@@ -117,6 +120,7 @@ public class Utils {
     	}
 
     	if (customer.getEmail() != null) {
+    		Utils.customer = customer;
     		return customer; 
     	} else {
     		return null;

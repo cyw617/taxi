@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -31,21 +33,40 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	@Override
-	protected void onStart() {
+	public void onStart() {
 	    super.onStart();    
 		if (Utils.customer == null) {
 			Intent intent = new Intent(this, LoginActivity.class);
 			startActivity(intent);
-		} else {			
-			new CheckLoginTask(this).execute();
 		}
 	}
 	
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
-        Toast.makeText(this, "Checking account status, please wait...", 
-        		Toast.LENGTH_LONG).show();
+		if (!isOnline()) {
+			Toast.makeText(this, "Unable to connect to Internet.", Toast.LENGTH_LONG).show();
+		} else {			
+			new CheckLoginTask(this).execute();
+	        Toast.makeText(this, "Checking account status, please wait...", 
+	        		Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	// start Activity from AsnycTask will make test fail
+	// So move it here
+	public void startActivityViaIntent(Intent intent) {
+		startActivity(intent);
+	}
+	
+	public boolean isOnline() {
+	    ConnectivityManager cm =
+	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
 	}
 	
 	private class CheckLoginTask extends AsyncTask<Void, Void, Customer> {
@@ -82,16 +103,16 @@ public class MainActivity extends ActionBarActivity {
 			}
 			if (result == null) {
 				Intent intent = new Intent(this.context, LoginActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(intent);
+				// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivityViaIntent(intent);
 			} else {
 				Utils.updateCustomer(context, result);
 				Intent intent = new Intent(this.context, RequestActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				 // TODO: since RequestActivity currently has a bug, we display the message 
-				 // from server instead.
-				 // context.startActivity(intent);
-				 CloudEndpointUtils.logAndShow(MainActivity.this, TAG, "Successfully logged in!");
+				// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				// TODO: since RequestActivity currently has a bug, we display the message 
+				// from server instead.
+				startActivityViaIntent(intent);
+				CloudEndpointUtils.logAndShow(MainActivity.this, TAG, "Successfully logged in!");
 			}
 		}
 		
