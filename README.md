@@ -18,3 +18,5 @@ ant clean emma build install test
 
 And the coverage report is available in
 <code>AnyTaxi_Customer_Test/bin/coverage.html</code>
+
+Remember to have your phone/emulator on!
