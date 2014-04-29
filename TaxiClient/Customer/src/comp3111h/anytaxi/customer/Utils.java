@@ -2,6 +2,8 @@ package comp3111h.anytaxi.customer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import com.appspot.hk_taxi.anyTaxi.model.Customer;
@@ -30,7 +32,7 @@ public class Utils {
     static final String WEB_CLIENT_ID = "1072316261853-u0gafkut9f919bau91gh9bgjb9555hh2."
 			+ "apps.googleusercontent.com";
     static final String AUDIENCE = "server:client_id:" + WEB_CLIENT_ID; 
-    static final int REQUEST_ACCOUNT_PICKER = 1;
+    public static final int REQUEST_ACCOUNT_PICKER = 1;
         
     /**
      * Called to save supplied value in shared preferences against given key.
@@ -126,4 +128,14 @@ public class Utils {
     		return null;
     	}
     }
+	
+	public static boolean isOnline(Context context) {
+	    ConnectivityManager cm =
+	        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
+	}
 }

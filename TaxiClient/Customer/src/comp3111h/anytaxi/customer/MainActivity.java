@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (!isOnline()) {
+		if (!Utils.isOnline(this)) {
 			Toast.makeText(this, "Unable to connect to Internet.", Toast.LENGTH_LONG).show();
 		} else {			
 			new CheckLoginTask(this).execute();
@@ -57,16 +57,6 @@ public class MainActivity extends ActionBarActivity {
 	// So move it here
 	public void startActivityViaIntent(Intent intent) {
 		startActivity(intent);
-	}
-	
-	public boolean isOnline() {
-	    ConnectivityManager cm =
-	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-	        return true;
-	    }
-	    return false;
 	}
 	
 	private class CheckLoginTask extends AsyncTask<Void, Void, Customer> {

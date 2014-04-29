@@ -9,9 +9,6 @@ import android.test.ActivityUnitTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.view.ContextThemeWrapper;
 
-import com.appspot.hk_taxi.anyTaxi.model.Customer;
-import com.appspot.hk_taxi.anyTaxi.model.PhoneNumber;
-
 import comp3111h.anytaxi.customer.MainActivity;
 import comp3111h.anytaxi.customer.R;
 import comp3111h.anytaxi.customer.Utils;
@@ -22,23 +19,14 @@ import comp3111h.anytaxi.customer.Utils;
  */
 public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 	
-	private Customer customer;
 	private Context targetContext;
 	
 	public MainActivityTest() {		
 		super(MainActivity.class);
-		
-		customer = new Customer();
-		customer.setEmail("yibairen1994@gmail.com");
-		customer.setName("Byron");
-		PhoneNumber pn = new PhoneNumber();
-		pn.setNumber("54251109");
-		customer.setPhoneNumber(pn);
 	}
 
 	@Override
 	protected void setUp() throws Exception {
-		// TODO Auto-generated method stub
 		super.setUp();
 		targetContext = getInstrumentation().getTargetContext();
 		
@@ -69,11 +57,11 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 	@MediumTest
 	public void testRequestActivityStart() throws InterruptedException {
 		
-	    Utils.updateCustomer(targetContext, customer);
+	    Utils.updateCustomer(targetContext, TestUtils.getCustomer());
 	    assertNotNull("customer was null", Utils.getCustomer(getActivity()));
 	    
 	    getActivity().onResume();
-	    assertTrue("Unable to connect Internet", getActivity().isOnline());
+	    assertTrue("Unable to connect Internet", Utils.isOnline(getActivity()));
 	    
 	    // waiting for network response
 	    Thread.sleep(5000);
