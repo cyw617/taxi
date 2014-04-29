@@ -27,7 +27,7 @@ public class LoginActivity extends ActionBarActivity {
 	protected static AnyTaxi endpoint;
 
 	@Override
-	protected void onStart() {
+	public void onStart() {
 		super.onStart();
 		// TODO: Design a new login layout for new procedure
 		// setContentView(R.layout.activity_login);        
@@ -46,16 +46,24 @@ public class LoginActivity extends ActionBarActivity {
 
 		switch (requestCode) {
 		case Utils.REQUEST_ACCOUNT_PICKER:        
-			if (intent != null) {
+			if (intent != null && resultCode == RESULT_OK) {
 				String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-				Utils.putPreference(this, Utils.PREFS_ACCOUNT_KEY, accountName);    
-				new CheckLoginTask(this).execute();
-			}
+				Utils.putPreference(this, Utils.PREFS_ACCOUNT_KEY, accountName);   
+			} else {
+				Utils.putPreference(this, Utils.PREFS_ACCOUNT_KEY, null);  
+			} 
+			new CheckLoginTask(this).execute();
 			break;
 
 		default:
 			Log.e(TAG, getString(R.string.unknown_activity_request_code, requestCode));
 		}
+	}
+	
+	// start Activity from AsnycTask will make test fail
+	// So move it here
+	public void startActivityViaIntent(Intent intent) {
+		startActivity(intent);
 	}
 
 	private void exit() {
@@ -129,8 +137,7 @@ public class LoginActivity extends ActionBarActivity {
 			 }
 			 if (result == null) {
 				 Intent intent = new Intent(this.context, RegisterActivity.class);
-				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				 context.startActivity(intent);
+				 startActivityViaIntent(intent);
 			 } else {
 				Utils.updateCustomer(context, result);
 				
@@ -138,10 +145,9 @@ public class LoginActivity extends ActionBarActivity {
 				Toast.makeText(context, result.toString(), Toast.LENGTH_LONG).show();
 				
 				 Intent intent = new Intent(this.context, RequestActivity.class);
-				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				 // TODO: since RequestActivity currently has a bug, we display the message 
 				 // from server instead.
-				 // context.startActivity(intent);
+				 startActivityViaIntent(intent);
 				 CloudEndpointUtils.logAndShow(LoginActivity.this, TAG, "Successfully logged in!");
 			 }
 		 }
