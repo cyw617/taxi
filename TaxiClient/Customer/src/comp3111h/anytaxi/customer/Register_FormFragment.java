@@ -258,7 +258,7 @@ public class Register_FormFragment extends Fragment {
                     new AnyTaxi.Builder(
                             AndroidHttp.newCompatibleTransport(),
                             new JacksonFactory(),
-                            credential))
+                            null))
                             .build();
             
             try {

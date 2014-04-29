@@ -118,7 +118,7 @@ public class LoginActivity extends ActionBarActivity {
 					 new AnyTaxi.Builder(
 							 AndroidHttp.newCompatibleTransport(),
 							 new JacksonFactory(),
-							 credential)).build();
+							 null)).build();
 			 try {
 				 Customer result = endpoint.getCustomer(accountName).execute();
 				 return result;

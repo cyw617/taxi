@@ -4,30 +4,18 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi.GetDriver;
-import com.appspot.hk_taxi.anyTaxi.model.Driver;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.json.jackson2.JacksonFactory;
 
 public final class LocationUtils {
 

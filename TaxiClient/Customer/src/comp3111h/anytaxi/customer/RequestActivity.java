@@ -1,57 +1,21 @@
 package comp3111h.anytaxi.customer;
 
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
-import android.accounts.AccountManager;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi.GetDriver;
-import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.jackson2.JacksonFactory;
-
-import comp3111h.anytaxi.customer.ConnectionUtils.ErrorDialogFragment;
-import comp3111h.anytaxi.customer.R;
-import comp3111h.anytaxi.customer.SettingsActivity;
 
 public class RequestActivity extends ActionBarActivity implements
 	GooglePlayServicesClient.ConnectionCallbacks,

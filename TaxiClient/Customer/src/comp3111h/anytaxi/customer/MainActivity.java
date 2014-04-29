@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -74,7 +72,7 @@ public class MainActivity extends ActionBarActivity {
 					new AnyTaxi.Builder(
 							AndroidHttp.newCompatibleTransport(),
 							new JacksonFactory(),
-							credential)).build();
+							null)).build();
 			try {
 				Customer result = endpoint.getCustomer(Utils.customer.getEmail()).execute();
 				return result;
