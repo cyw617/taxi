@@ -280,9 +280,7 @@ public class Register_FormFragment extends Fragment {
             
             Intent intent = new Intent(this.context, RequestActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            // TODO: since RequestActivity currently has a bug, we display the message
-            // from server instead.
-            // context.startActivity(intent);
+            context.startActivity(intent);
 
             Toast.makeText(context, "Congrats! You've signed up!", Toast.LENGTH_SHORT).show();
             
