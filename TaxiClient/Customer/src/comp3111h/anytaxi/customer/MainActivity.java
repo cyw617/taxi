@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
 		super.onResume();
 		if (!Utils.isOnline(this)) {
 			Toast.makeText(this, "Unable to connect to Internet.", Toast.LENGTH_LONG).show();
-		} else {			
+		} else if (Utils.customer != null) {			
 			new CheckLoginTask(this).execute();
 	        Toast.makeText(this, "Checking account status, please wait...", 
 	        		Toast.LENGTH_LONG).show();

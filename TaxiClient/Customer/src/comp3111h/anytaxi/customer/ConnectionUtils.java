@@ -1,9 +1,5 @@
 package comp3111h.anytaxi.customer;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
-import comp3111h.anytaxi.customer.R.string;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,10 +7,12 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 class ConnectionUtils {
 
