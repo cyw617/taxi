@@ -32,7 +32,7 @@ public class RequestActivity extends ActionBarActivity implements
 	static TextView mLatLng;
 	static ProgressBar mActivityIndicator;
 
-	private Button moreButoon = (Button) findViewById(R.id.more);
+	private Button moreButoon;
 
 	// Stores the current instantiation of the location client in this object
 	private LocationClient mLocationClient;
@@ -57,6 +57,8 @@ public class RequestActivity extends ActionBarActivity implements
 		mLatLng = (TextView) findViewById(R.id.lat_lng);
 		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
 
+		
+		 moreButoon = (Button) findViewById(R.id.more);
 		moreButoon.setOnClickListener(createButtonListener);
 
 		LocationUtils.mMap = ((MapFragment) getFragmentManager()
