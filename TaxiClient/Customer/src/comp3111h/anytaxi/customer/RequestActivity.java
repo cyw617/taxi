@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -28,6 +30,8 @@ public class RequestActivity extends ActionBarActivity implements
 	static TextView mAddress;
 	static TextView mLatLng;
 	static ProgressBar mActivityIndicator;
+	
+	private Button moreButoon=(Button) findViewById(R.id.more);
 	
 	
 	// Stores the current instantiation of the location client in this object
