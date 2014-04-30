@@ -8,7 +8,7 @@ import android.widget.Toast;
 public class RegisterActivity extends ActionBarActivity
         implements Register_AgreementFragment.OnAgreementCheckedListener {
     
-    public static String TAG = "RegisterActivity";
+    public final static String TAG = "RegisterActivity";
     
     private boolean agreement_isChecked = false;
     
@@ -32,6 +32,7 @@ public class RegisterActivity extends ActionBarActivity
                 
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.register_fragment_container, agreementFragment).commit();
+                getSupportFragmentManager().executePendingTransactions();
             }
         }
     }
@@ -59,6 +60,7 @@ public class RegisterActivity extends ActionBarActivity
                     .replace(R.id.register_fragment_container, formFragment)
                     .addToBackStack(null)
                     .commit();
+            getSupportFragmentManager().executePendingTransactions();
         }
     }
 }
