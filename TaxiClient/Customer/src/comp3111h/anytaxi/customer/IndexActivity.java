@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,6 +13,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -48,19 +52,20 @@ public class IndexActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
+		super.onCreateOptionsMenu(menu);
+
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
-	// private OnClickListener createButtonListener = new OnClickListener()
-	// {
-	// @Override
-	// public void onClick(View v)
-	// {
-	// insertTask client = new insertTask();
-	// client.execute(); // pass selected Button to submitGuess
-	// } // end method onClick
-	// };
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		// create a new Intent to launch the AddEditContact Activity
+		Intent addNewContact = new Intent(IndexActivity.this, deleteOrder.class);
+		startActivity(addNewContact); // start the AddEditContact Activity
+		return super.onOptionsItemSelected(item); // call super's method
+	}
 
 	private OnClickListener callListener = new OnClickListener()
 	{

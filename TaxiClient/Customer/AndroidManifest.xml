@@ -87,6 +87,13 @@
             android:name="comp3111h.anytaxi.customer.IndexActivity"
             android:label="activity_index" >
         </activity>
+        
+        <activity
+            android:name="comp3111h.anytaxi.customer.deleteOrder"
+            android:label="activity_create" >
+        </activity>
+        
+        
         <activity
             android:name="comp3111h.anytaxi.customer.CreatActivity"
             android:label="activity_create" >
