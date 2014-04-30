@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 
 import com.google.android.gms.common.ConnectionResult;
@@ -81,6 +84,19 @@ public class RequestActivity extends ActionBarActivity implements
 		mLocationClient.disconnect();
 		super.onStop();
 	}
+	
+	
+	
+	private OnClickListener createButtonListener = new OnClickListener()
+	{
+		@Override
+		public void onClick(View v)
+		{
+			Intent TestGroupMessageTable = new Intent(RequestActivity.this,
+					IndexActivity.class);
+			startActivity(TestGroupMessageTable);
+		}
+	};
 	
 	
 	@Override
