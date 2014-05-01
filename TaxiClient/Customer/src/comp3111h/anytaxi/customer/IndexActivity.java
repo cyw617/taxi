@@ -62,7 +62,7 @@ public class IndexActivity extends Activity
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		// create a new Intent to launch the AddEditContact Activity
-		Intent addNewContact = new Intent(IndexActivity.this, deleteOrder.class);
+		Intent addNewContact = new Intent(IndexActivity.this, DeleteOrder.class);
 		startActivity(addNewContact); // start the AddEditContact Activity
 		return super.onOptionsItemSelected(item); // call super's method
 	}

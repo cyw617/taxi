@@ -89,7 +89,7 @@
         </activity>
         
         <activity
-            android:name="comp3111h.anytaxi.customer.deleteOrder"
+            android:name="comp3111h.anytaxi.customer.DeleteOrder"
             android:label="activity_create" >
         </activity>
         

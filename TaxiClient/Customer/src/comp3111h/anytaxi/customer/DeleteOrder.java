@@ -16,7 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class deleteOrder extends Activity
+public class DeleteOrder extends Activity
 {
 	static String host = "143.89.168.85";
 	static int port = 4578;
