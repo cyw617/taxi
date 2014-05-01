@@ -81,10 +81,27 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comp3111h.anytaxi.customer.RequestActivity" />
         </activity>
+        
+       
+        <activity
+            android:name="comp3111h.anytaxi.customer.IndexActivity"
+            android:label="activity_index" >
+        </activity>
+        
+        <activity
+            android:name="comp3111h.anytaxi.customer.DeleteOrder"
+            android:label="activity_create" >
+        </activity>
+        
+        
+        <activity
+            android:name="comp3111h.anytaxi.customer.CreatActivity"
+            android:label="activity_create" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyA6-MJX2PLN1OIjqmUcjRuquSZ9SorkSpY" />
+            android:value="AIzaSyCaTG0EAUG_Y72shEWl_bICBH4wCO9t8eE" />
     </application>
 
 </manifest>

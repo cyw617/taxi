@@ -1,169 +1,248 @@
 package comp3111h.anytaxi.customer;
 
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
-import android.accounts.AccountManager;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi.GetDriver;
+import com.appspot.hk_taxi.anyTaxi.model.Customer;
 import com.appspot.hk_taxi.anyTaxi.model.Driver;
+import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.jackson2.JacksonFactory;
-
-import comp3111h.anytaxi.customer.ConnectionUtils.ErrorDialogFragment;
-import comp3111h.anytaxi.customer.R;
-import comp3111h.anytaxi.customer.SettingsActivity;
 
 public class RequestActivity extends ActionBarActivity implements
-	GooglePlayServicesClient.ConnectionCallbacks,
-	GooglePlayServicesClient.OnConnectionFailedListener{
-	
-	//Temporary Variable
-	//Inspecting the connection status
+		GooglePlayServicesClient.ConnectionCallbacks,
+		GooglePlayServicesClient.OnConnectionFailedListener
+{
+
+	// Temporary Variable
+	// Inspecting the connection status
 	static TextView mConnectionState;
 	static TextView mConnectionStatus;
 	static TextView mAddress;
 	static TextView mLatLng;
 	static ProgressBar mActivityIndicator;
 	
-	
+	//Memorize the current locatipon in this activity
+	Location curLocGlobal;
+
+	private Button moreButoon;
+
 	// Stores the current instantiation of the location client in this object
 	private LocationClient mLocationClient;
-	
-	
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState){
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_request);
-		
-		//Identity user's identity, used to communicate with the server
+
+		// Identity user's identity, used to communicate with the server
 		/*
-		CustomerAccountInfo.credential = GoogleAccountCredential.usingAudience(this,
-				"server:client_id:" + CustomerAccountInfo.WEB_CLIENT_ID);
-				*/
-		
+		 * CustomerAccountInfo.credential =
+		 * GoogleAccountCredential.usingAudience(this, "server:client_id:" +
+		 * CustomerAccountInfo.WEB_CLIENT_ID);
+		 */
+
 		mLocationClient = new LocationClient(this, this, this);
 		mConnectionState = (TextView) findViewById(R.id.text_connection_state);
 		mConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
 		mAddress = (TextView) findViewById(R.id.address);
 		mLatLng = (TextView) findViewById(R.id.lat_lng);
 		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
+
 		
-		
-		LocationUtils.mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		moreButoon = (Button) findViewById(R.id.more);
+		moreButoon.setOnClickListener(createButtonListener);
+
+		LocationUtils.mMap = ((MapFragment) getFragmentManager()
+				.findFragmentById(R.id.map)).getMap();
 		LocationUtils.mMap.setMyLocationEnabled(true);
 	}
-	
+
 	@Override
-	public void onStart() {
+	public void onStart()
+	{
 		super.onStart();
 		/*
-		 * Connect the client. Don't re-start any requests here;
-		 * instead, wait for onResume()
+		 * Connect the client. Don't re-start any requests here; instead, wait
+		 * for onResume()
 		 */
 		mLocationClient.connect();
 	}
-	
+
 	/*
-	 * Called when the Activity is no longer visible at all.
-	 * Stop updates and disconnect.
+	 * Called when the Activity is no longer visible at all. Stop updates and
+	 * disconnect.
 	 */
 	@Override
-	public void onStop() {
+	public void onStop()
+	{
 		// After disconnect() is called, the client is considered "dead".
 		mLocationClient.disconnect();
 		super.onStop();
 	}
-	
-	
+
+	private OnClickListener createButtonListener = new OnClickListener()
+	{
+		@Override
+		public void onClick(View v)
+		{
+			Intent TestGroupMessageTable = new Intent(RequestActivity.this,
+					IndexActivity.class);
+			startActivity(TestGroupMessageTable);
+		}
+	};
+
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+	protected void onActivityResult(int requestCode, int resultCode,
+			Intent intent)
+	{
 
 		super.onActivityResult(requestCode, resultCode, intent);
 		// Choose what to do based on the request code
-		ConnectionUtils.requestCodeHandler(requestCode, resultCode, intent, this);
-	} 
-	
+		ConnectionUtils.requestCodeHandler(requestCode, resultCode, intent,
+				this);
+	}
+
 	/*
-	 * Called by Location Services when the request to connect the
-	 * client finishes successfully. At this point, you can
-	 * request the current location or start periodic updates
+	 * Called by Location Services when the request to connect the client
+	 * finishes successfully. At this point, you can request the current
+	 * location or start periodic updates
 	 */
 	@Override
-	public void onConnected(Bundle bundle) {
+	public void onConnected(Bundle bundle)
+	{
 		mConnectionStatus.setText(R.string.connected);
 
 		Location currentLoc = mLocationClient.getLastLocation();
-		while(currentLoc==null)
+		while (currentLoc == null)
 		{
 			currentLoc = mLocationClient.getLastLocation();
 		}
-		LatLng locationNew = new LatLng(currentLoc.getLatitude(),currentLoc.getLongitude());
-		CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
+		curLocGlobal = currentLoc;
+		LatLng locationNew = new LatLng(currentLoc.getLatitude(),
+				currentLoc.getLongitude());
+		CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(locationNew,
+				15);
 		LocationUtils.mMap.animateCamera(cameraup);
-		
-		
-		LocationUtils.getAddress(this,currentLoc);
-		
+
+		LocationUtils.getAddress(this, currentLoc);
+
 	}
-	
+
 	@Override
-	public void onDisconnected() {
-	       Toast.makeText(this, "Disconnected. Please re-connect.",
-	       Toast.LENGTH_SHORT).show();
+	public void onDisconnected()
+	{
+		Toast.makeText(this, "Disconnected. Please re-connect.",
+				Toast.LENGTH_SHORT).show();
 	}
-	
+
 	/*
-	 * Called by Location Services if the attempt to
-	 * Location Services fails.
+	 * Called by Location Services if the attempt to Location Services fails.
 	 */
 	@Override
-	public void onConnectionFailed(ConnectionResult connectionResult) {
+	public void onConnectionFailed(ConnectionResult connectionResult)
+	{
 		/*
-		 * Google Play services can resolve some errors it detects.
-		 * If the error has a resolution, try sending an Intent to
-		 * start a Google Play services activity that can resolve
-		 * error.
+		 * Google Play services can resolve some errors it detects. If the error
+		 * has a resolution, try sending an Intent to start a Google Play
+		 * services activity that can resolve error.
 		 */
-		ConnectionUtils.connectionResultHandler(connectionResult,this);
+		ConnectionUtils.connectionResultHandler(connectionResult, this);
 	}
+	
+	
+	public void Request(View view){
+		String des = ((EditText)findViewById(R.id.destination)).getText().toString();
+		
+		if(curLocGlobal != null)
+		{
+			LatLng locationNew = new LatLng(curLocGlobal.getLatitude(),curLocGlobal.getLongitude());
+	      
+	        
+			if(Utils.customer!=null)
+			{
+				Customer c = Utils.customer;
+				GeoPt p = new GeoPt();
+				p.setLatitude((float) locationNew.latitude);     // @ Ryan please get 1.00 from map
+				p.setLongitude((float) locationNew.longitude);    // @ Ryan please get 2.00 from map
+				c.setLoc(p);
+			
+		    	//new EndpointsTask(RequestActivity.this, endpoint, c).execute();
+		    	Intent intent = new Intent(RequestActivity.this, TrackingActivity.class);
+    			startActivity(intent);
+		    	
+			}
+			else
+			{
+				ConnectionUtils.showError(this, "The customer doesn't exist");
+			}
+		}
+		
+		else
+		{
+			ConnectionUtils.showError(this, "No connection available!");
+		}
+		
+
+	}
+	
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+    private void exit() {
+        new AlertDialog.Builder(this)
+        .setMessage(getString(R.string.quit_Message))
+        .setPositiveButton(getString(R.string.quit_Positive),
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    moveTaskToBack(true);
+                    finish();
+                }
+            })
+        .setNegativeButton(getString(R.string.quit_Negative), null)
+        .show();
+    }
 }

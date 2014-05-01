@@ -45,11 +45,15 @@
         
         <activity
             android:name="comp3111h.anytaxi.driver.LoginActivity"
-            android:label="@string/login_ActivityTitle" 
-            android:screenOrientation="portrait">
-            <meta-data
-	            android:name="android.support.PARENT_ACTIVITY"
-	            android:value="comp3111h.anytaxi.driver.SettingsActivity" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
+            android:name="comp3111h.anytaxi.driver.RegisterActivity"
+            android:label="@string/register_ActivityTitle"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateUnspecified" >
         </activity>
         
         <activity

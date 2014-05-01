@@ -1,4 +1,4 @@
-package comp3111h.anytaxi.customer;
+package comp3111h.anytaxi.driver;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.model.Customer;
+import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.appspot.hk_taxi.anyTaxi.model.PhoneNumber;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -44,12 +44,12 @@ public class Register_FormFragment extends Fragment {
     
     private ArrayList<String> rInput;
     
-    private Customer rCustomer;
+    private Driver rDriver;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        rCustomer = new Customer();
+        rDriver = new Driver();
         
         View view = inflater.inflate(R.layout.fragment_register_form, container, false);
 
@@ -125,16 +125,17 @@ public class Register_FormFragment extends Fragment {
         // Show a message to tell user that sign-up is under progress
         Toast.makeText(getActivity(), getString(R.string.register_signing_up), Toast.LENGTH_LONG).show();
         
-        // Create a customer model
-        // TODO: rCustomer.setDeviceRegistrationID(deviceRegistrationID);
-        rCustomer.setEmail(rInput.get(EMAIL));
-        rCustomer.setName(rInput.get(FIRSTNAME) + " " + rInput.get(LASTNAME));
-        rCustomer.setPhoneNumber(new PhoneNumber().setNumber(rInput.get(PHONE)));
+        // Create a driver model
+        // TODO: rDriver.setDeviceRegistrationID(deviceRegistrationID);
+        rDriver.setEmail(rInput.get(EMAIL));
+        rDriver.setName(rInput.get(FIRSTNAME) + " " + rInput.get(LASTNAME));
+        rDriver.setPhoneNumber(new PhoneNumber().setNumber(rInput.get(PHONE)));
+        // TODO: rDriver.setRegDate(regDate);
         
         // Store the user information into sharedPreference
         Log.i(TAG, "Registration information is saving into sharedPreference.");
         
-        Utils.updateCustomer(getActivity(), rCustomer);
+        Utils.updateDriver(getActivity(), rDriver);
         
         // Register the user to the server
         Log.i(TAG, "Registration information is sending to server.");
@@ -198,8 +199,8 @@ public class Register_FormFragment extends Fragment {
         String rPhone_Input;
         
         rPhone_Field = rField.get(PHONE);
-        rPhone_Input = rPhone_Field.getText().toString();
-        rInput.set(PHONE, rPhone_Input);
+        rInput.set(PHONE, rPhone_Field.getText().toString());
+        rPhone_Input = rInput.get(PHONE);
         
         // Reset the error message
         rPhone_Field.setError(null);
@@ -252,7 +253,7 @@ public class Register_FormFragment extends Fragment {
         
         @Override
         protected Void doInBackground(Void... params) {
-            credential.setSelectedAccountName(rCustomer.getEmail());
+            credential.setSelectedAccountName(rDriver.getEmail());
             endpoint = CloudEndpointUtils.updateBuilder(
                     new AnyTaxi.Builder(
                             AndroidHttp.newCompatibleTransport(),
@@ -261,7 +262,7 @@ public class Register_FormFragment extends Fragment {
                             .build();
             
             try {
-                endpoint.addCustomer(rCustomer).execute();
+                endpoint.addDriver(rDriver).execute();
             } catch (IOException e) {
                 exception = e;
             }
@@ -277,7 +278,7 @@ public class Register_FormFragment extends Fragment {
                 return;
             }
             
-            Intent intent = new Intent(this.context, RequestActivity.class);
+            Intent intent = new Intent(this.context, CustomerListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
 

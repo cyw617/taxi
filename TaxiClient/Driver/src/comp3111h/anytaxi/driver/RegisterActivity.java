@@ -1,4 +1,4 @@
-package comp3111h.anytaxi.customer;
+package comp3111h.anytaxi.driver;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -43,7 +43,7 @@ public class RegisterActivity extends ActionBarActivity
         
         Log.i(TAG, "Registration process begins.");
 
-        Toast.makeText(this, "Please sign up to enjoy AnyTaxi :)", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Please sign up to drive AnyTaxi :)", Toast.LENGTH_SHORT).show();
     }
     
     @Override

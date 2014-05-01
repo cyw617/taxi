@@ -128,6 +128,7 @@ public class LocationService extends Service implements
 
 	}
 	
+	  @SuppressWarnings("unused")
 	  private void startPeriodicUpdates() {
 	      mLocationClient.requestLocationUpdates(mLocationRequest, this);
 	  }

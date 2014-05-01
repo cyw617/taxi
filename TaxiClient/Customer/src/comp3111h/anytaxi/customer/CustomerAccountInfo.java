@@ -27,7 +27,7 @@ class CustomerAccountInfo {
         	 AnyTaxi.Builder endpointBuilder = new AnyTaxi.Builder(
                      AndroidHttp.newCompatibleTransport(),
                      new JacksonFactory(),
-                     CustomerAccountInfo.credential);
+                     null);
         	 CustomerAccountInfo.endpoint = CloudEndpointUtils.updateBuilder(endpointBuilder).build();
          }
 	 }
