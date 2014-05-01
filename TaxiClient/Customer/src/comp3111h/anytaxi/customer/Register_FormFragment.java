@@ -130,7 +130,6 @@ public class Register_FormFragment extends Fragment {
         rCustomer.setEmail(rInput.get(EMAIL));
         rCustomer.setName(rInput.get(FIRSTNAME) + " " + rInput.get(LASTNAME));
         rCustomer.setPhoneNumber(new PhoneNumber().setNumber(rInput.get(PHONE)));
-        // TODO: rCustomer.setRegDate(regDate);
         
         // Store the user information into sharedPreference
         Log.i(TAG, "Registration information is saving into sharedPreference.");
@@ -199,8 +198,8 @@ public class Register_FormFragment extends Fragment {
         String rPhone_Input;
         
         rPhone_Field = rField.get(PHONE);
-        rInput.set(PHONE, rPhone_Field.getText().toString());
-        rPhone_Input = rInput.get(PHONE);
+        rPhone_Input = rPhone_Field.getText().toString();
+        rInput.set(PHONE, rPhone_Input);
         
         // Reset the error message
         rPhone_Field.setError(null);

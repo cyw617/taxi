@@ -6,7 +6,7 @@
 		android:padding="20dip" >
 
 	<LinearLayout
-	    style="@style/LoginFormContainer"
+	    style="@style/Register_FormContainer"
 	    android:orientation="vertical" >
 
 	    <LinearLayout
