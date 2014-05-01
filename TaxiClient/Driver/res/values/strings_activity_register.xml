@@ -1,0 +1,63 @@
+<resources>
+
+    <string name="register_ActivityTitle">Registration</string>
+    
+    <string name="register_signing_up">Signing up&#8230;&#8230;</string>
+
+    <string name="register_email">Your Email:</string>
+    <string name="register_email_hint">Email</string>
+    <string name="register_name">Please tell us your name :)</string>
+    <string name="register_first_name_hint">First Name</string>
+    <string name="register_last_name_hint">Last Name</string>
+    <string name="register_phone">How could a driver contact you?</string>
+    <string name="register_phone_hint">Phone Number</string>
+    <string name="register_error_required_field">This is required.</string>
+    <string name="register_error_only_alphabet">Only A-Z, a-z, and space are allowed.</string>
+    <string name="register_error_only_number">Only numbers are allowed.</string>
+    <string name="register_error_unreal_name">Please provide a real name.</string>
+    <string name="register_error_unreal_phone">Please provide a real phone number.</string>
+    <string name="register_error_mobile_phone">We would like to have your mobile phone number.</string>
+    <string name="register_confirm_btn">Sign-up</string>
+    
+    <string name="register_Agreement_Text">
+		<![CDATA[
+		    <p>
+		    	<big><b>Terms and Conditions</b></big>
+		    </p>
+		    <p>
+		    	<b><u>1. Love AnyTaxi</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>2. Condition 2</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>3. Condition 3</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>4. Condition 4</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>5. Condition 5</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>6. Condition 6</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>7. Condition 7</u></b><br />
+		    	blablabla......
+		    </p>
+		    <p>
+		    	<b><u>8. Condition 8</u></b><br />
+		    	blablabla......
+		    </p>
+		]]>
+	</string>
+    <string name="register_Agreement_Chkbox">I agree to the terms and conditions.</string>
+
+</resources>
