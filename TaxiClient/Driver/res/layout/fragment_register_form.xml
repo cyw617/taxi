@@ -45,6 +45,32 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="5dip"
+		        android:text="@string/register_license"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        
+			<EditText
+			    android:id="@+id/register_license"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:hint="@string/register_license_hint"
+			    android:inputType="text|textCapCharacters"
+			    android:maxLength="12"
+			    android:maxLines="1"
+			    android:singleLine="true" />
+			
+		</LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="0dip"
+	        android:layout_marginBottom="20dip"
+	        android:orientation="vertical" >
+	        
+	        <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="5dip"
 		        android:text="@string/register_name"
 		        android:textAppearance="?android:attr/textAppearanceMedium" />
 
