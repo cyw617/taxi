@@ -3,16 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <fragment 
-          android:id="@+id/map"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:name="com.google.android.gms.maps.MapFragment"/>
 
-    
-
-
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/lat_lng"
@@ -21,18 +17,17 @@
         android:layout_alignBaseline="@+id/request"
         android:layout_alignBottom="@+id/request"
         android:layout_alignParentLeft="true"
-        android:text="lat_lng" 
+        android:text="lat_lng"
         android:textColor="#ff0000" />
-
     <TextView
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/request"
-        android:text="address" 
+        android:text="address"
         android:textColor="#ff0000" />
-    
+
     <ProgressBar
         android:id="@+id/address_progress"
         android:layout_width="wrap_content"
@@ -50,7 +45,6 @@
         android:layout_alignParentLeft="true"
         android:text="text_connection_status"
         android:textColor="#ff0000" />
-
     <TextView
         android:id="@+id/text_connection_status"
         android:layout_width="wrap_content"
@@ -68,7 +62,6 @@
         android:layout_alignParentRight="true"
         android:onClick="Request"
         android:text="Taxi" />
-
     <Button
         android:id="@+id/more"
         android:layout_width="wrap_content"
@@ -87,20 +80,17 @@
         android:layout_alignRight="@+id/editText2"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="x (in map)"  >
-
+        android:hint="x (in map)" >
         <requestFocus />
     </EditText>
-
     <EditText
         android:id="@+id/editText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/editText1"
-        android:ems="10" 
-        android:hint="y (in map)"/>
-
+        android:ems="10"
+        android:hint="y (in map)" />
     <EditText
         android:id="@+id/destination"
         android:layout_width="wrap_content"
@@ -108,7 +98,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/editText2"
         android:layout_marginTop="20dp"
-        android:ems="10"  
-        android:hint="Destination"/>
+        android:ems="10"
+        android:hint="Destination" />
 
 </RelativeLayout>

@@ -41,20 +41,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="comp3111h.anytaxi.customer.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
-        
         <activity
             android:name="comp3111h.anytaxi.customer.RegisterActivity"
             android:label="@string/register_ActivityTitle"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateUnspecified" >
         </activity>
-        
         <activity
             android:name="comp3111h.anytaxi.customer.SettingsActivity"
             android:label="@string/settings_ActivityTitle"
@@ -63,13 +60,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comp3111h.anytaxi.customer.CustomerListActivity" />
         </activity>
-        
         <activity
             android:name="comp3111h.anytaxi.customer.RequestActivity"
             android:label="Map Page"
             android:screenOrientation="portrait" >
         </activity>
-        
         <activity
             android:name="comp3111h.anytaxi.customer.MoreOption"
             android:label="Map Option"
@@ -78,7 +73,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comp3111h.anytaxi.customer.RequestActivity" />
         </activity>
-        
         <activity
             android:name="comp3111h.anytaxi.customer.TrackingActivity"
             android:label="Tracking Activity"
@@ -87,17 +81,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comp3111h.anytaxi.customer.RequestActivity" />
         </activity>
-        
         <activity
             android:name="comp3111h.anytaxi.customer.IndexActivity"
             android:label="activity_index" >
         </activity>
-        
         <activity
             android:name="comp3111h.anytaxi.customer.DeleteOrder"
             android:label="activity_create" >
         </activity>
-        
         <activity
             android:name="comp3111h.anytaxi.customer.CreatActivity"
             android:label="activity_create" >

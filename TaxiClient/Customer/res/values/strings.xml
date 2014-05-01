@@ -2,24 +2,24 @@
 <resources>
 
     <string name="app_name">AnyTaxi - Customer</string>
-    
     <string name="hello_world">I am the Customer App</string>
-    
+
     <!-- - - - - - - - - - - - - - Start: Preferences - - - - - - - - - - - - - - -->
     <string name="settings_ActivityTitle">Settings</string>
-    
     <string name="signOut">Sign Out</string>
     <string name="signOut_Summary">Unlink your Google+ account.</string>
     <!-- - - - - - - - - - - - - - End: Preferences - - - - - - - - - - - - - - - -->
-    
+
+
     <!-- - - - - - - - - - - - - - Start: Miscellaneous - - - - - - - - - - - - - -->
     <string name="quit_Message">Do you want to exit?</string>
     <string name="quit_Positive">Yes</string>
     <string name="quit_Negative">No</string>
     <!-- - - - - 1072316261853-u0gafkut9f919bau91gh9bgjb9555hh2.apps.googleusercontent.com- - - - - - - - - End: Miscellaneous - - - - - - - - - - - - - - -->
 
- <!-- - - - - - - - - - - - - - Start: MapManip - - - - - - - - - - - - - -->
-    
+
+    <!-- - - - - - - - - - - - - - Start: MapManip - - - - - - - - - - - - - -->
+
     <string name="address_output_string">%1$s %2$s %3$s</string>
 
     <!-- Latitude, longitude format -->
@@ -66,7 +66,7 @@
     <string name="title_activity_locate">LocateActivity</string>
     <string name="title_activity_map">MapActivity</string>
     <!-- - - - - - - - - - - - - - End: MapManip - - - - - - - - - - - - - - -->
-    
+
     <string name="lat">Latitude</string>
     <string name="lnt">"Longitude"</string>
 

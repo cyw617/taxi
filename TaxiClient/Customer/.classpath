@@ -5,6 +5,5 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="libs/hk_taxi_appspot_com-anyTaxi-v2-20140429034811-java-1.16.0-rc-sources.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

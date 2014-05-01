@@ -1,9 +1,7 @@
 <resources>
 
     <string name="register_ActivityTitle">Registration</string>
-    
     <string name="register_signing_up">Signing up&#8230;&#8230;</string>
-
     <string name="register_email">Your Email:</string>
     <string name="register_email_hint">Email</string>
     <string name="register_name">Please tell us your name :)</string>
@@ -18,9 +16,8 @@
     <string name="register_error_unreal_phone">Please provide a real phone number.</string>
     <string name="register_error_mobile_phone">We would like to have your mobile phone number.</string>
     <string name="register_confirm_btn">Sign-up</string>
-    
     <string name="register_Agreement_Text">
-		<![CDATA[
+<![CDATA[
 		    <p>
 		    	<big><b>Terms and Conditions</b></big>
 		    </p>
@@ -57,7 +54,7 @@
 		    	blablabla......
 		    </p>
 		]]>
-	</string>
+    </string>
     <string name="register_Agreement_Chkbox">I agree to the terms and conditions.</string>
 
 </resources>

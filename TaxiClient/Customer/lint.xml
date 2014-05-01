@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
-    <issue id="NewApi">
+
+    <issue id="NewApi" >
+
         <ignore path="src/comp3111h/anytaxi/customer/RequestActivity.java" />
+
         <ignore path="src/comp3111h/anytaxi/customer/TrackingActivity.java" />
     </issue>
+
 </lint>
