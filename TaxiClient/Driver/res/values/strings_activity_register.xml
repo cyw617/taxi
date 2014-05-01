@@ -6,14 +6,18 @@
 
     <string name="register_email">Your Email:</string>
     <string name="register_email_hint">Email</string>
-    <string name="register_name">Please tell us your name :)</string>
+    <string name="register_license">We need your license. :)</string>
+    <string name="register_license_hint">License</string>
+    <string name="register_name">What\'s your name?</string>
     <string name="register_first_name_hint">First Name</string>
     <string name="register_last_name_hint">Last Name</string>
-    <string name="register_phone">How could a driver contact you?</string>
+    <string name="register_phone">How to contact you?</string>
     <string name="register_phone_hint">Phone Number</string>
     <string name="register_error_required_field">This is required.</string>
-    <string name="register_error_only_alphabet">Only A-Z, a-z, and space are allowed.</string>
+    <string name="register_error_only_alphanumeric">Only A–Z, a–z, 0–9 and space are allowed.</string>
+    <string name="register_error_only_alphabet">Only A–Z, a–z, and space are allowed.</string>
     <string name="register_error_only_number">Only numbers are allowed.</string>
+    <string name="register_error_unreal_license">Please provide a real license.</string>
     <string name="register_error_unreal_name">Please provide a real name.</string>
     <string name="register_error_unreal_phone">Please provide a real phone number.</string>
     <string name="register_error_mobile_phone">We would like to have your mobile phone number.</string>

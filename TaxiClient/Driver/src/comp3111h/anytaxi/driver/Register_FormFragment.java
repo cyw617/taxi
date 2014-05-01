@@ -34,10 +34,11 @@ public class Register_FormFragment extends Fragment {
     private static AnyTaxi endpoint;
     
     private final static int EMAIL = 0;
-    private final static int FIRSTNAME = 1;
-    private final static int LASTNAME = 2;
-    private final static int PHONE = 3;
-    private final static int NUM_OF_FIELD = 4;
+    private final static int LICENSE = 1;
+    private final static int FIRSTNAME = 2;
+    private final static int LASTNAME = 3;
+    private final static int PHONE = 4;
+    private final static int NUM_OF_FIELD = 5;
     
     private ArrayList<EditText> rField;
     private Button rConfirm_Btn;
@@ -55,6 +56,7 @@ public class Register_FormFragment extends Fragment {
 
         rField = new ArrayList<EditText>(NUM_OF_FIELD);
         rField.add(EMAIL, (EditText) view.findViewById(R.id.register_email));
+        rField.add(LICENSE, (EditText) view.findViewById(R.id.register_license));
         rField.add(FIRSTNAME, (EditText) view.findViewById(R.id.register_first_name));
         rField.add(LASTNAME, (EditText) view.findViewById(R.id.register_last_name));
         rField.add(PHONE, (EditText) view.findViewById(R.id.register_phone));
@@ -62,6 +64,7 @@ public class Register_FormFragment extends Fragment {
 
         rInput = new ArrayList<String>(NUM_OF_FIELD);
         rInput.add(EMAIL, Utils.getPreference(getActivity().getApplicationContext(), Utils.PREFS_ACCOUNT_KEY, null));
+        rInput.add(LICENSE, null);
         rInput.add(FIRSTNAME, null);
         rInput.add(LASTNAME, null);
         rInput.add(PHONE, null);
@@ -128,9 +131,9 @@ public class Register_FormFragment extends Fragment {
         // Create a driver model
         // TODO: rDriver.setDeviceRegistrationID(deviceRegistrationID);
         rDriver.setEmail(rInput.get(EMAIL));
+        rDriver.setLicense(rInput.get(LICENSE));
         rDriver.setName(rInput.get(FIRSTNAME) + " " + rInput.get(LASTNAME));
         rDriver.setPhoneNumber(new PhoneNumber().setNumber(rInput.get(PHONE)));
-        // TODO: rDriver.setRegDate(regDate);
         
         // Store the user information into sharedPreference
         Log.i(TAG, "Registration information is saving into sharedPreference.");
@@ -147,6 +150,8 @@ public class Register_FormFragment extends Fragment {
         switch (field) {
         case EMAIL:
             return true;
+        case LICENSE:
+            return isValidLicense();
         case FIRSTNAME:
         case LASTNAME:
             return isValidName(field);
@@ -156,6 +161,34 @@ public class Register_FormFragment extends Fragment {
             Log.e(TAG, "Invalid Field: " + field);
             return false;
         }
+    }
+
+    private boolean isValidLicense() {
+        EditText rLicense_Field;
+        String rLicense_Input;
+        
+        rLicense_Field = rField.get(LICENSE);
+        rLicense_Input = licenseBeautifier(rLicense_Field.getText().toString());
+        rInput.set(LICENSE, rLicense_Input);
+        
+        // Reset the error message
+        rLicense_Field.setError(null);
+        
+        // Check for invalidity
+        if (TextUtils.isEmpty(rLicense_Input)) {
+            rLicense_Field.setError(getString(R.string.register_error_required_field));
+            return false;
+        }
+        if (!rLicense_Input.matches("[ A-Z0-9]+")) {
+            rLicense_Field.setError(getString(R.string.register_error_only_alphanumeric));
+            return false;
+        }
+        if (rLicense_Input.length() < 4) {
+            rLicense_Field.setError(getString(R.string.register_error_unreal_license));
+            return false;
+        }
+        
+        return true;
     }
     
     private boolean isValidName(final int field) {
@@ -199,8 +232,8 @@ public class Register_FormFragment extends Fragment {
         String rPhone_Input;
         
         rPhone_Field = rField.get(PHONE);
-        rInput.set(PHONE, rPhone_Field.getText().toString());
-        rPhone_Input = rInput.get(PHONE);
+        rPhone_Input = rPhone_Field.getText().toString();
+        rInput.set(PHONE, rPhone_Input);
         
         // Reset the error message
         rPhone_Field.setError(null);
@@ -226,6 +259,17 @@ public class Register_FormFragment extends Fragment {
         }
         
         return true;
+    }
+    
+    // Beautify a license by
+    // trimming the white spaces at the front and back,
+    // and capitalizing the each character
+    private String licenseBeautifier(String license) {
+        String[] partialLicense = TextUtils.split(license.trim().toUpperCase(Locale.getDefault()), " +");
+        
+        license = TextUtils.join(" ", partialLicense);
+        
+        return license;
     }
     
     // Beautify a name by
