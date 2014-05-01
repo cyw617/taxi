@@ -9,7 +9,7 @@ public class TestUtils {
 	
 	public static Customer getCustomer() {		
 		customer = new Customer();
-		customer.setEmail("yibairen1994@gmail.com");
+		customer.setEmail("ywangbc@gmail.com");
 		customer.setName("Byron");
 		PhoneNumber pn = new PhoneNumber();
 		pn.setNumber("54251109");
