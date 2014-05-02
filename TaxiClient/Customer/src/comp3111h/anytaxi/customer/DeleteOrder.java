@@ -53,7 +53,7 @@ public class DeleteOrder extends Activity
 		} // end method onClick
 	};
 
-	private class deleteTask extends AsyncTask<String, Void, String>
+	public class deleteTask extends AsyncTask<String, Void, String>
 	{
 		@Override
 		protected String doInBackground(String... arg0)
