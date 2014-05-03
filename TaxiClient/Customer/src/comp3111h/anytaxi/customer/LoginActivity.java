@@ -31,6 +31,9 @@ public class LoginActivity extends ActionBarActivity {
 		super.onStart();
 		setContentView(R.layout.activity_main);
 		
+		// hide the action bar
+		getSupportActionBar().hide();
+		
 		credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);         
 		startActivityForResult(credential.newChooseAccountIntent(), Utils.REQUEST_ACCOUNT_PICKER);
 	}
@@ -150,7 +153,7 @@ public class LoginActivity extends ActionBarActivity {
             } else {
                 Log.i(TAG, "User has logged in successfully.");
                 
-                Toast.makeText(this.context, "Welcome, " + result.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, "Welcome, " + result.getName(), Toast.LENGTH_LONG).show();
 
                 // save user information into sharedPreference
                 Utils.updateCustomer(context, result);

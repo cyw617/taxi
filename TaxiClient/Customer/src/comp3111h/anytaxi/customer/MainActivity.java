@@ -27,6 +27,10 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        // hide the action bar
+        getSupportActionBar().hide();
+        
         credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);  
         Utils.customer = Utils.getCustomer(this);
 	}
@@ -81,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
 			} catch (IOException e) {
 				exceptionThrown = e;
 				return null;
-			}			
+			}
 		}
 		
 		@Override
@@ -101,10 +105,10 @@ public class MainActivity extends ActionBarActivity {
 			} else {
                 Log.i(TAG, "User has logged in successfully.");
                 
-                Toast.makeText(context, "Welcome, " + result.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Welcome, " + result.getName(), Toast.LENGTH_LONG).show();
                 
                 // save user information into sharedPreference
-				Utils.updateCustomer(this.context, result);
+				Utils.updateCustomer(context, result);
 				
 				// redirect user to call taxi
 				Intent intent = new Intent(this.context, RequestActivity.class);
