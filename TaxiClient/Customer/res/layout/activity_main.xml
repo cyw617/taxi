@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <TextView
-        android:layout_width="match_parent"
+    android:background="@drawable/background"  
+    android:orientation="vertical" > <!-- background image in res/drawable/background.png-->
+ 
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
-</LinearLayout>
+        android:layout_centerInParent="true"
+        android:src="@drawable/logo" />    <!-- logo image res/drawable/taxilogo.png-->
+    
+</RelativeLayout>
