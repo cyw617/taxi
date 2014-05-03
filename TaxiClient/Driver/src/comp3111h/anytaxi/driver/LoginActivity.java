@@ -29,8 +29,11 @@ public class LoginActivity extends ActionBarActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		// TODO: Design a new login layout for new procedure
-		// setContentView(R.layout.activity_login);        
+		setContentView(R.layout.activity_main);
+        
+        // hide the action bar
+        getSupportActionBar().hide();
+        
 		credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);         
 		startActivityForResult(credential.newChooseAccountIntent(), Utils.REQUEST_ACCOUNT_PICKER);
 	}
@@ -46,12 +49,17 @@ public class LoginActivity extends ActionBarActivity {
 
 		switch (requestCode) {
 		case Utils.REQUEST_ACCOUNT_PICKER:        
+            Log.i(TAG, "User is attempting to login.");
+            
+            // save the picked account into sharedPreference
 			if (intent != null && resultCode == RESULT_OK) {
 				String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
 				Utils.putPreference(this, Utils.PREFS_ACCOUNT_KEY, accountName);   
 			} else {
 				Utils.putPreference(this, Utils.PREFS_ACCOUNT_KEY, null);  
 			} 
+            
+            // attempt to login
 			new CheckLoginTask(this).execute();
 			break;
 
@@ -136,19 +144,24 @@ public class LoginActivity extends ActionBarActivity {
 				 return;
 			 }
 			 if (result == null) {
+			     Log.i(TAG, "No user information in database: redirect to RegisterActivity.");
+	                
+                 // redirect user to register
 				 Intent intent = new Intent(this.context, RegisterActivity.class);
+				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				 startActivityViaIntent(intent);
 			 } else {
-				Utils.updateDriver(context, result);
-				
-				// TODO: remove this in the final version
-				Toast.makeText(context, result.toString(), Toast.LENGTH_LONG).show();
-				
+			     Log.i(TAG, "User has logged in successfully.");
+	                
+                 Toast.makeText(this.context, "Welcome, " + result.getName(), Toast.LENGTH_LONG).show();
+
+                 // save user information into sharedPreference
+                 Utils.updateDriver(context, result);
+				 
+                 // redirect user to find customers
 				 Intent intent = new Intent(this.context, CustomerListActivity.class);
-				 // TODO: since RequestActivity currently has a bug, we display the message 
-				 // from server instead.
+				 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				 startActivityViaIntent(intent);
-				 CloudEndpointUtils.logAndShow(LoginActivity.this, TAG, "Successfully logged in!");
 			 }
 		 }
 

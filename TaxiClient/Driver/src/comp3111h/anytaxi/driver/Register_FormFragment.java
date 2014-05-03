@@ -326,7 +326,7 @@ public class Register_FormFragment extends Fragment {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
 
-            Toast.makeText(context, "Congrats! You've signed up!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Congrats! You've signed up!", Toast.LENGTH_LONG).show();
             
             Log.i(TAG, "Sign-up progress is completed.");
         }

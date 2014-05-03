@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
@@ -26,6 +27,10 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        // hide the action bar
+        getSupportActionBar().hide();
+        
         credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);  
         Utils.driver = Utils.getDriver(this);
 	}
@@ -34,8 +39,11 @@ public class MainActivity extends ActionBarActivity {
 	public void onStart() {
 	    super.onStart();    
 		if (Utils.driver == null) {
+		    Log.i(TAG, "No user information in sharedPreference: redirect to LoginActivity.");
+		    
 			Intent intent = new Intent(this, LoginActivity.class);
-			startActivity(intent);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 		}
 	}
 	
@@ -46,8 +54,6 @@ public class MainActivity extends ActionBarActivity {
 			Toast.makeText(this, "Unable to connect to Internet.", Toast.LENGTH_LONG).show();
 		} else if (Utils.driver != null) {			
 			new CheckLoginTask(this).execute();
-	        Toast.makeText(this, "Checking account status, please wait...", 
-	        		Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -90,15 +96,24 @@ public class MainActivity extends ActionBarActivity {
 				return;
 			}
 			if (result == null) {
+			    Log.i(TAG, "No user information in database: redirect to LoginActivity.");
+			    
+			    // redirect user to login
 				Intent intent = new Intent(this.context, LoginActivity.class);
-				// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivityViaIntent(intent);
 			} else {
+			    Log.i(TAG, "User has logged in successfully.");
+			    
+			    Toast.makeText(context, "Welcome, " + result.getName(), Toast.LENGTH_LONG).show();
+			    
+			    // save user information into sharedPreference
 				Utils.updateDriver(context, result);
+				
+				// redirect user to find customers
 				Intent intent = new Intent(this.context, CustomerListActivity.class);
-				// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivityViaIntent(intent);
-				CloudEndpointUtils.logAndShow(MainActivity.this, TAG, "Successfully logged in!");
 			}
 		}
 		
