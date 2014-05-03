@@ -43,6 +43,7 @@ public class CustomerListActivity extends ActionBarActivity{
 		arrAdapter = new ArrayAdapter<String>(getApplicationContext(), 
 				R.layout.customer_list_view_layout, strArr);
 		
+		listView.setEmptyView(findViewById(android.R.id.empty));
 		listView.setAdapter(arrAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
