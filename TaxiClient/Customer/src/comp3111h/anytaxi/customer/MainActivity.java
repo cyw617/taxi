@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
@@ -34,7 +35,10 @@ public class MainActivity extends ActionBarActivity {
 	public void onStart() {
 	    super.onStart();    
 		if (Utils.customer == null) {
+		    Log.i(TAG, "No user information in sharedPreference: redirect to LoginActivity.");
+		    
 			Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 		}
 	}
@@ -46,8 +50,6 @@ public class MainActivity extends ActionBarActivity {
 			Toast.makeText(this, "Unable to connect to Internet.", Toast.LENGTH_LONG).show();
 		} else if (Utils.customer != null) {			
 			new CheckLoginTask(this).execute();
-	        Toast.makeText(this, "Checking account status, please wait...", 
-	        		Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -90,17 +92,24 @@ public class MainActivity extends ActionBarActivity {
 				return;
 			}
 			if (result == null) {
+			    Log.i(TAG, "No user information in database: redirect to LoginActivity.");
+			    
+			    // redirect user to login
 				Intent intent = new Intent(this.context, LoginActivity.class);
-				// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivityViaIntent(intent);
 			} else {
-				Utils.updateCustomer(context, result);
+                Log.i(TAG, "User has logged in successfully.");
+                
+                Toast.makeText(context, "Welcome, " + result.getName(), Toast.LENGTH_SHORT).show();
+                
+                // save user information into sharedPreference
+				Utils.updateCustomer(this.context, result);
+				
+				// redirect user to call taxi
 				Intent intent = new Intent(this.context, RequestActivity.class);
-				// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				// TODO: since RequestActivity currently has a bug, we display the message 
-				// from server instead.
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivityViaIntent(intent);
-				CloudEndpointUtils.logAndShow(MainActivity.this, TAG, "Successfully logged in!");
 			}
 		}
 		

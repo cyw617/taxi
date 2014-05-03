@@ -29,8 +29,8 @@ public class LoginActivity extends ActionBarActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		// TODO: Design a new login layout for new procedure
-		// setContentView(R.layout.activity_login);        
+		setContentView(R.layout.activity_main);
+		
 		credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);         
 		startActivityForResult(credential.newChooseAccountIntent(), Utils.REQUEST_ACCOUNT_PICKER);
 	}
@@ -46,12 +46,17 @@ public class LoginActivity extends ActionBarActivity {
 
 		switch (requestCode) {
 		case Utils.REQUEST_ACCOUNT_PICKER:        
+		    Log.i(TAG, "User is attempting to login.");
+		    
+		    // save the picked account into sharedPreference
 			if (intent != null && resultCode == RESULT_OK) {
 				String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
 				Utils.putPreference(this, Utils.PREFS_ACCOUNT_KEY, accountName);   
 			} else {
 				Utils.putPreference(this, Utils.PREFS_ACCOUNT_KEY, null);  
 			} 
+			
+			// attempt to login
 			new CheckLoginTask(this).execute();
 			break;
 
@@ -128,29 +133,34 @@ public class LoginActivity extends ActionBarActivity {
 			 }			
 		 }
 
-		 @Override
-		 protected void onPostExecute(Customer result) {
-			 super.onPostExecute(result);
-			 if (exceptionThrown != null) {
-				 CloudEndpointUtils.logAndShow(LoginActivity.this, TAG, exceptionThrown);
-				 return;
-			 }
-			 if (result == null) {
-				 Intent intent = new Intent(this.context, RegisterActivity.class);
-				 startActivityViaIntent(intent);
-			 } else {
-				Utils.updateCustomer(context, result);
-				
-				// TODO: remove this in the final version
-				Toast.makeText(context, result.toString(), Toast.LENGTH_LONG).show();
-				
-				 Intent intent = new Intent(this.context, RequestActivity.class);
-				 // TODO: since RequestActivity currently has a bug, we display the message 
-				 // from server instead.
-				 startActivityViaIntent(intent);
-				 CloudEndpointUtils.logAndShow(LoginActivity.this, TAG, "Successfully logged in!");
-			 }
-		 }
+        @Override
+        protected void onPostExecute(Customer result) {
+            super.onPostExecute(result);
+            if (exceptionThrown != null) {
+                CloudEndpointUtils.logAndShow(LoginActivity.this, TAG, exceptionThrown);
+                return;
+            }
+            if (result == null) {
+                Log.i(TAG, "No user information in database: redirect to RegisterActivity.");
+                
+                // redirect user to register
+                Intent intent = new Intent(this.context, RegisterActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityViaIntent(intent);
+            } else {
+                Log.i(TAG, "User has logged in successfully.");
+                
+                Toast.makeText(this.context, "Welcome, " + result.getName(), Toast.LENGTH_SHORT).show();
 
-	 }
+                // save user information into sharedPreference
+                Utils.updateCustomer(context, result);
+
+                // redirect user to call taxi
+                Intent intent = new Intent(this.context, RequestActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityViaIntent(intent);
+            }
+		}
+
+	}
 }
