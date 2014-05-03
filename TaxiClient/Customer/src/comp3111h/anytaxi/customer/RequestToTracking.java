@@ -2,15 +2,7 @@ package comp3111h.anytaxi.customer;
 
 import java.io.IOException;
 
-import android.support.v4.app.FragmentActivity;
-
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.model.Customer;
-import com.appspot.hk_taxi.anyTaxi.model.Transaction;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.appspot.hk_taxi.anyTaxi.model.Customer;
+import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
+import com.appspot.hk_taxi.anyTaxi.model.Transaction;
+
 public class RequestToTracking extends ActionBarActivity {
 
 	private final static String TAG = "LoadingDriverAsyncTask";
@@ -34,6 +31,32 @@ public class RequestToTracking extends ActionBarActivity {
 	Customer customer;
 	static AnyTaxi endpoint;
 	
+	//The first transaction contains customer info only
+	Transaction customerInfoTrans;
+	//The second transaction contains customer info plus transaction ID
+	Transaction initialTrans;
+	//The final transaction contains drivers info as well
+	Transaction returnedTrans;
+	
+	//Conform to the variables provided in Transaction class on server side
+    private Long id;
+
+    private String customerEmail;
+
+    private String driverEmail;
+
+    private String customerLocStr;
+    private String destLocStr;
+
+    private GeoPt customerLoc;
+    private GeoPt driverLoc;
+    private GeoPt destLoc;
+
+    private Integer numDriverNotified;
+    private String cursor;
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +65,20 @@ public class RequestToTracking extends ActionBarActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
+			
+			//To get the customer information passed by RequestActivity
+			Bundle preIntentBundle = getIntent().getExtras();
+			
+			GeoPt tempPt = new GeoPt();
+			tempPt.setLatitude((float) preIntentBundle.getDouble("LAT"));
+			tempPt.setLongitude((float) preIntentBundle.getDouble("LON"));
+			
+			
+			customerEmail = preIntentBundle.getString("EMAIL");
+			customerLocStr = preIntentBundle.getString("CURADD");
+			customerLoc = tempPt;
+			destLocStr = preIntentBundle.getString("DEST");
+			
 		}
 		
 		mProgressBar = (ProgressBar) findViewById(R.id.loadingdriverprogress2);
@@ -123,22 +160,30 @@ public class RequestToTracking extends ActionBarActivity {
 				ConnectionUtils.showError(RequestToTracking.this,"endpoint is not null");
 			}
 			
+			customerInfoTrans = new Transaction();
+			
+			customerInfoTrans.setCustomerEmail(customerEmail);
+			customerInfoTrans.setCustomerLocStr(customerLocStr);
+			customerInfoTrans.setCustomerLoc(customerLoc);
+			customerInfoTrans.setDestLocStr(destLocStr);
+		
+			
 			try {
-				endpoint.addTransaction(Utils.customer.getEmail(), null);
+				initialTrans = endpoint.addTransaction(Utils.customer.getEmail(), customerInfoTrans).execute();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// simulating long-running operation 	mer
-			Transaction myTrans = new Transaction();
-			myTrans.setDriverEmail(null);
+			returnedTrans = new Transaction();
+			returnedTrans.setDriverEmail(null);
 			Integer i=0;
 			do
 			{
 				sleep();
 				i++;
 				try {
-					myTrans = endpoint.getTransaction(Utils.customer.getEmail(), null).execute();
+					returnedTrans = endpoint.getTransaction(Utils.customer.getEmail(), initialTrans.getId()).execute();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -146,10 +191,10 @@ public class RequestToTracking extends ActionBarActivity {
 				i = (i>=9)?9:i;
 				publishProgress(i * 10);
 			}
-			while(myTrans==null||myTrans.getDriverEmail()==null);
+			while(returnedTrans==null||returnedTrans.getDriverEmail()==null);
 			
 			publishProgress(Integer.valueOf(100));
-			return myTrans.getDriverEmail();
+			return returnedTrans.getDriverEmail();
 			
 			
 			

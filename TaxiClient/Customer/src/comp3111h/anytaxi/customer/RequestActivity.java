@@ -43,6 +43,7 @@ public class RequestActivity extends ActionBarActivity implements
 	
 	//Memorize the current location in this activity
 	Location curLocGlobal;
+	String myDestination;
 
 	private Button requestButton;
 	private Button moreButton;
@@ -69,6 +70,7 @@ public class RequestActivity extends ActionBarActivity implements
 		mAddress = (TextView) findViewById(R.id.address);
 		mLatLng = (TextView) findViewById(R.id.lat_lng);
 		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
+		myDestination = ((TextView)findViewById(R.id.destination)).toString();
 
 		requestButton = (Button) findViewById(R.id.request_btn);
 		requestButton.setOnClickListener(onRequestListener);
@@ -183,7 +185,21 @@ public class RequestActivity extends ActionBarActivity implements
 				c.setLoc(p);
 			
 		    	//new EndpointsTask(RequestActivity.this, endpoint, c).execute();
-		    	Intent intent = new Intent(RequestActivity.this, RequestToTracking.class);
+		    	
+				String curAddress = mAddress.toString();
+				
+				
+		    	Bundle customerInfo = new Bundle();
+				customerInfo.putString("EMAIL",Utils.customer.getEmail());
+				customerInfo.putString("CURADD",(curAddress==null?"":curAddress));
+				customerInfo.putDouble("LAT", locationNew.latitude);
+				customerInfo.putDouble("LON", locationNew.longitude);
+				customerInfo.putString("DEST",myDestination);
+				
+				
+				
+				Intent intent = new Intent(RequestActivity.this, RequestToTracking.class);
+		    	intent.putExtras(customerInfo);
     			startActivity(intent);
 		    	
 			}
