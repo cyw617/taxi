@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -161,6 +162,41 @@ public class RequestActivity extends ActionBarActivity implements
 		 * services activity that can resolve error.
 		 */
 		ConnectionUtils.connectionResultHandler(connectionResult, this);
+	}
+	
+	//When taxi button is pressed
+	//Go to RequestToTracking Activity
+	public void Request(View view){
+		String des = ((EditText)findViewById(R.id.destination)).getText().toString();
+		
+		if(curLocGlobal != null)
+		{
+			LatLng locationNew = new LatLng(curLocGlobal.getLatitude(),curLocGlobal.getLongitude());
+	      
+	        
+			if(Utils.customer!=null)
+			{
+				Customer c = Utils.customer;
+				GeoPt p = new GeoPt();
+				p.setLatitude((float) locationNew.latitude);     // @ Ryan please get 1.00 from map
+				p.setLongitude((float) locationNew.longitude);    // @ Ryan please get 2.00 from map
+				c.setLoc(p);
+			
+		    	//new EndpointsTask(RequestActivity.this, endpoint, c).execute();
+		    	Intent intent = new Intent(RequestActivity.this, RequestToTracking.class);
+    			startActivity(intent);
+		    	
+			}
+			else
+			{
+				ConnectionUtils.showError(this, "The customer doesn't exist");
+			}
+		}
+		
+		else
+		{
+			ConnectionUtils.showError(this, "No connection available!");
+		}
 	}
 	
     @Override
