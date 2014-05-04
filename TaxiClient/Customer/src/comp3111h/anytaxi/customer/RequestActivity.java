@@ -70,7 +70,7 @@ public class RequestActivity extends ActionBarActivity implements
 		mAddress = (TextView) findViewById(R.id.address);
 		mLatLng = (TextView) findViewById(R.id.lat_lng);
 		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
-		myDestination = ((TextView)findViewById(R.id.destination)).toString();
+		myDestination = (String) ((TextView)findViewById(R.id.destination)).getText();
 
 		requestButton = (Button) findViewById(R.id.request_btn);
 		requestButton.setOnClickListener(onRequestListener);
@@ -186,7 +186,7 @@ public class RequestActivity extends ActionBarActivity implements
 			
 		    	//new EndpointsTask(RequestActivity.this, endpoint, c).execute();
 		    	
-				String curAddress = mAddress.toString();
+				String curAddress = (String) mAddress.getText();
 				
 				
 		    	Bundle customerInfo = new Bundle();
