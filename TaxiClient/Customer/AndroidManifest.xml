@@ -99,7 +99,7 @@
             android:value="AIzaSyCWAbMtcRCU0ZBcPj2m-4s9DxeaNPEJwI0" />
 
         <activity
-            android:name="comp3111h.anytaxi.customer.RequestToTracking"
+            android:name="comp3111h.anytaxi.customer.RequestToTrackingActivity"
             android:label="@string/title_activity_request_to_tracking" >
         </activity>
     </application>

@@ -19,8 +19,10 @@ import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.model.Customer;
 import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
 import com.appspot.hk_taxi.anyTaxi.model.Transaction;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
-public class RequestToTracking extends ActionBarActivity {
+public class RequestToTrackingActivity extends ActionBarActivity {
 
 	private final static String TAG = "LoadingDriverAsyncTask";
 	
@@ -73,11 +75,20 @@ public class RequestToTracking extends ActionBarActivity {
 			tempPt.setLatitude((float) preIntentBundle.getDouble("LAT"));
 			tempPt.setLongitude((float) preIntentBundle.getDouble("LON"));
 			
+			endpoint = CloudEndpointUtils.updateBuilder(
+					new AnyTaxi.Builder(
+							AndroidHttp.newCompatibleTransport(),
+							new JacksonFactory(),
+							null)).build();
 			
 			customerEmail = preIntentBundle.getString("EMAIL");
 			customerLocStr = preIntentBundle.getString("CURADD");
 			customerLoc = tempPt;
 			destLocStr = preIntentBundle.getString("DEST");
+			destLoc = new GeoPt();
+			destLoc.setLatitude((float) (0));
+			destLoc.setLongitude((float)0);
+			
 			
 		}
 		
@@ -135,30 +146,12 @@ public class RequestToTracking extends ActionBarActivity {
 
 		@Override
 		protected String doInBackground(Void... none) {
-			if(LoginActivity.endpoint!=null)
-			{
-				endpoint=LoginActivity.endpoint;
-			}
-			else
-			{
-				if(MainActivity.endpoint!=null)
-				{
-					endpoint=MainActivity.endpoint;
-				}
-				else
-				{
-					ConnectionUtils.showError(RequestToTracking.this,"endpoint in LoginActivity is null");
-				}
-			}
 			
 			if(endpoint==null)
 			{
-				ConnectionUtils.showError(RequestToTracking.this,"endpoint is null!");
+				ConnectionUtils.showError(RequestToTrackingActivity.this,"endpoint is null!");
 			}
-			else
-			{
-				ConnectionUtils.showError(RequestToTracking.this,"endpoint is not null");
-			}
+			
 			
 			customerInfoTrans = new Transaction();
 			
@@ -166,6 +159,7 @@ public class RequestToTracking extends ActionBarActivity {
 			customerInfoTrans.setCustomerLocStr(customerLocStr);
 			customerInfoTrans.setCustomerLoc(customerLoc);
 			customerInfoTrans.setDestLocStr(destLocStr);
+			//customerInfoTrans.setDestLoc(destLoc);
 		
 			
 			try {
@@ -212,7 +206,7 @@ public class RequestToTracking extends ActionBarActivity {
 			Bundle driverInfo = new Bundle();
 			driverInfo.putString("Email",driverEmail);
 			
-	    	Intent intent = new Intent(RequestToTracking.this, TrackingActivity.class);
+	    	Intent intent = new Intent(RequestToTrackingActivity.this, TrackingActivity.class);
 	    	intent.putExtras(driverInfo);
 			startActivity(intent);
 			finish();

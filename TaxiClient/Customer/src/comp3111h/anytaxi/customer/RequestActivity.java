@@ -198,7 +198,7 @@ public class RequestActivity extends ActionBarActivity implements
 				
 				
 				
-				Intent intent = new Intent(RequestActivity.this, RequestToTracking.class);
+				Intent intent = new Intent(RequestActivity.this, RequestToTrackingActivity.class);
 		    	intent.putExtras(customerInfo);
     			startActivity(intent);
 		    	
