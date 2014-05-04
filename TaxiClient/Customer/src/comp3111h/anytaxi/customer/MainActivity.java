@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
@@ -26,10 +28,12 @@ public class MainActivity extends ActionBarActivity {
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        
-        // hide the action bar
-        getSupportActionBar().hide();
+
+	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+	            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    //getSupportActionBar().hide();
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_main);		
         
         credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);  
         Utils.customer = Utils.getCustomer(this);

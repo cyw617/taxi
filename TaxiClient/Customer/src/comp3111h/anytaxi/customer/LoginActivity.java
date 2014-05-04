@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
@@ -28,11 +30,13 @@ public class LoginActivity extends ActionBarActivity {
 
 	@Override
 	public void onStart() {
-		super.onStart();
-		setContentView(R.layout.activity_main);
-		
-		// hide the action bar
-		getSupportActionBar().hide();
+		super.onStart();	
+
+	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+	            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //getSupportActionBar().hide();
+		setContentView(R.layout.activity_main);	
 		
 		credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);         
 		startActivityForResult(credential.newChooseAccountIntent(), Utils.REQUEST_ACCOUNT_PICKER);
