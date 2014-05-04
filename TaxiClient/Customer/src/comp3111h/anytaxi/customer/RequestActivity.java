@@ -23,7 +23,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 public class RequestActivity extends ActionBarActivity implements
@@ -75,7 +75,7 @@ public class RequestActivity extends ActionBarActivity implements
 		moreButton = (Button) findViewById(R.id.more);
 		moreButton.setOnClickListener(createButtonListener);
 
-		LocationUtils.mMap = ((MapFragment) getFragmentManager()
+		LocationUtils.mMap = ((SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
 		LocationUtils.mMap.setMyLocationEnabled(true);
 	}
