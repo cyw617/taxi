@@ -19,7 +19,7 @@ import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import comp3111h.anytaxi.customer.R;
+import comp3111h.anytaxi.driver.R;
 
 public class LoginActivity extends ActionBarActivity {
 

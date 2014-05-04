@@ -91,7 +91,7 @@
             android:label="activity_create" >
         </activity>
         <activity
-            android:name="comp3111h.anytaxi.customer.CreatActivity"
+            android:name="comp3111h.anytaxi.customer.CreateActivity"
             android:label="activity_create" >
         </activity>
 

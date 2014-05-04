@@ -14,10 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CreatActivity extends Activity
+public class CreateActivity extends Activity
 {
-	static String host = "143.89.168.85";
-	static int port = 4578;
+	private final static String HOST = "143.89.168.85";
+	private final static int PORT = 4578;
 
 	private Button submitButton;
 
@@ -79,7 +79,7 @@ public class CreatActivity extends Activity
 
 				String feedback = "Error";
 
-				Clientsocket = new Socket(host, port);
+				Clientsocket = new Socket(HOST, PORT);
 
 				Scanner networkInput = new Scanner(
 						Clientsocket.getInputStream());

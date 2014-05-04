@@ -22,8 +22,8 @@ import android.widget.Toast;
 
 public class IndexActivity extends Activity
 {
-	static String host = "143.89.168.85";
-	static int port = 4578;
+	private final static String HOST = "143.89.168.85";
+	private final static int PORT = 4578;
 
 	private Button callButton;
 	private Button createButton;
@@ -113,7 +113,7 @@ public class IndexActivity extends Activity
 		public void onClick(View v)
 		{
 			Intent TestGroupMessageTable = new Intent(IndexActivity.this,
-					CreatActivity.class);
+					CreateActivity.class);
 			startActivity(TestGroupMessageTable);
 		}
 	};
@@ -140,7 +140,7 @@ public class IndexActivity extends Activity
 
 				String feedback = "Error";
 
-				Clientsocket = new Socket(host, port);
+				Clientsocket = new Socket(HOST, PORT);
 
 				Scanner networkInput = new Scanner(
 						Clientsocket.getInputStream());
@@ -184,7 +184,7 @@ public class IndexActivity extends Activity
 
 				String feedback = "Error";
 
-				Clientsocket = new Socket(host, port);
+				Clientsocket = new Socket(HOST, PORT);
 
 				Scanner networkInput = new Scanner(
 						Clientsocket.getInputStream());
@@ -229,7 +229,7 @@ public class IndexActivity extends Activity
 
 				String feedback = "Error";
 
-				Clientsocket = new Socket(host, port);
+				Clientsocket = new Socket(HOST, PORT);
 
 				Scanner networkInput = new Scanner(
 						Clientsocket.getInputStream());
