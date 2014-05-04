@@ -2,24 +2,23 @@ package comp3111h.anytaxi.customer;
 
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class DeleteOrder extends Activity
+public class DeleteOrder extends ActionBarActivity
 {
-	static String host = "143.89.168.85";
-	static int port = 4578;
+    private final static String TAG = "DeleteOrder";
+    
+	private final static String HOST = "143.89.168.85";
+	private final static int PORT = 4578;
 
 	private Button deleteButton;
 
@@ -30,71 +29,62 @@ public class DeleteOrder extends Activity
 		setContentView(R.layout.activity_delete);
 
 		deleteButton = (Button) findViewById(R.id.delete);
-
-		deleteButton.setOnClickListener(deleteListener);
-
+		deleteButton.setOnClickListener(onDeleteListener);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-
 		getMenuInflater().inflate(R.menu.main, menu);
+		
 		return true;
 	}
 
-	private OnClickListener deleteListener = new OnClickListener()
+	private OnClickListener onDeleteListener = new OnClickListener()
 	{
 		@Override
 		public void onClick(View v)
 		{
-			deleteTask show = new deleteTask();
-			show.execute(); // pass selected Button to submitGuess
-		} // end method onClick
+			new DeleteTask().execute();
+		}
 	};
 
-	public class deleteTask extends AsyncTask<String, Void, String>
+	/**
+	 * This will send a "delete" token to the server,
+	 * which will react to delete the order.
+	 */
+	public class DeleteTask extends AsyncTask<Void, Void, Void>
 	{
 		@Override
-		protected String doInBackground(String... arg0)
+		protected Void doInBackground(Void... params)
 		{
 			try
 			{
-
-				Socket Clientsocket;
-
-				String feedback = "Error";
-
-				Clientsocket = new Socket(host, port);
-
-				Scanner networkInput = new Scanner(
-						Clientsocket.getInputStream());
+				Socket clientSocket = new Socket(HOST, PORT);
 
 				PrintWriter networkOutput = new PrintWriter(
-						Clientsocket.getOutputStream(), true);
+						clientSocket.getOutputStream(), true);
 
 				networkOutput.println("delete");
 
-				Clientsocket.close();
-
-				return feedback;
-
-			} catch (Exception e)
+				clientSocket.close();
+			}
+			catch (Exception e)
 			{
-				return "showClientListError!!!!";
+				Log.e(TAG, e.getMessage());
 			}
 
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(String feedback)
+		protected void onPostExecute(Void result)
 		{
-
+		    Log.i(TAG, "An order is deleted.");
+		    
 			Toast.makeText(deleteButton.getContext(),
-					"delete successfully,waiting for driver!",
-					Toast.LENGTH_LONG).show();
-
+					"The order is deleted succesfully.",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
-
 }
