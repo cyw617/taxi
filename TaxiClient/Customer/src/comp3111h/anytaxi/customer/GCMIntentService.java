@@ -13,29 +13,22 @@ import com.google.android.gcm.GCMRegistrar;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson.JacksonFactory;
 
-/**
- * This class is started up as a service of the Android application. It listens
- * for Google Cloud Messaging (GCM) messages directed to this device.
- * 
- * When the device is successfully registered for GCM, a message is sent to the
- * App Engine backend via Cloud Endpoints, indicating that it wants to receive
- * broadcast messages from the it.
- * 
- * Before registering for GCM, you have to create a project in Google's Cloud
- * Console (https://code.google.com/apis/console). In this project, you'll have
- * to enable the "Google Cloud Messaging for Android" Service.
- * 
- * Once you have set up a project and enabled GCM, you'll have to set the
- * PROJECT_NUMBER field to the project number mentioned in the "Overview" page.
- * 
- * See the documentation at
- * http://developers.google.com/eclipse/docs/cloud_endpoints for more
- * information.
- */
 public class GCMIntentService extends GCMBaseIntentService {
 	private final AnyTaxi endpoint;
 
 	protected static final String PROJECT_NUMBER = "1072316261853";
+
+	final static public String GCM_INTENT = "__GCM_INTENT__";
+	final static public String TRANSACTION_ID = "__TRANSACTION_ID__";
+	final static public String FAIL = "__FAIL__";
+
+	public GCMIntentService() {
+		super(PROJECT_NUMBER);
+		AnyTaxi.Builder endpointBuilder = new AnyTaxi.Builder(
+				AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
+				null);
+		endpoint = CloudEndpointUtils.updateBuilder(endpointBuilder).build();
+	}
 
 	/**
 	 * Register the device for GCM.
@@ -59,14 +52,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		GCMRegistrar.unregister(mContext);
 	}
 
-	public GCMIntentService() {
-		super(PROJECT_NUMBER);
-		AnyTaxi.Builder endpointBuilder = new AnyTaxi.Builder(
-				AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
-				null);
-		endpoint = CloudEndpointUtils.updateBuilder(endpointBuilder).build();
-	}
-
 	/**
 	 * Called on registration error. This is called in the context of a Service
 	 * - no dialog or UI.
@@ -79,28 +64,20 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onError(Context context, String errorId) {
 
-		sendNotificationIntent(
-				context,
+		Log.e(GCMIntentService.class.getName(),
 				"Registration with Google Cloud Messaging...FAILED!\n\n"
 						+ "A Google Cloud Messaging registration error occurred (errorid: "
 						+ errorId
-						+ "). "
-						+ "Do you have your project number ("
-						+ ("".equals(PROJECT_NUMBER) ? "<unset>"
-								: PROJECT_NUMBER)
-								+ ")  set correctly, and do you have Google Cloud Messaging enabled for the "
-								+ "project?", true, true);
+						+ "). ");
 	}
 
 	/**
-	 * TODO: Called when a cloud message has been received.
+	 * Called when a cloud message has been received.
 	 */
 	@Override
 	public void onMessage(Context context, Intent intent) {
-		sendNotificationIntent(
-				context,
-				"Message received via Google Cloud Messaging:\n\n"
-						+ intent.getStringExtra("message"), true, false);
+		sendNotificationIntent(context, "true".equals(intent.getStringExtra("fail")),
+				intent.getStringExtra("transactionKey"));
 	}
 
 	/**
@@ -112,51 +89,18 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 */
 	@Override
 	public void onRegistered(Context context, String deviceRegistrationID) {
-		boolean alreadyRegisteredWithEndpointServer = false;
 
 		Customer customer = Utils.getCustomer(context);
-		assert (customer != null);
-
-		if (customer.getDeviceRegistrationID() != null) {
-			alreadyRegisteredWithEndpointServer = true;
-		}
-
-		try {
-			if (!alreadyRegisteredWithEndpointServer) {
-				/*
-				 * We are not registered as yet. Send an endpoint message
-				 * containing the GCM registration id and some of the device's
-				 * product information over to the backend. Then, we'll be
-				 * registered.
-				 */
-				customer.setDeviceRegistrationID(deviceRegistrationID);
+		if (customer != null && customer.getDeviceRegistrationID() == null) {
+			customer.setDeviceRegistrationID(deviceRegistrationID);
+			try {
 				endpoint.updateCustomer(customer).execute();
+			} catch (IOException e) {
+				Log.e(GCMIntentService.class.getName(),
+						"Exception received when attempting to register with server at "
+								+ endpoint.getRootUrl(), e);
 			}
-		} catch (IOException e) {
-			Log.e(GCMIntentService.class.getName(),
-					"Exception received when attempting to register with server at "
-							+ endpoint.getRootUrl(), e);
-
-			sendNotificationIntent(
-					context,
-					"1) Registration with Google Cloud Messaging...SUCCEEDED!\n\n"
-							+ "2) Registration with Endpoints Server...FAILED!\n\n"
-							+ "Unable to register your device with your Cloud Endpoints server running at "
-							+ endpoint.getRootUrl()
-							+ ". Either your Cloud Endpoints server is not deployed to App Engine, or "
-							+ "your settings need to be changed to run against a local instance "
-							+ "by setting LOCAL_ANDROID_RUN to 'true' in CloudEndpointUtils.java.",
-							true, true);
-			return;
 		}
-
-		sendNotificationIntent(
-				context,
-				"1) Registration with Google Cloud Messaging...SUCCEEDED!\n\n"
-						+ "2) Registration with Endpoints Server...SUCCEEDED!\n\n"
-						+ "Device registration with Cloud Endpoints Server running at  "
-						+ endpoint.getRootUrl()
-						+ " succeeded!\n\n", false, true);
 	}
 
 	/**
@@ -170,7 +114,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onUnregistered(Context context, String registrationId) {
 
 		if (registrationId != null && registrationId.length() > 0) {
-
 			try {
 				Customer customer = Utils.getCustomer(context);
 				customer.setDeviceRegistrationID(null);
@@ -179,53 +122,16 @@ public class GCMIntentService extends GCMBaseIntentService {
 				Log.e(GCMIntentService.class.getName(),
 						"Exception received when attempting to unregister with server at "
 								+ endpoint.getRootUrl(), e);
-				sendNotificationIntent(
-						context,
-						"1) De-registration with Google Cloud Messaging....SUCCEEDED!\n\n"
-								+ "2) De-registration with Endpoints Server...FAILED!\n\n"
-								+ "We were unable to de-register your device from your Cloud "
-								+ "Endpoints server running at "
-								+ endpoint.getRootUrl() + "."
-								+ "See your Android log for more information.",
-								true, true);
 				return;
 			}
 		}
-
-		sendNotificationIntent(
-				context,
-				"1) De-registration with Google Cloud Messaging....SUCCEEDED!\n\n"
-						+ "2) De-registration with Endpoints Server...SUCCEEDED!\n\n"
-						+ "Device de-registration with Cloud Endpoints server running at  "
-						+ endpoint.getRootUrl() + " succeeded!", false, true);
 	}
 
-	/**
-	 * Generate a notification intent and dispatch it to the RegisterActivity.
-	 * This is how we get information from this service (non-UI) back to the
-	 * activity.
-	 * 
-	 * For this to work, the 'android:launchMode="singleTop"' attribute needs to
-	 * be set for the RegisterActivity in AndroidManifest.xml.
-	 * 
-	 * @param context
-	 *            the application context
-	 * @param message
-	 *            the message to send
-	 * @param isError
-	 *            true if the message is an error-related message; false
-	 *            otherwise
-	 * @param isRegistrationMessage
-	 *            true if this message is related to registration/unregistration
-	 */
-	private void sendNotificationIntent(Context context, String message,
-			boolean isError, boolean isRegistrationMessage) {
-		Intent notificationIntent = new Intent(context, RegisterActivity.class);
-		notificationIntent.putExtra("gcmIntentServiceMessage", true);
-		notificationIntent.putExtra("registrationMessage",
-				isRegistrationMessage);
-		notificationIntent.putExtra("error", isError);
-		notificationIntent.putExtra("message", message);
+	private void sendNotificationIntent(Context context, boolean fail,
+			String transaction_id) {
+		Intent notificationIntent = new Intent(context, TrackingActivity.class);
+		notificationIntent.putExtra(FAIL, fail);
+		notificationIntent.putExtra(TRANSACTION_ID, transaction_id);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(notificationIntent);
 	}
