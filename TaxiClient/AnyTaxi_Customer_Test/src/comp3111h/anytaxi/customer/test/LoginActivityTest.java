@@ -31,7 +31,7 @@ public class LoginActivityTest extends ActivityUnitTestCase<LoginActivity> {
 		setActivityContext(context);
 		
 		Intent intent = new Intent(getInstrumentation().getTargetContext(),
-				LoginActivityTest.class);
+				LoginActivity.class);
 		
 		this.startActivity(intent, null, null);
 	}

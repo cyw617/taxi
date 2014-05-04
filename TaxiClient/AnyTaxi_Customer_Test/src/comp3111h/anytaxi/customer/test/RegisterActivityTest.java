@@ -37,8 +37,8 @@ public class RegisterActivityTest extends ActivityUnitTestCase<RegisterActivity>
         setActivityContext(new ContextThemeWrapper(rContext, R.style.AppTheme));
         
         // onCreate() will be called for the activity
-        Intent intent = new Intent(rContext, RegisterActivityTest.class);
-        startActivity(intent, null, null);
+        startActivity(new Intent(rContext, RegisterActivity.class),
+        		null, null);
         
         // fetch the fragment manager from the activity
         rFragmentManager = getActivity().getSupportFragmentManager();

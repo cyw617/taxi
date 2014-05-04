@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityUnitTestCase;
 import android.view.ContextThemeWrapper;
+
 import comp3111h.anytaxi.customer.R;
+import comp3111h.anytaxi.customer.RegisterActivity;
 import comp3111h.anytaxi.customer.RequestActivity;
 
 public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity>{
@@ -24,7 +26,7 @@ public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity>{
         setActivityContext(new ContextThemeWrapper(rContext, R.style.AppTheme));
         
         // onCreate() will be called for the activity
-        Intent intent = new Intent(rContext, RegisterActivityTest.class);
+        Intent intent = new Intent(rContext, RegisterActivity.class);
         startActivity(intent, null, null);
     }
 	
