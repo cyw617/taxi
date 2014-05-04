@@ -109,7 +109,7 @@ public class IndexActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
-			Intent TestGroupMessageTable = new Intent(IndexActivity.this,
+			Intent TestGroupMessageTable = new Intent(IndexActivity.this.getApplicationContext(),
 					CreateActivity.class);
 			startActivity(TestGroupMessageTable);
 		}
