@@ -125,7 +125,7 @@ public class CustomerListActivity extends ActionBarActivity{
 	        if (addresses != null && addresses.size() > 0) {
 
 	            // Get the first address
-	        	address = addresses.get(0).getAddressLine(0) + addresses.get(0).getAddressLine(1);
+	        	//address = addresses.get(0).getAddressLine(0) + addresses.get(0).getAddressLine(1);
 				
 				strArr.add(address+"\t"+latText.getText().toString()+"\t"+lntText.getText().toString());
 
@@ -234,8 +234,12 @@ public class CustomerListActivity extends ActionBarActivity{
     							Toast.LENGTH_LONG).show();
     				} else {
     					// TODO: add something meaningful!
-    					t.getCustomerLocStr();
-    					t.getDestLocStr();
+    					String customerLoc = t.getCustomerLocStr();
+    					String customerDes = t.getDestLocStr();
+    					
+    					//Update the customer List
+    					strArr.add(customerLoc+"\t"+customerDes);
+    					arrAdapter.notifyDataSetChanged();
     				}
     				if (exceptionThrown != null) {
     					Log.e(TAG, "Exception", exceptionThrown);
