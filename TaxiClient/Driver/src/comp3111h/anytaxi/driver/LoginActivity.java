@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
@@ -18,6 +19,7 @@ import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import comp3111h.anytaxi.customer.R;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -30,9 +32,9 @@ public class LoginActivity extends ActionBarActivity {
 	public void onStart() {
 		super.onStart();
 		setContentView(R.layout.activity_main);
-        
-        // hide the action bar
-        getSupportActionBar().hide();
+	    //getSupportActionBar().hide();
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_main);		
         
 		credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);         
 		startActivityForResult(credential.newChooseAccountIntent(), Utils.REQUEST_ACCOUNT_PICKER);
