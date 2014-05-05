@@ -258,7 +258,7 @@ public class RequestActivity extends ActionBarActivity implements
                     // new EndpointsTask(RequestActivity.this, endpoint,
                     // c).execute();
 
-                    String curAddress = (String) mAddress.getText();
+                    String curAddress = String.valueOf( mAddress.getText());
 
                     myDestination = myDestination_Field.getText().toString();
 
