@@ -14,8 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CreateActivity extends Activity
-{
+public class CreateActivity extends Activity {
 	private final static String HOST = "143.89.168.85";
 	private final static int PORT = 4578;
 
@@ -28,8 +27,7 @@ public class CreateActivity extends Activity
 	private EditText capacityText;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create);
 
@@ -45,29 +43,23 @@ public class CreateActivity extends Activity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
-	private OnClickListener submitButtonListener = new OnClickListener()
-	{
+	private OnClickListener submitButtonListener = new OnClickListener() {
 		@Override
-		public void onClick(View v)
-		{
+		public void onClick(View v) {
 			showClientList show = new showClientList();
 			show.execute(); // pass selected Button to submitGuess
 		} // end method onClick
 	};
 
-	private class showClientList extends AsyncTask<String, Void, String>
-	{
+	private class showClientList extends AsyncTask<String, Void, String> {
 		@Override
-		protected String doInBackground(String... arg0)
-		{
-			try
-			{
+		protected String doInBackground(String... arg0) {
+			try {
 
 				Socket Clientsocket;
 
@@ -98,16 +90,14 @@ public class CreateActivity extends Activity
 
 				return feedback;
 
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				return "showClientListError!!!!";
 			}
 
 		}
 
 		@Override
-		protected void onPostExecute(String feedback)
-		{
+		protected void onPostExecute(String feedback) {
 			Toast.makeText(submitButton.getContext(), "submit successfully",
 					Toast.LENGTH_LONG).show();
 
@@ -115,4 +105,3 @@ public class CreateActivity extends Activity
 	}
 
 }
-

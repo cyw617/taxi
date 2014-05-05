@@ -19,53 +19,54 @@ import com.google.android.gms.maps.GoogleMap;
 
 public final class LocationUtils {
 
-    // Debugging tag for the application
-    public static final String APPTAG = "AnyTaxiCustomer";
+	// Debugging tag for the application
+	public static final String APPTAG = "AnyTaxiCustomer";
 
-    // Name of shared preferences repository that stores persistent state
-    public static final String SHARED_PREFERENCES =
-            "comp3111h.anytaxi.customer.SHARED_PREFERENCES";
-	
-    // Key for storing the "updates requested" flag in shared preferences
-    public static final String KEY_UPDATES_REQUESTED =
-            "comp3111h.anytaxi.customer.KEY_UPDATES_REQUESTED";
-    
-    // Create an empty string for initializing strings
-    public static final String EMPTY_STRING = new String();
-    
+	// Name of shared preferences repository that stores persistent state
+	public static final String SHARED_PREFERENCES = "comp3111h.anytaxi.customer.SHARED_PREFERENCES";
+
+	// Key for storing the "updates requested" flag in shared preferences
+	public static final String KEY_UPDATES_REQUESTED = "comp3111h.anytaxi.customer.KEY_UPDATES_REQUESTED";
+
+	// Create an empty string for initializing strings
+	public static final String EMPTY_STRING = new String();
+
 	public static GoogleMap mMap;
-    
-    /**
-     * Get the latitude and longitude from the Location object returned by
-     * Location Services.
-     *
-     * @param currentLocation A Location object containing the current location
-     * @return The latitude and longitude of the current location, or null if no
-     * location is available.
-     */
-    public static String getLatLng(Context context, Location currentLocation) {
-        // If the location is valid
-        if (currentLocation != null) {
 
-            // Return the latitude and longitude as strings
-            return context.getString(
-                    R.string.latitude_longitude,
-                    currentLocation.getLatitude(),
-                    currentLocation.getLongitude());
-        } else {
+	/**
+	 * Get the latitude and longitude from the Location object returned by
+	 * Location Services.
+	 * 
+	 * @param currentLocation
+	 *            A Location object containing the current location
+	 * @return The latitude and longitude of the current location, or null if no
+	 *         location is available.
+	 */
+	public static String getLatLng(Context context, Location currentLocation) {
+		// If the location is valid
+		if (currentLocation != null) {
 
-            // Otherwise, return the empty string
-            return EMPTY_STRING;
-        }
-    }
-    
+			// Return the latitude and longitude as strings
+			return context.getString(R.string.latitude_longitude,
+					currentLocation.getLatitude(),
+					currentLocation.getLongitude());
+		} else {
+
+			// Otherwise, return the empty string
+			return EMPTY_STRING;
+		}
+	}
+
 	@SuppressLint("NewApi")
 	public static void getAddress(Context myActivity, Location currentLocation) {
 
-		// In Gingerbread and later, use Geocoder.isPresent() to see if a geocoder is available.
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && !Geocoder.isPresent()) {
+		// In Gingerbread and later, use Geocoder.isPresent() to see if a
+		// geocoder is available.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
+				&& !Geocoder.isPresent()) {
 			// No geocoder is present. Issue an error message
-			Toast.makeText(myActivity, R.string.no_geocoder_available, Toast.LENGTH_LONG).show();
+			Toast.makeText(myActivity, R.string.no_geocoder_available,
+					Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -79,17 +80,19 @@ public final class LocationUtils {
 			(myUtils.new GetAddressTask(myActivity)).execute(currentLocation);
 		}
 	}
+
 	/**
-	 * An AsyncTask that calls getFromLocation() in the background.
-	 * The class uses the following generic types:
-	 * Location - A {@link android.location.Location} object containing the current location,
-	 *            passed as the input parameter to doInBackground()
-	 * Void     - indicates that progress units are not used by this subclass
-	 * String   - An address passed to onPostExecute()
+	 * An AsyncTask that calls getFromLocation() in the background. The class
+	 * uses the following generic types: Location - A
+	 * {@link android.location.Location} object containing the current location,
+	 * passed as the input parameter to doInBackground() Void - indicates that
+	 * progress units are not used by this subclass String - An address passed
+	 * to onPostExecute()
 	 */
 	protected class GetAddressTask extends AsyncTask<Location, Void, String> {
 
-		// Store the context passed to the AsyncTask when the system instantiates it.
+		// Store the context passed to the AsyncTask when the system
+		// instantiates it.
 		Context localContext;
 
 		// Constructor called by the system to instantiate the task
@@ -103,56 +106,53 @@ public final class LocationUtils {
 		}
 
 		/**
-		 * Get a geocoding service instance, pass latitude and longitude to it, format the returned
-		 * address, and return the address to the UI thread.
+		 * Get a geocoding service instance, pass latitude and longitude to it,
+		 * format the returned address, and return the address to the UI thread.
 		 */
 		@Override
 		protected String doInBackground(Location... params) {
 			/*
-			 * Get a new geocoding service instance, set for localized addresses. This example uses
-			 * android.location.Geocoder, but other geocoders that conform to address standards
-			 * can also be used.
+			 * Get a new geocoding service instance, set for localized
+			 * addresses. This example uses android.location.Geocoder, but other
+			 * geocoders that conform to address standards can also be used.
 			 */
 			Geocoder geocoder = new Geocoder(localContext, Locale.getDefault());
 
-			
-			
-			
 			// Get the current location from the input parameter list
 			Location location = params[0];
-			
-			
-			if(location==null)
-			{
+
+			if (location == null) {
 				Log.e(LocationUtils.APPTAG, "Location inside ASYNCTASK is null");
 			}
-			
 
 			// Create a list to contain the result address
-			List <Address> addresses = null;
+			List<Address> addresses = null;
 
-			// Try to get an address for the current location. Catch IO or network problems.
+			// Try to get an address for the current location. Catch IO or
+			// network problems.
 			try {
 
 				/*
-				 * Call the synchronous getFromLocation() method with the latitude and
-				 * longitude of the current location. Return at most 1 address.
+				 * Call the synchronous getFromLocation() method with the
+				 * latitude and longitude of the current location. Return at
+				 * most 1 address.
 				 */
 				addresses = geocoder.getFromLocation(location.getLatitude(),
-						location.getLongitude(), 1
-						);
+						location.getLongitude(), 1);
 
 				// Catch network or other I/O problems.
 			} catch (IOException exception1) {
 
 				// Log an error and return an error message
-				Log.e(LocationUtils.APPTAG, localContext.getString(R.string.IO_Exception_getFromLocation));
+				Log.e(LocationUtils.APPTAG, localContext
+						.getString(R.string.IO_Exception_getFromLocation));
 
 				// print the stack trace
 				exception1.printStackTrace();
 
 				// Return an error message
-				return (localContext.getString(R.string.IO_Exception_getFromLocation));
+				return (localContext
+						.getString(R.string.IO_Exception_getFromLocation));
 
 				// Catch incorrect latitude or longitude values
 			} catch (IllegalArgumentException exception2) {
@@ -160,9 +160,7 @@ public final class LocationUtils {
 				// Construct a message containing the invalid arguments
 				String errorString = localContext.getString(
 						R.string.illegal_argument_exception,
-						location.getLatitude(),
-						location.getLongitude()
-						);
+						location.getLatitude(), location.getLongitude());
 				// Log the error and print the stack trace
 				Log.e(LocationUtils.APPTAG, errorString);
 				exception2.printStackTrace();
@@ -177,18 +175,18 @@ public final class LocationUtils {
 				Address address = addresses.get(0);
 
 				// Format the first line of address
-				String addressText = localContext.getString(R.string.address_output_string,
+				String addressText = localContext.getString(
+						R.string.address_output_string,
 
 						// If there's a street address, add it
-						address.getMaxAddressLineIndex() > 0 ?
-								address.getAddressLine(0) : "NoStreet",
-								
-								// Locality is usually a city
-								address.getAddressLine(1),
+						address.getMaxAddressLineIndex() > 0 ? address
+								.getAddressLine(0) : "NoStreet",
 
-								// The country of the address
-								address.getAddressLine(2)
-						);
+						// Locality is usually a city
+						address.getAddressLine(1),
+
+						// The country of the address
+						address.getAddressLine(2));
 
 				// Return the text
 				return addressText;
@@ -200,8 +198,9 @@ public final class LocationUtils {
 		}
 
 		/**
-		 * A method that's called once doInBackground() completes. Set the text of the
-		 * UI element that displays the address. This method runs on the UI thread.
+		 * A method that's called once doInBackground() completes. Set the text
+		 * of the UI element that displays the address. This method runs on the
+		 * UI thread.
 		 */
 		@Override
 		protected void onPostExecute(String address) {
@@ -214,8 +213,4 @@ public final class LocationUtils {
 		}
 	}
 
-
-
-
- 
 }

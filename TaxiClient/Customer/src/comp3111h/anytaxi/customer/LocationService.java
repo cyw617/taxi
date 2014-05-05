@@ -13,11 +13,10 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 
-public class LocationService extends Service implements
-	LocationListener,
-	GooglePlayServicesClient.ConnectionCallbacks,
-	GooglePlayServicesClient.OnConnectionFailedListener{
-	
+public class LocationService extends Service implements LocationListener,
+		GooglePlayServicesClient.ConnectionCallbacks,
+		GooglePlayServicesClient.OnConnectionFailedListener {
+
 	private LocationRequest mLocationRequest;
 	LocationClient mLocationClient;
 	/*
@@ -30,16 +29,16 @@ public class LocationService extends Service implements
 	// A fast interval ceiling
 	public static final int FAST_CEILING_IN_SECONDS = 1;
 	// Update interval in milliseconds
-	public static final long UPDATE_INTERVAL_IN_MILLISECONDS =
-	        MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
+	public static final long UPDATE_INTERVAL_IN_MILLISECONDS = MILLISECONDS_PER_SECOND
+			* UPDATE_INTERVAL_IN_SECONDS;
 	// A fast ceiling of update intervals, used when the app is visible
-	public static final long FAST_INTERVAL_CEILING_IN_MILLISECONDS =
-	        MILLISECONDS_PER_SECOND * FAST_CEILING_IN_SECONDS;
+	public static final long FAST_INTERVAL_CEILING_IN_MILLISECONDS = MILLISECONDS_PER_SECOND
+			* FAST_CEILING_IN_SECONDS;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+
 		// Create a new global location parameters object
 		mLocationRequest = LocationRequest.create();
 
@@ -52,11 +51,12 @@ public class LocationService extends Service implements
 		mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 		// Set the interval ceiling to one minute
-		mLocationRequest.setFastestInterval(FAST_INTERVAL_CEILING_IN_MILLISECONDS);
-		
+		mLocationRequest
+				.setFastestInterval(FAST_INTERVAL_CEILING_IN_MILLISECONDS);
+
 		mLocationClient = new LocationClient(this, this, this);
 	}
-	
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startid) {
 		// Don't automatically restart this Service if it is killed
@@ -66,18 +66,17 @@ public class LocationService extends Service implements
 	@Override
 	public void onDestroy() {
 
-	      // If the client is connected
-	      if (mLocationClient.isConnected()) {
-	          stopPeriodicUpdates();
-	      }
+		// If the client is connected
+		if (mLocationClient.isConnected()) {
+			stopPeriodicUpdates();
+		}
 
-	      // After disconnect() is called, the client is considered "dead".
-	      mLocationClient.disconnect();
+		// After disconnect() is called, the client is considered "dead".
+		mLocationClient.disconnect();
 
-	      super.onDestroy();
+		super.onDestroy();
 	}
 
-	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
@@ -87,8 +86,8 @@ public class LocationService extends Service implements
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {
 		// TODO Auto-generated method stub
-		ConnectionUtils.connectionResultHandler(connectionResult,this);
-		
+		ConnectionUtils.connectionResultHandler(connectionResult, this);
+
 	}
 
 	@Override
@@ -101,39 +100,38 @@ public class LocationService extends Service implements
 	public void onDisconnected() {
 		// TODO Auto-generated method stub
 		Toast.makeText(this, "Disconnected. Please re-connect.",
-		Toast.LENGTH_SHORT).show();
-		
+				Toast.LENGTH_SHORT).show();
+
 	}
 
-	
-	
 	/**
 	 * Report location updates to the UI.
-	 *
-	 * @param location The updated location.
+	 * 
+	 * @param location
+	 *            The updated location.
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-
-
-
 
 		// Report to the UI that the location was updated
 		RequestActivity.mConnectionStatus.setText(R.string.location_updated);
 
 		// In the UI, set the latitude and longitude to the value received
-		RequestActivity.mLatLng.setText(LocationUtils.getLatLng(this, location));
+		RequestActivity.mLatLng
+				.setText(LocationUtils.getLatLng(this, location));
 
-		//Changes only need to be done in getLocation to cosntantly update the location info
+		// Changes only need to be done in getLocation to cosntantly update the
+		// location info
 
 	}
-	
-	  @SuppressWarnings("unused")
-	  private void startPeriodicUpdates() {
-	      mLocationClient.requestLocationUpdates(mLocationRequest, this);
-	  }
-	  private void stopPeriodicUpdates() {
-	      mLocationClient.removeLocationUpdates(this);
-	  }
+
+	@SuppressWarnings("unused")
+	private void startPeriodicUpdates() {
+		mLocationClient.requestLocationUpdates(mLocationRequest, this);
+	}
+
+	private void stopPeriodicUpdates() {
+		mLocationClient.removeLocationUpdates(this);
+	}
 
 }

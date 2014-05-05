@@ -17,8 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class IndexActivity extends Activity
-{
+public class IndexActivity extends Activity {
 	private final static String HOST = "143.89.168.85";
 	private final static int PORT = 4578;
 
@@ -28,8 +27,7 @@ public class IndexActivity extends Activity
 	private Button showlist;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_index);
 
@@ -48,8 +46,7 @@ public class IndexActivity extends Activity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -57,34 +54,28 @@ public class IndexActivity extends Activity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 		// create a new Intent to launch the AddEditContact Activity
 		Intent addNewContact = new Intent(IndexActivity.this, DeleteOrder.class);
 		startActivity(addNewContact); // start the AddEditContact Activity
 		return super.onOptionsItemSelected(item); // call super's method
 	}
 
-	private OnClickListener callListener = new OnClickListener()
-	{
+	private OnClickListener callListener = new OnClickListener() {
 		@Override
-		public void onClick(View v)
-		{
+		public void onClick(View v) {
 			new callTask().execute();
 		}
 	};
 
-	private OnClickListener showlistListener = new OnClickListener()
-	{
+	private OnClickListener showlistListener = new OnClickListener() {
 		@Override
-		public void onClick(View v)
-		{
+		public void onClick(View v) {
 			join();
 		}
 	};
 
-	private void join()
-	{
+	private void join() {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				IndexActivity.this);
@@ -92,30 +83,24 @@ public class IndexActivity extends Activity
 		builder.setMessage("do you want to share taxi"); // message to display
 
 		// provide an OK button that simply dismisses the dialog
-		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
-		{
+		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int button)
-			{
+			public void onClick(DialogInterface dialog, int button) {
 				new joinTask().execute();
 			} // end method onClick
 		} // end anonymous inner class
 		); // end call to method setPositiveButton
 
-		try
-		{
+		try {
 			builder.show();
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			;// display the Dialog
 		}
 	} // end method deleteContact
 
-	private OnClickListener createButtonListener = new OnClickListener()
-	{
+	private OnClickListener createButtonListener = new OnClickListener() {
 		@Override
-		public void onClick(View v)
-		{
+		public void onClick(View v) {
 			Intent TestGroupMessageTable = new Intent(
 					IndexActivity.this.getApplicationContext(),
 					CreateActivity.class);
@@ -123,23 +108,18 @@ public class IndexActivity extends Activity
 		}
 	};
 
-	private OnClickListener showClientListListener = new OnClickListener()
-	{
+	private OnClickListener showClientListListener = new OnClickListener() {
 		@Override
-		public void onClick(View v)
-		{
+		public void onClick(View v) {
 			showClientList show = new showClientList();
 			show.execute(); // pass selected Button to submitGuess
 		} // end method onClick
 	};
 
-	private class callTask extends AsyncTask<String, Void, String>
-	{
+	private class callTask extends AsyncTask<String, Void, String> {
 		@Override
-		protected String doInBackground(String... arg0)
-		{
-			try
-			{
+		protected String doInBackground(String... arg0) {
+			try {
 
 				Socket Clientsocket;
 
@@ -159,16 +139,14 @@ public class IndexActivity extends Activity
 
 				return feedback;
 
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				return "showClientListError!!!!";
 			}
 
 		}
 
 		@Override
-		protected void onPostExecute(String feedback)
-		{
+		protected void onPostExecute(String feedback) {
 
 			Toast.makeText(showlist.getContext(),
 					"call successfully,waiting for driver!", Toast.LENGTH_LONG)
@@ -176,6 +154,7 @@ public class IndexActivity extends Activity
 
 		}
 	}
+
 
 	// private OnClickListener joinListener = new OnClickListener()
 	// {
@@ -203,10 +182,8 @@ public class IndexActivity extends Activity
 	public class joinTask extends AsyncTask<String, Void, String>
 	{
 		@Override
-		protected String doInBackground(String... arg0)
-		{
-			try
-			{
+		protected String doInBackground(String... arg0) {
+			try {
 
 				Socket Clientsocket;
 
@@ -228,16 +205,14 @@ public class IndexActivity extends Activity
 
 				return feedback;
 
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				return "showClientListError!!!!";
 			}
 
 		}
 
 		@Override
-		protected void onPostExecute(String feedback)
-		{
+		protected void onPostExecute(String feedback) {
 
 			Toast.makeText(showlist.getContext(), "join successfully",
 					Toast.LENGTH_LONG).show();
@@ -245,13 +220,10 @@ public class IndexActivity extends Activity
 		}
 	}
 
-	private class showClientList extends AsyncTask<String, Void, String>
-	{
+	private class showClientList extends AsyncTask<String, Void, String> {
 		@Override
-		protected String doInBackground(String... arg0)
-		{
-			try
-			{
+		protected String doInBackground(String... arg0) {
+			try {
 
 				Socket Clientsocket;
 
@@ -273,20 +245,17 @@ public class IndexActivity extends Activity
 
 				return feedback;
 
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				return "showClientListError!!!!";
 			}
 
 		}
 
 		@Override
-		protected void onPostExecute(String feedback)
-		{
+		protected void onPostExecute(String feedback) {
 			String[] result = feedback.split("_");
 			String p = "";
-			for (int i = 0; i < result.length; i++)
-			{
+			for (int i = 0; i < result.length; i++) {
 				if (i == 5)
 					p = p + "\n"
 							+ "--------------------------------------------"

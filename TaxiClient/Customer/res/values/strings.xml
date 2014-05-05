@@ -64,5 +64,27 @@
     <string name="lat">Latitude</string>
     <string name="lnt">"Longitude"</string>
     <string name="title_activity_request_to_tracking">RequestToTracking</string>
+    <string-array name="common_locations">
+        <item >Tuen Mun Road</item>
+        <item >North Lantau Highway</item>
+        <item >Tsing Long Highway</item>
+        <item >Tolo Highway</item>
+        <item >Fanling Highway</item>
+        <item >Yuen Long Highway</item>
+        <item >Island Eastern Corridor</item>
+        <item >San Tin Highway</item>
+        <item >Hong Kong–Shenzhen Western Corridor</item>
+        <item >Kong Sham Western Highway</item>
+        <item >West Kowloon Highway</item>
+        <item >Tate\'s Cairn Highway</item>
+        <item >Tsuen Wan Road</item>
+        <item >Lantau Link</item>
+        <item >Tsing Kwai Highway</item>
+        <item >Sha Tin Road</item>
+        <item >Kwun Tong Bypass</item>
+        <item >Tai Po Road - Sha Tin Section</item>
+        <item >Cheung Tsing Highway</item>
+        <item >Hong Kong University of Science and Technology</item>
+    </string-array>
 
 </resources>
