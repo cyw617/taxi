@@ -52,18 +52,21 @@ public class IndexActivityTest extends ActivityUnitTestCase<IndexActivity> {
 	public void testRefreshButton() {
 		refreshButton = (Button) getActivity().findViewById(R.id.refresh);
 		assertNotNull("Button not allowed to be null", refreshButton);
+		refreshButton.performClick();
 	}
 	
 	@MediumTest
 	public void testCallButton() {
 		callButton = (Button) getActivity().findViewById(R.id.callButton);
 		assertNotNull("Button not allowed to be null", callButton);
+		callButton.performClick();
 	}
 	
 	@MediumTest
 	public void testShowlist() {
 		showlist = (Button) getActivity().findViewById(R.id.refresh);
 		assertNotNull("Button not allowed to be null", showlist);
+		showlist.performClick();
 	}
 	
 	@Override
