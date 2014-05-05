@@ -52,7 +52,6 @@ public class RequestActivity extends ActionBarActivity implements
     ArrayAdapter<String> adapter;
 
     private Button requestButton;
-    private Button moreButton;
 
     // Stores the current instantiation of the location client in this object
     private LocationClient mLocationClient;
@@ -293,14 +292,6 @@ public class RequestActivity extends ActionBarActivity implements
         }
     };
 
-    private OnClickListener createButtonListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent TestGroupMessageTable = new Intent(RequestActivity.this,
-                    IndexActivity.class);
-            startActivity(TestGroupMessageTable);
-        }
-    };
 
 
     private void exit() {
