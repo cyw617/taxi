@@ -1,21 +1,16 @@
 package comp3111h.anytaxi.driver.test;
 
+import comp3111h.anytaxi.driver.R;
 import comp3111h.anytaxi.driver.CustomerListActivity;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
+import android.content.Context;
+import android.content.Intent;
+import android.test.ActivityUnitTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.view.ContextThemeWrapper;
 
-public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<CustomerListActivity>{
-
-    private CustomerListActivity mActivity;
-    Button Add, Remove, Clear;
-    ListView dynamicList;
-    EditText lat, lnt;
-    
-    private static final double DELTA = 1e-2;
+public class CustomerListActivityTest extends ActivityUnitTestCase<CustomerListActivity>{
+	
+	private Context targetContext;
     
 	public CustomerListActivityTest(){
 		super(CustomerListActivity.class);
@@ -25,21 +20,25 @@ public class CustomerListActivityTest extends ActivityInstrumentationTestCase2<C
 	protected void setUp() throws Exception{
 		//this method is called every time before any test execution
 		super.setUp();
+		targetContext = getInstrumentation().getTargetContext();
 		
-		mActivity = (CustomerListActivity) getActivity();
+		setActivityContext(new ContextThemeWrapper(targetContext, R.style.AppTheme));
 		
-		dynamicList = (ListView) mActivity.findViewById(comp3111h.anytaxi.driver.R.id.listView1);
+		Intent intent = new Intent(getInstrumentation().getTargetContext(),
+				CustomerListActivity.class);
+		
+		this.startActivity(intent, null, null);
 	}
 	
 	@Override
 	protected void tearDown() throws Exception{
 		//this method is called every time after any test execution
-		
 		super.tearDown();
 	}
 	
 	@SmallTest
-	public void testView(){ // checks if the activity is created
+	public void testCustomerListActivityStart(){ // checks if the activity is created
+		
 		assertNotNull(getActivity());
 	}
 	

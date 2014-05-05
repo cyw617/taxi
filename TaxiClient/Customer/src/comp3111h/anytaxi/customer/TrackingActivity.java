@@ -29,94 +29,88 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 
 import comp3111h.anytaxi.customer.RequestToTrackingActivity.LoadingDriverTask;
 
+public class TrackingActivity extends ActionBarActivity {
 
-
-
-public class TrackingActivity extends ActionBarActivity{
-	
 	private static final String TAG = "TrackingActivity";
 	final int driverUpDelay = 500;
 	public static GoogleMap mMap;
 	private static Marker marker;
-	
-	
+
 	Driver myDriver;
 	private static Bundle driverInfo;
 	private static String driverEmail;
-	private static AnyTaxi endpoint; 
+	private static AnyTaxi endpoint;
 	private static GeoPt driverLoc;
 	private static LatLng myDriverLoc;
-	
+
 	@SuppressLint("NewApi")
 	@Override
-	protected void onCreate(Bundle savedInstanceState){
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracking);
-        
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
-        endpoint = CloudEndpointUtils.updateBuilder(
-				new AnyTaxi.Builder(
-						AndroidHttp.newCompatibleTransport(),
-						new JacksonFactory(),
-						null)).build();
-        
-        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        mMap.setMyLocationEnabled(true);
-        //We get the previous RequestToTrackingActivity as an Intent
-        Intent prevIntent = getIntent();
-        driverInfo = prevIntent.getExtras();
-        driverEmail = driverInfo.getString("Email");
-        
-        try {
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		endpoint = CloudEndpointUtils.updateBuilder(
+				new AnyTaxi.Builder(AndroidHttp.newCompatibleTransport(),
+						new JacksonFactory(), null)).build();
+
+		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+				.getMap();
+		mMap.setMyLocationEnabled(true);
+		// We get the previous RequestToTrackingActivity as an Intent
+		Intent prevIntent = getIntent();
+		driverInfo = prevIntent.getExtras();
+		driverEmail = driverInfo.getString("Email");
+
+		try {
 			myDriver = endpoint.getDriver(driverEmail).execute();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-        driverLoc = myDriver.getLoc();
-        myDriverLoc = new LatLng(driverLoc.getLatitude(),driverLoc.getLongitude());
-        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(myDriverLoc,15);
-        mMap.animateCamera(cameraup);
-        
-                
-        new TrackingDriverTask().execute();   
-		
+
+		driverLoc = myDriver.getLoc();
+		myDriverLoc = new LatLng(driverLoc.getLatitude(),
+				driverLoc.getLongitude());
+		CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(myDriverLoc,
+				15);
+		mMap.animateCamera(cameraup);
+
+		new TrackingDriverTask().execute();
+
 	}
-	
-	public void goBack(View view){
+
+	public void goBack(View view) {
 		finish();
 	}
-	
 
-	class TrackingDriverTask extends AsyncTask<Void, LatLng, Void>{
+	class TrackingDriverTask extends AsyncTask<Void, LatLng, Void> {
 
 		@Override
 		protected void onPreExecute() {
 		}
 
-		
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			marker = mMap.addMarker(new MarkerOptions().position(myDriverLoc));
-			
-			while(true)
-			{
+
+			while (true) {
 				GeoPt newLoc = myDriver.getLoc();
-				myDriverLoc = new LatLng(newLoc.getLatitude(),newLoc.getLongitude());
+				myDriverLoc = new LatLng(newLoc.getLatitude(),
+						newLoc.getLongitude());
 				publishProgress(myDriverLoc);
 				sleep();
 			}
 		}
-		
+
 	}
-	
+
 	protected void onProgressUpdate(LatLng location) {
 		marker.setPosition(location);
 	}
-	
+
 	private void sleep() {
 		try {
 			Thread.sleep(driverUpDelay);
@@ -124,6 +118,5 @@ public class TrackingActivity extends ActionBarActivity{
 			Log.e(TAG, e.toString());
 		}
 	}
-	
-	
+
 }

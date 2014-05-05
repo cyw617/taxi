@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -35,7 +36,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -79,6 +80,7 @@ public class TraceActivity extends FragmentActivity implements
 	/*CURRENT LOCATION INFO VAR END*/
     
 	public static GoogleMap mMap;
+	private SupportMapFragment mMapFragment;
 	
 	int index; // index of item onclick in customer list
 	
@@ -103,10 +105,13 @@ public class TraceActivity extends FragmentActivity implements
         mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
         mConnectionState = (TextView) findViewById(R.id.text_connection_state);
         mConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
-		
-        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        mMap.setMyLocationEnabled(true);
         
+        mMapFragment = SupportMapFragment.newInstance();
+        FragmentTransaction fragmentTransaction =
+                 getSupportFragmentManager().beginTransaction();
+         fragmentTransaction.add(R.id.map, mMapFragment);
+         fragmentTransaction.commit();
+         getSupportFragmentManager().executePendingTransactions();
 		
 		Intent intent = getIntent();
 		String latString = intent.getStringExtra("Latitude");
@@ -162,13 +167,6 @@ public class TraceActivity extends FragmentActivity implements
         //Identity user's identity, used to communicate with the server
 		credential = GoogleAccountCredential.usingAudience(this,"server:client_id:" + WEB_CLIENT_ID);
 		startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
-		
-		
-		LatLng locationNew = new LatLng(latDouble,lntDouble);
-        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
-        mMap.animateCamera(cameraup);
-        
-        final Marker marker = mMap.addMarker(new MarkerOptions().position(locationNew));
      
 	}
 	
@@ -268,12 +266,7 @@ public class TraceActivity extends FragmentActivity implements
             
             //Double lat=currentLocation.getLatitude();
             //Double lnt=currentLocation.getLongitude();
-            
-       
-            
-            
-            
-
+          
         }
     }
 
@@ -355,6 +348,13 @@ public class TraceActivity extends FragmentActivity implements
             mEditor.commit();
         }
 
+        mMap = mMapFragment.getMap();
+        mMap.setMyLocationEnabled(true);
+        
+        LatLng locationNew = new LatLng(latDouble,lntDouble);
+        CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
+        mMap.animateCamera(cameraup);
+        final Marker marker = mMap.addMarker(new MarkerOptions().position(locationNew));
     }
     
 

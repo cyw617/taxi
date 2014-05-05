@@ -68,8 +68,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Log.e(GCMIntentService.class.getName(),
 				"Registration with Google Cloud Messaging...FAILED!\n\n"
 						+ "A Google Cloud Messaging registration error occurred (errorid: "
-						+ errorId
-						+ "). ");
+						+ errorId + "). ");
 	}
 
 	/**
@@ -81,7 +80,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if (fail) {
 			Intent notification = new Intent(context, TrackingActivity.class);
 			notification.putExtra(FAIL, fail);
-			notification.putExtra(TRANSACTION_ID, intent.getStringExtra("transactionKey"));
+			notification.putExtra(TRANSACTION_ID,
+					intent.getStringExtra("transactionKey"));
 			notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(notification);
 		}
