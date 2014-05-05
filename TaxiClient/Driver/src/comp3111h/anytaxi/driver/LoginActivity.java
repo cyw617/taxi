@@ -31,8 +31,6 @@ public class LoginActivity extends ActionBarActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		setContentView(R.layout.activity_main);
-	    //getSupportActionBar().hide();
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);		
         
