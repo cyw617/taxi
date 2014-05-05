@@ -37,7 +37,7 @@ public class TrackingActivityTest extends ActivityUnitTestCase<TrackingActivity>
 	}
 	
 	@SmallTest
-	public void testCustomerListActivityStart(){ // checks if the activity is created
+	public void testTrackingActivityStart(){ // checks if the activity is created
 		
 		assertNotNull(getActivity());
 	}
