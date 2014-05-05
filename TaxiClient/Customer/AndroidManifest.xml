@@ -66,14 +66,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="comp3111h.anytaxi.customer.MoreOption"
-            android:label="Map Option"
-            android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="comp3111h.anytaxi.customer.RequestActivity" />
-        </activity>
-        <activity
             android:name="comp3111h.anytaxi.customer.TrackingActivity"
             android:label="Tracking Activity"
             android:screenOrientation="portrait" >
