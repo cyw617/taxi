@@ -7,6 +7,7 @@ import android.test.suitebuilder.annotation.MediumTest;
 import android.view.ContextThemeWrapper;
 import android.widget.Button;
 
+import comp3111h.anytaxi.customer.IndexActivity;
 import comp3111h.anytaxi.customer.R;
 import comp3111h.anytaxi.customer.RegisterActivity;
 import comp3111h.anytaxi.customer.RequestActivity;
@@ -20,9 +21,9 @@ public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity>
 
 	Button moreButton;
 
-	public RequestActivityTest(Class<RequestActivity> activityClass)
+	public RequestActivityTest()
 	{
-		super(activityClass);
+		super(RequestActivity.class);
 	}
 
 	@Override
@@ -33,10 +34,16 @@ public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity>
 
 		// set theme for AppCompat support
 		setActivityContext(new ContextThemeWrapper(rContext, R.style.AppTheme));
-
+		
+		
+		
 		// onCreate() will be called for the activity
-		Intent intent = new Intent(rContext, RegisterActivity.class);
-		startActivity(intent, null, null);
+		Intent intent = new Intent(rContext, RequestActivity.class);
+		this.startActivity(intent, null, null);
+		
+	
+		
+		
 	}
 
 	@MediumTest
