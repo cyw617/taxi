@@ -63,7 +63,7 @@ public class IndexActivityTest extends ActivityUnitTestCase<IndexActivity> {
 	
 	@MediumTest
 	public void testShowlist() {
-		showlist = (Button) getActivity().findViewById(R.id.refresh);
+		showlist = (Button) getActivity().findViewById(R.id.showlist);
 		assertNotNull("Button not allowed to be null", showlist);
 		showlist.performClick();
 	}
