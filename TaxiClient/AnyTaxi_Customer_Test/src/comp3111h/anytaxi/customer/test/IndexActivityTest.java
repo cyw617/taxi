@@ -50,6 +50,7 @@ public class IndexActivityTest extends ActivityUnitTestCase<IndexActivity>
 		final Intent launchIntent = this.getStartedActivityIntent();
 		assertEquals(launchIntent.getComponent().getShortClassName(),
 				".CreateActivity");
+		assertEquals(createButton.getText(),"create");
 	}
 
 	@MediumTest
@@ -58,6 +59,7 @@ public class IndexActivityTest extends ActivityUnitTestCase<IndexActivity>
 		refreshButton = (Button) getActivity().findViewById(R.id.refresh);
 		assertNotNull("Button not allowed to be null", refreshButton);
 		refreshButton.performClick();
+		assertEquals(refreshButton.getText(),"refresh");
 	}
 
 	@MediumTest
@@ -66,6 +68,7 @@ public class IndexActivityTest extends ActivityUnitTestCase<IndexActivity>
 		callButton = (Button) getActivity().findViewById(R.id.callButton);
 		assertNotNull("Button not allowed to be null", callButton);
 		callButton.performClick();
+		assertEquals(callButton.getText(),"call");
 	}
 
 	@MediumTest
@@ -75,6 +78,7 @@ public class IndexActivityTest extends ActivityUnitTestCase<IndexActivity>
 		assertNotNull("Button not allowed to be null", showlist);
 		showlist.performClick();
 		getActivity().new joinTask().execute();
+		assertEquals(true,getActivity().ifJoinTask());
 
 	}
 

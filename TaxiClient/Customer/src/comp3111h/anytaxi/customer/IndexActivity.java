@@ -43,6 +43,7 @@ public class IndexActivity extends Activity
 		refreshButton.setOnClickListener(showClientListListener);
 		callButton.setOnClickListener(callListener);
 		showlist.setOnClickListener(showlistListener);
+		showlist.setText("null");
 
 	}
 
@@ -176,17 +177,28 @@ public class IndexActivity extends Activity
 		}
 	}
 
-//	private OnClickListener joinListener = new OnClickListener()
-//	{
-//		@Override
-//		public void onClick(View v)
-//		{
-//			new joinTask().execute();
-//			// pass selected Button to submitGuess
-//		} // end method onClick
-//	};
-	
-	
+	// private OnClickListener joinListener = new OnClickListener()
+	// {
+	// @Override
+	// public void onClick(View v)
+	// {
+	// new joinTask().execute();
+	// // pass selected Button to submitGuess
+	// } // end method onClick
+	// };
+
+	public boolean ifJoinTask()
+	{
+		new joinTask().execute();
+		if (showlist.getText() != "")
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+
+	}
 
 	public class joinTask extends AsyncTask<String, Void, String>
 	{

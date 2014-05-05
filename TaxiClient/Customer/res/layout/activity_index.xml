@@ -36,6 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/showlist"
-        android:text="call " />
+        android:text="call" />
 
 </RelativeLayout>
