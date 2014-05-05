@@ -176,7 +176,19 @@ public class IndexActivity extends Activity
 		}
 	}
 
-	private class joinTask extends AsyncTask<String, Void, String>
+//	private OnClickListener joinListener = new OnClickListener()
+//	{
+//		@Override
+//		public void onClick(View v)
+//		{
+//			new joinTask().execute();
+//			// pass selected Button to submitGuess
+//		} // end method onClick
+//	};
+	
+	
+
+	public class joinTask extends AsyncTask<String, Void, String>
 	{
 		@Override
 		protected String doInBackground(String... arg0)
