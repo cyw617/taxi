@@ -101,7 +101,13 @@ public class IndexActivity extends Activity
 		} // end anonymous inner class
 		); // end call to method setPositiveButton
 
-		builder.show(); // display the Dialog
+		try
+		{
+			builder.show();
+		} catch (Exception e)
+		{
+			;// display the Dialog
+		}
 	} // end method deleteContact
 
 	private OnClickListener createButtonListener = new OnClickListener()
@@ -109,7 +115,8 @@ public class IndexActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
-			Intent TestGroupMessageTable = new Intent(IndexActivity.this.getApplicationContext(),
+			Intent TestGroupMessageTable = new Intent(
+					IndexActivity.this.getApplicationContext(),
 					CreateActivity.class);
 			startActivity(TestGroupMessageTable);
 		}
