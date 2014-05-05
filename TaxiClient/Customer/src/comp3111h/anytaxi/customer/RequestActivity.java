@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,8 @@ public class RequestActivity extends ActionBarActivity implements
     static TextView mAddress;
     static TextView mLatLng;
     static ProgressBar mActivityIndicator;
+    
+    private EditText myDestination_Field;
     
     //Memorize the current location in this activity
     Location curLocGlobal;
@@ -69,7 +72,7 @@ public class RequestActivity extends ActionBarActivity implements
         mAddress = (TextView) findViewById(R.id.address);
         mLatLng = (TextView) findViewById(R.id.lat_lng);
         mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
-        myDestination = ((TextView) findViewById(R.id.destination)).getText().toString();
+        myDestination_Field = (EditText) findViewById(R.id.destination);
 
         requestButton = (Button) findViewById(R.id.request_btn);
         requestButton.setOnClickListener(onRequestListener);
@@ -218,6 +221,8 @@ public class RequestActivity extends ActionBarActivity implements
                     //new EndpointsTask(RequestActivity.this, endpoint, c).execute();
                     
                     String curAddress = (String) mAddress.getText();
+                    
+                    myDestination = myDestination_Field.getText().toString();
                     
                     Bundle customerInfo = new Bundle();
                     customerInfo.putString("EMAIL", Utils.customer.getEmail());
