@@ -4,12 +4,6 @@
     <string name="app_name">AnyTaxi - Customer</string>
     <string name="hello_world">I am the Customer App</string>
 
-    <!-- - - - - - - - - - - - - - Start: Preferences - - - - - - - - - - - - - - -->
-    <string name="settings_ActivityTitle">Settings</string>
-    <string name="signOut">Sign Out</string>
-    <string name="signOut_Summary">Unlink your Google+ account.</string>
-    <!-- - - - - - - - - - - - - - End: Preferences - - - - - - - - - - - - - - - -->
-
 
     <!-- - - - - - - - - - - - - - Start: Miscellaneous - - - - - - - - - - - - - -->
     <string name="quit_Message">Do you want to exit?</string>

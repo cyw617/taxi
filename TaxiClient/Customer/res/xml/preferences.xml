@@ -2,11 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <Preference
-        android:summary="@string/signOut_Summary"
         android:title="@string/signOut" >
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="comp3111h.anytaxi.customer.LoginActivity"
+            android:targetClass="comp3111h.anytaxi.customer.LogoutActivity"
             android:targetPackage="comp3111h.anytaxi.customer" />
     </Preference>
 
