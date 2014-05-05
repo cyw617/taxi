@@ -30,7 +30,7 @@ import com.appspot.hk_taxi.anyTaxi.model.Transaction;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
-public class CustomerListActivity extends ActionBarActivity{
+public class CustomerListActivity extends ActionBarActivity {
 	
 	protected static final String TAG = "CustomerListActivity";
 	private ListView listView;
@@ -113,8 +113,8 @@ public class CustomerListActivity extends ActionBarActivity{
      */
 	public void addItem(View view){
 		
-		latText = (EditText) findViewById(R.id.lat);
-		lntText = (EditText) findViewById(R.id.lnt);
+		EditText latText = (EditText) findViewById(R.id.lat);
+		EditText lntText = (EditText) findViewById(R.id.lnt);
 		Geocoder geocoder;
 		List<Address> addresses;
 		String address;
@@ -125,7 +125,7 @@ public class CustomerListActivity extends ActionBarActivity{
 	        if (addresses != null && addresses.size() > 0) {
 
 	            // Get the first address
-	        	//address = addresses.get(0).getAddressLine(0) + addresses.get(0).getAddressLine(1);
+	        	address = addresses.get(0).getAddressLine(0) + addresses.get(0).getAddressLine(1);
 				
 				strArr.add(address+"\t"+latText.getText().toString()+"\t"+lntText.getText().toString());
 
