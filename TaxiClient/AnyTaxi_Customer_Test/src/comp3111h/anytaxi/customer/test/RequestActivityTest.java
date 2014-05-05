@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.internal.view.menu.MenuBuilder;
 import android.test.ActivityUnitTestCase;
-import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
 import android.widget.Button;
@@ -59,9 +57,11 @@ public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity> i
         // getActivity().onCreateOptionsMenu(new MenuBuilder(rContext));
     }
     
-/*    @SmallTest
-    public void testOnRequestListener() {
-        // getActivity().onStart();
+    @SmallTest
+    public void testOnRequestListener() throws Exception {
+        getActivity().onStart();
+        
+        Thread.sleep(5000);
         
         Button requestButton = (Button) getActivity().findViewById(R.id.request_btn);
         
@@ -72,7 +72,7 @@ public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity> i
         final Intent redirect = getStartedActivityIntent();
         assertNotNull("No activity is started.", redirect);
         assertEquals(redirect.getComponent().getShortClassName(), ".RequestToTrackingActivity");
-    }*/
+    }
     
     @SmallTest
     public void testCreateButtonListener() {
