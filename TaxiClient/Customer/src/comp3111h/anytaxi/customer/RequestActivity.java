@@ -92,7 +92,7 @@ public class RequestActivity extends ActionBarActivity implements
         
         mMapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.request_map_container, mMapFragment)
+                .add(R.id.map, mMapFragment)
                 .commit(); 
         getSupportFragmentManager().executePendingTransactions();
     }
@@ -101,14 +101,21 @@ public class RequestActivity extends ActionBarActivity implements
     public void onStart() {
         super.onStart();
         
-        LocationUtils.mMap = mMapFragment.getMap();
-        LocationUtils.mMap.setMyLocationEnabled(true);
-        
         /*
          * Connect the client. Don't re-start any requests here; instead, wait
          * for onResume()
          */
         mLocationClient.connect();
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocationUtils.mMap = mMapFragment.getMap();
+        LocationUtils.mMap.setMyLocationEnabled(true);
     }
 
     /*
@@ -296,5 +303,12 @@ public class RequestActivity extends ActionBarActivity implements
                 .setNegativeButton(getString(R.string.quit_Negative), null)
                 .show();
     }
+    
+    public SupportMapFragment getMapFragment() {
+        return mMapFragment;
+    }
 
+    public LocationClient getLocationClient() {
+        return mLocationClient;
+    }
 }
