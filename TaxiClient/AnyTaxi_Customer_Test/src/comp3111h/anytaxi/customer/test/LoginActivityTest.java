@@ -85,6 +85,12 @@ public class LoginActivityTest extends ActivityUnitTestCase<LoginActivity> {
 	    assertEquals(launchIntent.getComponent().getShortClassName(), ".RegisterActivity");	
 	}
 	
+	@MediumTest
+	public void testNoErrorForBackPressed() {
+		this.getActivity().onBackPressed();
+		assertTrue("Error!", true);
+	}
+	
 	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
