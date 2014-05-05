@@ -1,22 +1,9 @@
 package comp3111h.anytaxi.customer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -42,267 +29,272 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 public class RequestActivity extends ActionBarActivity implements
-		GooglePlayServicesClient.ConnectionCallbacks,
-		GooglePlayServicesClient.OnConnectionFailedListener {
-	private final static String TAG = "RequestActivity";
+        GooglePlayServicesClient.ConnectionCallbacks,
+        GooglePlayServicesClient.OnConnectionFailedListener {
+    private final static String TAG = "RequestActivity";
 
-	// Temporary Variable
-	// Inspecting the connection status
-	static TextView mConnectionState;
-	static TextView mConnectionStatus;
-	static TextView mAddress;
-	static TextView mLatLng;
-	static ProgressBar mActivityIndicator;
+    // Temporary Variable
+    // Inspecting the connection status
+    static TextView mConnectionState;
+    static TextView mConnectionStatus;
+    static TextView mAddress;
+    static TextView mLatLng;
+    static ProgressBar mActivityIndicator;
 
-	private MultiAutoCompleteTextView myDestination_Field;
+    private SupportMapFragment mMapFragment;
+    
+    private MultiAutoCompleteTextView myDestination_Field;
 
-	// Memorize the current location in this activity
-	Location curLocGlobal;
-	String myDestination;
-	ArrayAdapter<String> adapter;
+    // Memorize the current location in this activity
+    Location curLocGlobal;
+    String myDestination;
+    ArrayAdapter<String> adapter;
 
-	private Button requestButton;
-	private Button moreButton;
+    private Button requestButton;
+    private Button moreButton;
 
-	// Stores the current instantiation of the location client in this object
-	private LocationClient mLocationClient;
+    // Stores the current instantiation of the location client in this object
+    private LocationClient mLocationClient;
 
-	private static final String[] COUNTRIES = new String[] { "Belgium",
-			"France", "Italy", "Germany", "Spain" };
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_request);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_request);
+        // Identity user's identity, used to communicate with the server
+        /*
+         * CustomerAccountInfo.credential =
+         * GoogleAccountCredential.usingAudience(this, "server:client_id:" +
+         * CustomerAccountInfo.WEB_CLIENT_ID);
+         */
 
-		// Identity user's identity, used to communicate with the server
-		/*
-		 * CustomerAccountInfo.credential =
-		 * GoogleAccountCredential.usingAudience(this, "server:client_id:" +
-		 * CustomerAccountInfo.WEB_CLIENT_ID);
-		 */
+        mLocationClient = new LocationClient(this, this, this);
+        mConnectionState = (TextView) findViewById(R.id.text_connection_state);
+        mConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
+        mAddress = (TextView) findViewById(R.id.address);
+        mLatLng = (TextView) findViewById(R.id.lat_lng);
+        mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
 
-		mLocationClient = new LocationClient(this, this, this);
-		mConnectionState = (TextView) findViewById(R.id.text_connection_state);
-		mConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
-		mAddress = (TextView) findViewById(R.id.address);
-		mLatLng = (TextView) findViewById(R.id.lat_lng);
-		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
+        // Set up the autoComplete TextView
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.common_locations));
+        myDestination_Field = (MultiAutoCompleteTextView) findViewById(R.id.destination);
+    
+        myDestination_Field.setAdapter(adapter);
+        myDestination_Field
+            .setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-		// Set up the autoComplete TextView
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.common_locations));
-		myDestination_Field = (MultiAutoCompleteTextView) findViewById(R.id.destination);
-	
-		myDestination_Field.setAdapter(adapter);
-		myDestination_Field
-			.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        requestButton = (Button) findViewById(R.id.request_btn);
+        requestButton.setOnClickListener(onRequestListener);
 
-		requestButton = (Button) findViewById(R.id.request_btn);
-		requestButton.setOnClickListener(onRequestListener);
+        moreButton = (Button) findViewById(R.id.more);
+        moreButton.setOnClickListener(createButtonListener);
+        
+        mMapFragment = SupportMapFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.request_map_container, mMapFragment)
+                .commit(); 
+        getSupportFragmentManager().executePendingTransactions();
+    }
 
-		moreButton = (Button) findViewById(R.id.more);
-		moreButton.setOnClickListener(createButtonListener);
+    @Override
+    public void onStart() {
+        super.onStart();
+        
+        LocationUtils.mMap = mMapFragment.getMap();
+        LocationUtils.mMap.setMyLocationEnabled(true);
+        
+        /*
+         * Connect the client. Don't re-start any requests here; instead, wait
+         * for onResume()
+         */
+        mLocationClient.connect();
+    }
 
-		LocationUtils.mMap = ((SupportMapFragment) getSupportFragmentManager()
-				.findFragmentById(R.id.map)).getMap();
-		LocationUtils.mMap.setMyLocationEnabled(true);
-	}
+    /*
+     * Called when the Activity is no longer visible at all. Stop updates and
+     * disconnect.
+     */
+    @Override
+    public void onStop() {
+        // After disconnect() is called, the client is considered "dead".
+        mLocationClient.disconnect();
+        super.onStop();
+    }
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		/*
-		 * Connect the client. Don't re-start any requests here; instead, wait
-		 * for onResume()
-		 */
-		mLocationClient.connect();
-	}
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+            Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        // Choose what to do based on the request code
+        ConnectionUtils.requestCodeHandler(requestCode, resultCode, intent,
+                this);
+    }
 
-	/*
-	 * Called when the Activity is no longer visible at all. Stop updates and
-	 * disconnect.
-	 */
-	@Override
-	public void onStop() {
-		// After disconnect() is called, the client is considered "dead".
-		mLocationClient.disconnect();
-		super.onStop();
-	}
+    /*
+     * Called by Location Services when the request to connect the client
+     * finishes successfully. At this point, you can request the current
+     * location or start periodic updates
+     */
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.i(TAG, "Location Client is connected to GooglePlayService.");
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode,
-			Intent intent) {
-		super.onActivityResult(requestCode, resultCode, intent);
-		// Choose what to do based on the request code
-		ConnectionUtils.requestCodeHandler(requestCode, resultCode, intent,
-				this);
-	}
+        mConnectionStatus.setText(R.string.connected);
 
-	/*
-	 * Called by Location Services when the request to connect the client
-	 * finishes successfully. At this point, you can request the current
-	 * location or start periodic updates
-	 */
-	@Override
-	public void onConnected(Bundle bundle) {
-		Log.i(TAG, "Location Client is connected to GooglePlayService.");
+        Location currentLoc = mLocationClient.getLastLocation();
+        while (currentLoc == null) {
+            currentLoc = mLocationClient.getLastLocation();
+        }
+        curLocGlobal = currentLoc;
 
-		mConnectionStatus.setText(R.string.connected);
+        LatLng locationNew = new LatLng(currentLoc.getLatitude(),
+                currentLoc.getLongitude());
+        CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(locationNew,
+                15);
+        LocationUtils.mMap.animateCamera(cameraup);
 
-		Location currentLoc = mLocationClient.getLastLocation();
-		while (currentLoc == null) {
-			currentLoc = mLocationClient.getLastLocation();
-		}
-		curLocGlobal = currentLoc;
+        LocationUtils.getAddress(this, currentLoc);
+    }
 
-		LatLng locationNew = new LatLng(currentLoc.getLatitude(),
-				currentLoc.getLongitude());
-		CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(locationNew,
-				15);
-		LocationUtils.mMap.animateCamera(cameraup);
+    @Override
+    public void onDisconnected() {
+        Log.i(TAG, "Location Client is disconnected from GooglePlayService.");
 
-		LocationUtils.getAddress(this, currentLoc);
-	}
+        Toast.makeText(this, "Disconnected. Please re-connect.",
+                Toast.LENGTH_SHORT).show();
+    }
 
-	@Override
-	public void onDisconnected() {
-		Log.i(TAG, "Location Client is disconnected from GooglePlayService.");
+    /*
+     * Called by Location Services if the attempt to Location Services fails.
+     */
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.i(TAG, "Location Client failed to connect to GooglePlayService.");
 
-		Toast.makeText(this, "Disconnected. Please re-connect.",
-				Toast.LENGTH_SHORT).show();
-	}
+        /*
+         * Google Play services can resolve some errors it detects. If the error
+         * has a resolution, try sending an Intent to start a Google Play
+         * services activity that can resolve error.
+         */
+        ConnectionUtils.connectionResultHandler(connectionResult, this);
+    }
 
-	/*
-	 * Called by Location Services if the attempt to Location Services fails.
-	 */
-	@Override
-	public void onConnectionFailed(ConnectionResult connectionResult) {
-		Log.i(TAG, "Location Client failed to connect to GooglePlayService.");
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-		/*
-		 * Google Play services can resolve some errors it detects. If the error
-		 * has a resolution, try sending an Intent to start a Google Play
-		 * services activity that can resolve error.
-		 */
-		ConnectionUtils.connectionResultHandler(connectionResult, this);
-	}
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
+        return super.onOptionsItemSelected(item);
+    }
 
-		if (id == R.id.action_settings) {
-			Intent intent = new Intent(this, SettingsActivity.class);
-			startActivity(intent);
-			return true;
-		}
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
 
-		return super.onOptionsItemSelected(item);
-	}
+    // When taxi button is pressed,
+    // the user will be redirected to RequestToTrackingActivity
+    private OnClickListener onRequestListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.i(TAG, "The user is requesting a taxi.");
 
-	@Override
-	public void onBackPressed() {
-		exit();
-	}
+            // String des =
+            // ((EditText)findViewById(R.id.destination)).getText().toString();
 
-	// When taxi button is pressed,
-	// the user will be redirected to RequestToTrackingActivity
-	private OnClickListener onRequestListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			Log.i(TAG, "The user is requesting a taxi.");
+            if (curLocGlobal != null) {
+                LatLng locationNew = new LatLng(curLocGlobal.getLatitude(),
+                        curLocGlobal.getLongitude());
 
-			// String des =
-			// ((EditText)findViewById(R.id.destination)).getText().toString();
+                if (Utils.customer != null) {
+                    Customer c = Utils.customer;
+                    GeoPt p = new GeoPt();
+                    p.setLatitude((float) locationNew.latitude); // @ Ryan
+                                                                    // please
+                                                                    // get 1.00
+                                                                    // from map
+                    p.setLongitude((float) locationNew.longitude); // @ Ryan
+                                                                    // please
+                                                                    // get 2.00
+                                                                    // from map
+                    c.setLoc(p);
 
-			if (curLocGlobal != null) {
-				LatLng locationNew = new LatLng(curLocGlobal.getLatitude(),
-						curLocGlobal.getLongitude());
+                    // new EndpointsTask(RequestActivity.this, endpoint,
+                    // c).execute();
 
-				if (Utils.customer != null) {
-					Customer c = Utils.customer;
-					GeoPt p = new GeoPt();
-					p.setLatitude((float) locationNew.latitude); // @ Ryan
-																	// please
-																	// get 1.00
-																	// from map
-					p.setLongitude((float) locationNew.longitude); // @ Ryan
-																	// please
-																	// get 2.00
-																	// from map
-					c.setLoc(p);
+                    String curAddress = (String) mAddress.getText();
 
-					// new EndpointsTask(RequestActivity.this, endpoint,
-					// c).execute();
+                    myDestination = myDestination_Field.getText().toString();
 
-					String curAddress = (String) mAddress.getText();
+                    Bundle customerInfo = new Bundle();
+                    customerInfo.putString("EMAIL", Utils.customer.getEmail());
+                    customerInfo.putString("CURADD", (curAddress == null ? ""
+                            : curAddress));
+                    customerInfo.putDouble("LAT", locationNew.latitude);
+                    customerInfo.putDouble("LON", locationNew.longitude);
+                    customerInfo.putString("DEST", myDestination);
 
-					myDestination = myDestination_Field.getText().toString();
+                    Intent intent = new Intent(RequestActivity.this,
+                            RequestToTrackingActivity.class);
+                    intent.putExtras(customerInfo);
+                    startActivity(intent);
+                } else {
+                    Log.e(TAG, "The user doesn't exist.");
 
-					Bundle customerInfo = new Bundle();
-					customerInfo.putString("EMAIL", Utils.customer.getEmail());
-					customerInfo.putString("CURADD", (curAddress == null ? ""
-							: curAddress));
-					customerInfo.putDouble("LAT", locationNew.latitude);
-					customerInfo.putDouble("LON", locationNew.longitude);
-					customerInfo.putString("DEST", myDestination);
+                    ConnectionUtils.showError(RequestActivity.this,
+                            "The customer doesn't exist");
+                }
+            }
 
-					Intent intent = new Intent(RequestActivity.this,
-							RequestToTrackingActivity.class);
-					intent.putExtras(customerInfo);
-					startActivity(intent);
-				} else {
-					Log.e(TAG, "The user doesn't exist.");
+            else {
+                Log.e(TAG, "User location is unavailable.");
 
-					ConnectionUtils.showError(RequestActivity.this,
-							"The customer doesn't exist");
-				}
-			}
+                ConnectionUtils.showError(RequestActivity.this,
+                        "No connection available!");
+            }
+        }
+    };
 
-			else {
-				Log.e(TAG, "User location is unavailable.");
+    private OnClickListener createButtonListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent TestGroupMessageTable = new Intent(RequestActivity.this,
+                    IndexActivity.class);
+            startActivity(TestGroupMessageTable);
+        }
+    };
 
-				ConnectionUtils.showError(RequestActivity.this,
-						"No connection available!");
-			}
-		}
-	};
-
-	private OnClickListener createButtonListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			Intent TestGroupMessageTable = new Intent(RequestActivity.this,
-					IndexActivity.class);
-			startActivity(TestGroupMessageTable);
-		}
-	};
-
-	private void exit() {
-		new AlertDialog.Builder(this)
-				.setMessage(getString(R.string.quit_Message))
-				.setPositiveButton(getString(R.string.quit_Positive),
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								moveTaskToBack(true);
-								finish();
-							}
-						})
-				.setNegativeButton(getString(R.string.quit_Negative), null)
-				.show();
-	}
+    private void exit() {
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.quit_Message))
+                .setPositiveButton(getString(R.string.quit_Positive),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                    int which) {
+                                moveTaskToBack(true);
+                                finish();
+                            }
+                        })
+                .setNegativeButton(getString(R.string.quit_Negative), null)
+                .show();
+    }
 
 }
