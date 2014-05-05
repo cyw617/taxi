@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,13 +34,13 @@ public class RequestActivity extends ActionBarActivity implements
         GooglePlayServicesClient.OnConnectionFailedListener {
     private final static String TAG = "RequestActivity";
 
-    // Temporary Variable
-    // Inspecting the connection status
-    static TextView mConnectionState;
-    static TextView mConnectionStatus;
-    static TextView mAddress;
-    static TextView mLatLng;
-    static ProgressBar mActivityIndicator;
+
+	// Temporary Variable
+	// Inspecting the connection status
+
+	static TextView mAddress;
+
+	static ProgressBar mActivityIndicator;
 
     private SupportMapFragment mMapFragment;
     
@@ -68,27 +69,26 @@ public class RequestActivity extends ActionBarActivity implements
          * CustomerAccountInfo.WEB_CLIENT_ID);
          */
 
-        mLocationClient = new LocationClient(this, this, this);
-        mConnectionState = (TextView) findViewById(R.id.text_connection_state);
-        mConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
-        mAddress = (TextView) findViewById(R.id.address);
-        mLatLng = (TextView) findViewById(R.id.lat_lng);
-        mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
 
-        // Set up the autoComplete TextView
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.common_locations));
-        myDestination_Field = (MultiAutoCompleteTextView) findViewById(R.id.destination);
-    
-        myDestination_Field.setAdapter(adapter);
-        myDestination_Field
-            .setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+		mLocationClient = new LocationClient(this, this, this);
+
+		mAddress = (TextView) findViewById(R.id.addressNew);
+		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
+
 
         requestButton = (Button) findViewById(R.id.request_btn);
         requestButton.setOnClickListener(onRequestListener);
+		// Set up the autoComplete TextView
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_dropdown_item_1line, getResources()
+						.getStringArray(R.array.common_locations));
+		myDestination_Field = (MultiAutoCompleteTextView) findViewById(R.id.destination);
 
-        moreButton = (Button) findViewById(R.id.more);
-        moreButton.setOnClickListener(createButtonListener);
+		myDestination_Field.setAdapter(adapter);
+		myDestination_Field
+				.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
         
         mMapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
@@ -97,9 +97,11 @@ public class RequestActivity extends ActionBarActivity implements
         getSupportFragmentManager().executePendingTransactions();
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
+
         
         /*
          * Connect the client. Don't re-start any requests here; instead, wait
@@ -117,6 +119,9 @@ public class RequestActivity extends ActionBarActivity implements
         LocationUtils.mMap = mMapFragment.getMap();
         LocationUtils.mMap.setMyLocationEnabled(true);
     }
+
+		
+
 
     /*
      * Called when the Activity is no longer visible at all. Stop updates and
@@ -147,8 +152,6 @@ public class RequestActivity extends ActionBarActivity implements
     public void onConnected(Bundle bundle) {
         Log.i(TAG, "Location Client is connected to GooglePlayService.");
 
-        mConnectionStatus.setText(R.string.connected);
-
         Location currentLoc = mLocationClient.getLastLocation();
         while (currentLoc == null) {
             currentLoc = mLocationClient.getLastLocation();
@@ -160,6 +163,7 @@ public class RequestActivity extends ActionBarActivity implements
         CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(locationNew,
                 15);
         LocationUtils.mMap.animateCamera(cameraup);
+
 
         LocationUtils.getAddress(this, currentLoc);
     }
@@ -196,25 +200,33 @@ public class RequestActivity extends ActionBarActivity implements
     }
 
     @Override
+    public void onBackPressed() {
+        exit();
+    }
+    
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
+		if (id == R.id.action_settings) {
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		
+		if(id == R.id.action_carpool) {
+			Intent TestGroupMessageTable = new Intent(RequestActivity.this,
+					IndexActivity.class);
+			startActivity(TestGroupMessageTable);
+		}
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        exit();
-    }
+
 
     // When taxi button is pressed,
     // the user will be redirected to RequestToTrackingActivity
@@ -250,6 +262,7 @@ public class RequestActivity extends ActionBarActivity implements
 
                     myDestination = myDestination_Field.getText().toString();
 
+
                     Bundle customerInfo = new Bundle();
                     customerInfo.putString("EMAIL", Utils.customer.getEmail());
                     customerInfo.putString("CURADD", (curAddress == null ? ""
@@ -257,6 +270,7 @@ public class RequestActivity extends ActionBarActivity implements
                     customerInfo.putDouble("LAT", locationNew.latitude);
                     customerInfo.putDouble("LON", locationNew.longitude);
                     customerInfo.putString("DEST", myDestination);
+
 
                     Intent intent = new Intent(RequestActivity.this,
                             RequestToTrackingActivity.class);
@@ -288,6 +302,7 @@ public class RequestActivity extends ActionBarActivity implements
         }
     };
 
+
     private void exit() {
         new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.quit_Message))
@@ -308,7 +323,9 @@ public class RequestActivity extends ActionBarActivity implements
         return mMapFragment;
     }
 
+
     public LocationClient getLocationClient() {
         return mLocationClient;
     }
+
 }

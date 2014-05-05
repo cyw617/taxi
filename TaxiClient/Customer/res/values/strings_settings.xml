@@ -4,5 +4,6 @@
     <string name="settings_ActivityTitle">Settings</string>
     
     <string name="signOut">Sign Out</string>
+    <string name="carpool_ActivityTitle">Carpool!!!</string>
     
 </resources>

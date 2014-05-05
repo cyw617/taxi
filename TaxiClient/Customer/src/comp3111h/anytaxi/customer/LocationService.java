@@ -114,11 +114,6 @@ public class LocationService extends Service implements LocationListener,
 	public void onLocationChanged(Location location) {
 
 		// Report to the UI that the location was updated
-		RequestActivity.mConnectionStatus.setText(R.string.location_updated);
-
-		// In the UI, set the latitude and longitude to the value received
-		RequestActivity.mLatLng
-				.setText(LocationUtils.getLatLng(this, location));
 
 		// Changes only need to be done in getLocation to cosntantly update the
 		// location info

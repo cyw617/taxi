@@ -155,7 +155,6 @@ public class IndexActivity extends Activity {
 		}
 	}
 
-
 	// private OnClickListener joinListener = new OnClickListener()
 	// {
 	// @Override
@@ -166,21 +165,17 @@ public class IndexActivity extends Activity {
 	// } // end method onClick
 	// };
 
-	public boolean ifJoinTask()
-	{
+	public boolean ifJoinTask() {
 		new joinTask().execute();
-		if (showlist.getText() != "")
-		{
+		if (showlist.getText() != "") {
 			return true;
-		} else
-		{
+		} else {
 			return false;
 		}
 
 	}
 
-	public class joinTask extends AsyncTask<String, Void, String>
-	{
+	public class joinTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... arg0) {
 			try {
