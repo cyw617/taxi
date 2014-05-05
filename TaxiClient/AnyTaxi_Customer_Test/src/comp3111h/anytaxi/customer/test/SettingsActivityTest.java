@@ -34,7 +34,7 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 	}
 	
 	@MediumTest
-	public void testNothing() {
+	public void testNoError() {
 		assertTrue("Error!", true);
 	}
 	
