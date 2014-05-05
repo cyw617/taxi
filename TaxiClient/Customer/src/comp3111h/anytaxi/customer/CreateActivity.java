@@ -41,13 +41,7 @@ public class CreateActivity extends Activity
 
 		submitButton = (Button) findViewById(R.id.submitbutton);
 
-		// submitText = (EditText) findViewById(R.id.createText);
-
-		// showlist = (Button) findViewById(R.id.showlist);
-
 		submitButton.setOnClickListener(submitButtonListener);
-		// refreshButton.setOnClickListener(showClientListListener);
-
 	}
 
 	@Override
@@ -100,8 +94,6 @@ public class CreateActivity extends Activity
 				networkOutput.println("create");
 				networkOutput.println(msg);
 
-				// feedback = networkInput.nextLine();
-
 				Clientsocket.close();
 
 				return feedback;
@@ -116,8 +108,6 @@ public class CreateActivity extends Activity
 		@Override
 		protected void onPostExecute(String feedback)
 		{
-			// showlist.setText(feedback);
-
 			Toast.makeText(submitButton.getContext(), "submit successfully",
 					Toast.LENGTH_LONG).show();
 
@@ -125,3 +115,4 @@ public class CreateActivity extends Activity
 	}
 
 }
+
