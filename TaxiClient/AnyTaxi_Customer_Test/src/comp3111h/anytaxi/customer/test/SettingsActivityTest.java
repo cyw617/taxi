@@ -5,18 +5,16 @@ import android.content.Intent;
 import android.test.ActivityUnitTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.view.ContextThemeWrapper;
-import android.widget.Button;
 
-import comp3111h.anytaxi.customer.CreateActivity;
+import comp3111h.anytaxi.customer.SettingsActivity;
 import comp3111h.anytaxi.customer.R;
 
-public class CreateActivityTest extends ActivityUnitTestCase<CreateActivity> {
+public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity> {
 	
 	private Context targetContext;
-	private Button submitButton;
 	
-	public CreateActivityTest() {		
-		super(CreateActivity.class);
+	public SettingsActivityTest() {		
+		super(SettingsActivity.class);
 	}
 	
 	@Override
@@ -30,16 +28,14 @@ public class CreateActivityTest extends ActivityUnitTestCase<CreateActivity> {
 		setActivityContext(context);
 		
 		Intent intent = new Intent(getInstrumentation().getTargetContext(),
-		        CreateActivity.class);
+		        SettingsActivity.class);
 		
 		this.startActivity(intent, null, null);
 	}
 	
 	@MediumTest
-	public void testsubmitButton() {
-		submitButton = (Button) getActivity().findViewById(R.id.submitbutton);
-		assertNotNull("Button not allowed to be null", submitButton);
-		submitButton.performClick();
+	public void testNothing() {
+		assertTrue("Error!", true);
 	}
 	
 	@Override

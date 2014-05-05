@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import comp3111h.anytaxi.customer.IndexActivity;
 import comp3111h.anytaxi.customer.R;
-import comp3111h.anytaxi.customer.Utils;
 
 public class IndexActivityTest extends ActivityUnitTestCase<IndexActivity> {
 	
@@ -75,4 +74,3 @@ public class IndexActivityTest extends ActivityUnitTestCase<IndexActivity> {
 		setActivity(null);
 	}
 }
-

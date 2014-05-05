@@ -7,16 +7,16 @@ import android.test.suitebuilder.annotation.MediumTest;
 import android.view.ContextThemeWrapper;
 import android.widget.Button;
 
-import comp3111h.anytaxi.customer.CreateActivity;
+import comp3111h.anytaxi.customer.DeleteOrder;
 import comp3111h.anytaxi.customer.R;
 
-public class CreateActivityTest extends ActivityUnitTestCase<CreateActivity> {
+public class DeleteOrderTest extends ActivityUnitTestCase<DeleteOrder>{
 	
 	private Context targetContext;
-	private Button submitButton;
+	private Button deleteButton;
 	
-	public CreateActivityTest() {		
-		super(CreateActivity.class);
+	public DeleteOrderTest() {		
+		super(DeleteOrder.class);
 	}
 	
 	@Override
@@ -30,16 +30,16 @@ public class CreateActivityTest extends ActivityUnitTestCase<CreateActivity> {
 		setActivityContext(context);
 		
 		Intent intent = new Intent(getInstrumentation().getTargetContext(),
-		        CreateActivity.class);
+		        DeleteOrder.class);
 		
 		this.startActivity(intent, null, null);
 	}
 	
 	@MediumTest
 	public void testsubmitButton() {
-		submitButton = (Button) getActivity().findViewById(R.id.submitbutton);
-		assertNotNull("Button not allowed to be null", submitButton);
-		submitButton.performClick();
+		deleteButton = (Button) getActivity().findViewById(R.id.delete);
+		assertNotNull("Button not allowed to be null", deleteButton);
+		deleteButton.performClick();
 	}
 	
 	@Override
