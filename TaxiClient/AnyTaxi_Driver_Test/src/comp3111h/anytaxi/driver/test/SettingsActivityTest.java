@@ -1,35 +1,46 @@
 package comp3111h.anytaxi.driver.test;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.SmallTest;
-import comp3111h.anytaxi.driver.SettingsActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.test.ActivityUnitTestCase;
+import android.test.suitebuilder.annotation.MediumTest;
+import android.view.ContextThemeWrapper;
 
-public class SettingsActivityTest extends ActivityInstrumentationTestCase2<SettingsActivity>{
+import comp3111h.anytaxi.driver.SettingsActivity;
+import comp3111h.anytaxi.driver.R;
+
+public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity> {
 	
-	private SettingsActivity mActivity;
-	private static final double DELTA = 1e-2;
+	private Context targetContext;
 	
-	public SettingsActivityTest(){
+	public SettingsActivityTest() {		
 		super(SettingsActivity.class);
 	}
 	
 	@Override
-	protected void setUp() throws Exception{
-		//this method is called every time before any test execution
+	protected void setUp() throws Exception {
 		super.setUp();
-		mActivity = (SettingsActivity) getActivity();
+		targetContext = getInstrumentation().getTargetContext();
+		
+		// set theme for AppCompat support
+		ContextThemeWrapper context = 
+				new ContextThemeWrapper(targetContext, R.style.AppTheme);
+		setActivityContext(context);
+		
+		Intent intent = new Intent(getInstrumentation().getTargetContext(),
+		        SettingsActivity.class);
+		
+		this.startActivity(intent, null, null);
+	}
+	
+	@MediumTest
+	public void testNoError() {
+		assertTrue("Error!", true);
 	}
 	
 	@Override
-	protected void tearDown() throws Exception{
-		//this method is called every time after any test execution
-		
+	public void tearDown() throws Exception {
 		super.tearDown();
-	}
-	
-	@SmallTest
-	public void testView(){ // checks if the activity is created
-		assertNotNull(getActivity());
+		setActivity(null);
 	}
 }
-

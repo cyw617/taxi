@@ -25,40 +25,38 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 public class RequestToTrackingActivity extends ActionBarActivity {
 
 	private final static String TAG = "LoadingDriverAsyncTask";
-	
-	//Tracking the progress of finding near drivers
+
+	// Tracking the progress of finding near drivers
 	private ProgressBar mProgressBar;
-	//Delay before sending next inquiry to server
+	// Delay before sending next inquiry to server
 	private int mDelay = 300;
 	Customer customer;
 	static AnyTaxi endpoint;
-	
-	//The first transaction contains customer info only
+
+	// The first transaction contains customer info only
 	Transaction customerInfoTrans;
-	//The second transaction contains customer info plus transaction ID
+	// The second transaction contains customer info plus transaction ID
 	Transaction initialTrans;
-	//The final transaction contains drivers info as well
+	// The final transaction contains drivers info as well
 	Transaction returnedTrans;
-	
-	//Conform to the variables provided in Transaction class on server side
-    private Long id;
 
-    private String customerEmail;
+	// Conform to the variables provided in Transaction class on server side
+	private Long id;
 
-    private String driverEmail;
+	private String customerEmail;
 
-    private String customerLocStr;
-    private String destLocStr;
+	private String driverEmail;
 
-    private GeoPt customerLoc;
-    private GeoPt driverLoc;
-    private GeoPt destLoc;
+	private String customerLocStr;
+	private String destLocStr;
 
-    private Integer numDriverNotified;
-    private String cursor;
-	
-	
-	
+	private GeoPt customerLoc;
+	private GeoPt driverLoc;
+	private GeoPt destLoc;
+
+	private Integer numDriverNotified;
+	private String cursor;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,37 +65,33 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
-			
-			//To get the customer information passed by RequestActivity
+
+			// To get the customer information passed by RequestActivity
 			Bundle preIntentBundle = getIntent().getExtras();
-			
+
 			GeoPt tempPt = new GeoPt();
 			tempPt.setLatitude((float) preIntentBundle.getDouble("LAT"));
 			tempPt.setLongitude((float) preIntentBundle.getDouble("LON"));
-			
+
 			endpoint = CloudEndpointUtils.updateBuilder(
-					new AnyTaxi.Builder(
-							AndroidHttp.newCompatibleTransport(),
-							new JacksonFactory(),
-							null)).build();
-			
+					new AnyTaxi.Builder(AndroidHttp.newCompatibleTransport(),
+							new JacksonFactory(), null)).build();
+
 			customerEmail = preIntentBundle.getString("EMAIL");
 			customerLocStr = preIntentBundle.getString("CURADD");
 			customerLoc = tempPt;
 			destLocStr = preIntentBundle.getString("DEST");
 			destLoc = new GeoPt();
 			destLoc.setLatitude((float) (0));
-			destLoc.setLongitude((float)0);
-			
-			
+			destLoc.setLongitude((float) 0);
+
 		}
-		
+
 		mProgressBar = (ProgressBar) findViewById(R.id.loadingdriverprogress2);
 		customer = Utils.customer;
-		
+
 		new LoadingDriverTask().execute();
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -135,9 +129,8 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 			return rootView;
 		}
 	}
-	
-	class LoadingDriverTask extends AsyncTask<Void, Integer, String> {
 
+	class LoadingDriverTask extends AsyncTask<Void, Integer, String> {
 
 		@Override
 		protected void onPreExecute() {
@@ -146,52 +139,50 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 
 		@Override
 		protected String doInBackground(Void... none) {
-			
-			if(endpoint==null)
-			{
-				ConnectionUtils.showError(RequestToTrackingActivity.this,"endpoint is null!");
+
+			if (endpoint == null) {
+				ConnectionUtils.showError(RequestToTrackingActivity.this,
+						"endpoint is null!");
 			}
-			
-			
+
 			customerInfoTrans = new Transaction();
-			
+
 			customerInfoTrans.setCustomerEmail(customerEmail);
 			customerInfoTrans.setCustomerLocStr(customerLocStr);
 			customerInfoTrans.setCustomerLoc(customerLoc);
 			customerInfoTrans.setDestLocStr(destLocStr);
-			//customerInfoTrans.setDestLoc(destLoc);
-		
-			
+			// customerInfoTrans.setDestLoc(destLoc);
+
 			try {
-				initialTrans = endpoint.addTransaction(Utils.customer.getEmail(), customerInfoTrans).execute();
+				initialTrans = endpoint.addTransaction(
+						Utils.customer.getEmail(), customerInfoTrans).execute();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// simulating long-running operation 	mer
+			// simulating long-running operation mer
 			returnedTrans = new Transaction();
 			returnedTrans.setDriverEmail(null);
-			Integer i=0;
-			do
-			{
+			Integer i = 0;
+			do {
 				sleep();
 				i++;
 				try {
-					returnedTrans = endpoint.getTransaction(Utils.customer.getEmail(), initialTrans.getId()).execute();
+					returnedTrans = endpoint.getTransaction(
+							Utils.customer.getEmail(), initialTrans.getId())
+							.execute();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				i = (i>=9)?9:i;
+				i = (i >= 9) ? 9 : i;
 				publishProgress(i * 10);
-			}
-			while(returnedTrans==null||returnedTrans.getDriverEmail()==null);
-			
+			} while (returnedTrans == null
+					|| returnedTrans.getDriverEmail() == null);
+
 			publishProgress(Integer.valueOf(100));
 			return returnedTrans.getDriverEmail();
-			
-			
-			
+
 		}
 
 		@Override
@@ -202,12 +193,13 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(String driverEmail) {
 			mProgressBar.setVisibility(ProgressBar.INVISIBLE);
-			
+
 			Bundle driverInfo = new Bundle();
-			driverInfo.putString("Email",driverEmail);
-			
-	    	Intent intent = new Intent(RequestToTrackingActivity.this, TrackingActivity.class);
-	    	intent.putExtras(driverInfo);
+			driverInfo.putString("Email", driverEmail);
+
+			Intent intent = new Intent(RequestToTrackingActivity.this,
+					TrackingActivity.class);
+			intent.putExtras(driverInfo);
 			startActivity(intent);
 			finish();
 		}
@@ -220,7 +212,5 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 			}
 		}
 	}
-	
-
 
 }
