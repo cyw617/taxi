@@ -8,7 +8,7 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
-class CustomerAccountInfo {
+public class CustomerAccountInfo {
 
 	/*Variables for transmitting msg to server*/
 	static AnyTaxi endpoint;
