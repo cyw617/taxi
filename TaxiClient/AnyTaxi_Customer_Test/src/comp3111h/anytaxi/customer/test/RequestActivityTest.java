@@ -84,6 +84,13 @@ public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity> i
         
         moreButton.performClick();
         
+        Button requestButton = (Button) getActivity().findViewById(R.id.request_btn);
+        
+        assertNotNull("Request button is not found.", requestButton);
+        
+        requestButton.performClick();
+        
+        
         final Intent redirect = getStartedActivityIntent();
         assertNotNull("No activity is started.", redirect);
         assertEquals(redirect.getComponent().getShortClassName(), ".IndexActivity");
