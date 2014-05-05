@@ -1,5 +1,4 @@
-package comp3111h.anytaxi.customer;
-
+package comp3111h.anytaxi.driver;
 import java.io.IOException;
 
 import android.content.Context;
@@ -7,12 +6,11 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.model.Customer;
+import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson.JacksonFactory;
-import comp3111h.anytaxi.customer.TrackingActivity;
 
 public class GCMIntentService extends GCMBaseIntentService {
 	private final AnyTaxi endpoint;
@@ -22,6 +20,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 	final static public String GCM_INTENT = "__GCM_INTENT__";
 	final static public String TRANSACTION_ID = "__TRANSACTION_ID__";
 	final static public String FAIL = "__FAIL__";
+	final static public String CUR_LOC_STR = "__CUR_LOC_STR__";
+	final static public String DEST_LOC_STR = "__DEST_LOC_STR__";
 
 	public GCMIntentService() {
 		super(PROJECT_NUMBER);
@@ -84,6 +84,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 			notification.putExtra(TRANSACTION_ID, intent.getStringExtra("transactionKey"));
 			notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(notification);
+		} else {
+			Intent notification = new Intent(context, CustomerListActivity.class);
+			notification.putExtra(TRANSACTION_ID, intent.getStringExtra("transactionKey"));
+			notification.putExtra(CUR_LOC_STR, intent.getStringExtra("curLocStr"));
+			notification.putExtra(DEST_LOC_STR, intent.getStringExtra("destLocStr"));
+			notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(notification);
 		}
 	}
 
@@ -97,11 +104,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onRegistered(Context context, String deviceRegistrationID) {
 
-		Customer customer = Utils.getCustomer(context);
-		if (customer != null && customer.getDeviceRegistrationID() == null) {
-			customer.setDeviceRegistrationID(deviceRegistrationID);
+		Driver driver = Utils.getDriver(context);
+		if (driver != null && driver.getDeviceRegistrationID() == null) {
+			driver.setDeviceRegistrationID(deviceRegistrationID);
 			try {
-				endpoint.updateCustomer(customer).execute();
+				endpoint.updateDriver(driver).execute();
 			} catch (IOException e) {
 				Log.e(GCMIntentService.class.getName(),
 						"Exception received when attempting to register with server at "
@@ -122,9 +129,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		if (registrationId != null && registrationId.length() > 0) {
 			try {
-				Customer customer = Utils.getCustomer(context);
-				customer.setDeviceRegistrationID(null);
-				endpoint.updateCustomer(customer).execute();
+				Driver driver = Utils.getDriver(context);
+				driver.setDeviceRegistrationID(null);
+				endpoint.updateDriver(driver).execute();
 			} catch (IOException e) {
 				Log.e(GCMIntentService.class.getName(),
 						"Exception received when attempting to unregister with server at "

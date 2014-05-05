@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
@@ -27,9 +28,9 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        // hide the action bar
-        getSupportActionBar().hide();
+	    //getSupportActionBar().hide();
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_main);		
         
         credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);  
         Utils.driver = Utils.getDriver(this);

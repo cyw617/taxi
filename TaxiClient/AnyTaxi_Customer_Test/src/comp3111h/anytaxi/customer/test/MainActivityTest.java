@@ -1,6 +1,3 @@
-/**
- * 
- */
 package comp3111h.anytaxi.customer.test;
 
 import android.content.Context;

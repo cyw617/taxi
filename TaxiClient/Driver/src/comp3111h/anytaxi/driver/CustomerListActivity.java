@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -20,21 +22,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.appspot.hk_taxi.anyTaxi.model.Driver;
+import com.appspot.hk_taxi.anyTaxi.model.Transaction;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 public class CustomerListActivity extends ActionBarActivity{
 	
-	private EditText latText;
-	private EditText lntText;
+	protected static final String TAG = "CustomerListActivity";
 	private ListView listView;
 	private static ArrayList<String> strArr;
 	private static ArrayAdapter<String> arrAdapter;
+	
+	private AnyTaxi endpoint;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_customer_list);
-		
+		setContentView(R.layout.activity_customer_list);		
 
 		listView = (ListView) findViewById(R.id.listView1);
 		strArr = new ArrayList<String>();
@@ -48,7 +57,7 @@ public class CustomerListActivity extends ActionBarActivity{
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				
 				Intent intent = new Intent(CustomerListActivity.this, TraceActivity.class);
 				String latlnt=(String)parent.getItemAtPosition(position);
@@ -59,14 +68,15 @@ public class CustomerListActivity extends ActionBarActivity{
 				String delims = "[\t]+";
 				String[] tokens = latlnt.split(delims);
 				String latString=tokens[1];
-				String lntString=tokens[2];
-				
+				String lntString=tokens[2];				
 				
 				intent.putExtra("Latitude", latString);
 				intent.putExtra("Longitude", lntString);
 				startActivity(intent);
 			}
 		});
+		
+		
 	}
 
 	@Override
@@ -115,7 +125,7 @@ public class CustomerListActivity extends ActionBarActivity{
 	        if (addresses != null && addresses.size() > 0) {
 
 	            // Get the first address
-	        	address = addresses.get(0).getAddressLine(0) + addresses.get(0).getAddressLine(1);
+	        	//address = addresses.get(0).getAddressLine(0) + addresses.get(0).getAddressLine(1);
 				
 				strArr.add(address+"\t"+latText.getText().toString()+"\t"+lntText.getText().toString());
 
@@ -186,5 +196,56 @@ public class CustomerListActivity extends ActionBarActivity{
             })
         .setNegativeButton(getString(R.string.quit_Negative), null)
         .show();
+    }
+    
+    @Override
+    protected void onNewIntent(Intent intent) {
+    	super.onNewIntent(intent);
+    	Long transactionId = Long.parseLong(intent.getStringExtra(GCMIntentService.TRANSACTION_ID));
+    	final Context context = this.getApplicationContext();
+    	if (transactionId != null) {
+    		new AsyncTask<Long, Void, Transaction>() {
+    			private Exception exceptionThrown;
+    			@Override
+				protected Transaction doInBackground(Long...params) {
+    				endpoint = CloudEndpointUtils.updateBuilder(
+    						new AnyTaxi.Builder(
+    								AndroidHttp.newCompatibleTransport(),
+    								new JacksonFactory(),
+    								null)).build();
+    				Driver d = Utils.getDriver(context);
+    				if (d != null) {
+    					Transaction t;
+    					try {
+							t = endpoint.acceptTransaction(d.getEmail(), params[0]).execute();
+						} catch (IOException e) {
+							exceptionThrown = e;
+							return null;
+						}
+    					return t;
+    				}
+    				return null;
+				}
+    			
+    			@Override
+    			protected void onPostExecute(Transaction t) {
+    				if (t == null) {
+    					Toast.makeText(context, "It's too late! The order has been accepted by someone else.",
+    							Toast.LENGTH_LONG).show();
+    				} else {
+    					// TODO: add something meaningful!
+    					String customerLoc = t.getCustomerLocStr();
+    					String customerDes = t.getDestLocStr();
+    					
+    					//Update the customer List
+    					strArr.add(customerLoc+"\t"+customerDes);
+    					arrAdapter.notifyDataSetChanged();
+    				}
+    				if (exceptionThrown != null) {
+    					Log.e(TAG, "Exception", exceptionThrown);
+    				}
+    			}
+    		}.execute(transactionId);
+    	}
     }
 }

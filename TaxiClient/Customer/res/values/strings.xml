@@ -69,5 +69,6 @@
 
     <string name="lat">Latitude</string>
     <string name="lnt">"Longitude"</string>
+    <string name="title_activity_request_to_tracking">RequestToTracking</string>
 
 </resources>

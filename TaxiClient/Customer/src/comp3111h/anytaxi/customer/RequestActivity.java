@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class RequestActivity extends ActionBarActivity implements
 	
 	//Memorize the current location in this activity
 	Location curLocGlobal;
+	String myDestination;
 
 	private Button requestButton;
 	private Button moreButton;
@@ -68,6 +70,7 @@ public class RequestActivity extends ActionBarActivity implements
 		mAddress = (TextView) findViewById(R.id.address);
 		mLatLng = (TextView) findViewById(R.id.lat_lng);
 		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
+		myDestination = (String) ((TextView)findViewById(R.id.destination)).getText();
 
 		requestButton = (Button) findViewById(R.id.request_btn);
 		requestButton.setOnClickListener(onRequestListener);
@@ -161,6 +164,55 @@ public class RequestActivity extends ActionBarActivity implements
 		 * services activity that can resolve error.
 		 */
 		ConnectionUtils.connectionResultHandler(connectionResult, this);
+	}
+	
+	//When taxi button is pressed
+	//Go to RequestToTracking Activity
+	public void Request(View view){
+		String des = ((EditText)findViewById(R.id.destination)).getText().toString();
+		
+		if(curLocGlobal != null)
+		{
+			LatLng locationNew = new LatLng(curLocGlobal.getLatitude(),curLocGlobal.getLongitude());
+	      
+	        
+			if(Utils.customer!=null)
+			{
+				Customer c = Utils.customer;
+				GeoPt p = new GeoPt();
+				p.setLatitude((float) locationNew.latitude);     // @ Ryan please get 1.00 from map
+				p.setLongitude((float) locationNew.longitude);    // @ Ryan please get 2.00 from map
+				c.setLoc(p);
+			
+		    	//new EndpointsTask(RequestActivity.this, endpoint, c).execute();
+		    	
+				String curAddress = (String) mAddress.getText();
+				
+				
+		    	Bundle customerInfo = new Bundle();
+				customerInfo.putString("EMAIL",Utils.customer.getEmail());
+				customerInfo.putString("CURADD",(curAddress==null?"":curAddress));
+				customerInfo.putDouble("LAT", locationNew.latitude);
+				customerInfo.putDouble("LON", locationNew.longitude);
+				customerInfo.putString("DEST",myDestination);
+				
+				
+				
+				Intent intent = new Intent(RequestActivity.this, RequestToTrackingActivity.class);
+		    	intent.putExtras(customerInfo);
+    			startActivity(intent);
+		    	
+			}
+			else
+			{
+				ConnectionUtils.showError(this, "The customer doesn't exist");
+			}
+		}
+		
+		else
+		{
+			ConnectionUtils.showError(this, "No connection available!");
+		}
 	}
 	
     @Override

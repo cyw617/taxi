@@ -4,16 +4,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-
-
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,8 +19,8 @@ import android.widget.Toast;
 
 public class IndexActivity extends Activity
 {
-	static String host = "143.89.168.85";
-	static int port = 4578;
+	private final static String HOST = "143.89.168.85";
+	private final static int PORT = 4578;
 
 	private Button callButton;
 	private Button createButton;
@@ -112,8 +109,8 @@ public class IndexActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
-			Intent TestGroupMessageTable = new Intent(IndexActivity.this,
-					CreatActivity.class);
+			Intent TestGroupMessageTable = new Intent(IndexActivity.this.getApplicationContext(),
+					CreateActivity.class);
 			startActivity(TestGroupMessageTable);
 		}
 	};
@@ -140,7 +137,7 @@ public class IndexActivity extends Activity
 
 				String feedback = "Error";
 
-				Clientsocket = new Socket(host, port);
+				Clientsocket = new Socket(HOST, PORT);
 
 				Scanner networkInput = new Scanner(
 						Clientsocket.getInputStream());
@@ -184,7 +181,7 @@ public class IndexActivity extends Activity
 
 				String feedback = "Error";
 
-				Clientsocket = new Socket(host, port);
+				Clientsocket = new Socket(HOST, PORT);
 
 				Scanner networkInput = new Scanner(
 						Clientsocket.getInputStream());
@@ -229,7 +226,7 @@ public class IndexActivity extends Activity
 
 				String feedback = "Error";
 
-				Clientsocket = new Socket(host, port);
+				Clientsocket = new Socket(HOST, PORT);
 
 				Scanner networkInput = new Scanner(
 						Clientsocket.getInputStream());

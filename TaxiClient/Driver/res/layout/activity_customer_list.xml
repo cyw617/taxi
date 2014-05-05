@@ -58,22 +58,6 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical">
-    	
-	    <EditText
-	        android:id="@+id/lnt"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:hint="Longitude"
-	        android:ems="10" />
-	
-	    <EditText
-	        android:id="@+id/lat"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:hint="Latitude"
-	        android:ems="10" >
-	
-	    </EditText>
     
     </LinearLayout>
     
@@ -81,27 +65,6 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
-    	
-		    <Button
-		        android:id="@+id/button1"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:onClick="addItem"
-		        android:text="Add" />
-		        
-			<Button
-		        android:id="@+id/button2"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:onClick="removeItem"
-		        android:text="Remove" />
-		        
-		    <Button
-		        android:id="@+id/button3"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:onClick="clearItems"
-		        android:text="Clear" />
 
     
     </LinearLayout>
