@@ -65,7 +65,7 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 	    
 	    final Intent launchIntent = this.getStartedActivityIntent();
 	    assertNotNull("Intent was null", launchIntent);
-	    assertEquals(launchIntent.getComponent().getShortClassName(), ".RequestActivity");
+	    assertEquals(launchIntent.getComponent().getShortClassName(), ".CustomerListActivity");
 	}
 	
 	@Override
