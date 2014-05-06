@@ -201,4 +201,10 @@ public class RegisterActivityTest extends ActivityUnitTestCase<RegisterActivity>
         
         return output.toString();
     }
+    
+    @Override
+	public void tearDown() throws Exception {
+		super.tearDown();
+		setActivity(null);
+	}
 }

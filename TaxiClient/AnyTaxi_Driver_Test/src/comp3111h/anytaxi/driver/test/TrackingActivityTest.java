@@ -31,14 +31,13 @@ public class TrackingActivityTest extends ActivityUnitTestCase<TrackingActivity>
 	}
 	
 	@Override
-	protected void tearDown() throws Exception{
-		//this method is called every time after any test execution
+	public void tearDown() throws Exception {
 		super.tearDown();
+		setActivity(null);
 	}
 	
 	@SmallTest
 	public void testTrackingActivityStart(){ // checks if the activity is created
-		
 		assertNotNull(getActivity());
 	}
 	
