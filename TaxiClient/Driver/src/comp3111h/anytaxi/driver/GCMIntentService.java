@@ -93,6 +93,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 			notification.putExtra(DEST_LOC_STR, intent.getStringExtra("destLocStr"));
 			notification.putExtra(CUR_LOC_STR, intent.getStringExtra("lat"));
 			notification.putExtra(DEST_LOC_STR, intent.getStringExtra("long"));
+			
+			notification.putExtra(GCM_INTENT, GCM_INTENT);
 			notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(notification);
 		}
