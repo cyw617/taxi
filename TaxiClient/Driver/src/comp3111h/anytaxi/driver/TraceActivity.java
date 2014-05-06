@@ -167,6 +167,8 @@ public class TraceActivity extends FragmentActivity{
 
 		// block cloud message
 		CustomerListActivity.removeItemInList(index); //test cases needed
+		startService(new Intent(this, LocationBroadcastService.class));
+		
 		finish();		
 	}
 
