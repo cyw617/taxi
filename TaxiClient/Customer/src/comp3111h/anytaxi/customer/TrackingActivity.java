@@ -113,13 +113,12 @@ public class TrackingActivity extends ActionBarActivity {
 
 		@Override
 		protected void onPreExecute() {
+			marker = LocationUtils.mMap.addMarker(new MarkerOptions().position(myDriverLoc)
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.taxipointer)));
 		}
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			//Auto-generated method stub
-			marker = LocationUtils.mMap.addMarker(new MarkerOptions().position(myDriverLoc)
-					.icon(BitmapDescriptorFactory.fromResource(R.drawable.taxipointer)));
 
 			while (true) {
 				
