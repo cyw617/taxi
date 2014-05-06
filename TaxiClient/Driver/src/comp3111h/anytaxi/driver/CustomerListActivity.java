@@ -166,13 +166,14 @@ public class CustomerListActivity extends ActionBarActivity
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
+		Log.e("onNewIntent", "Start onNewIntent");
 		Long transactionId = Long.parseLong(intent
 				.getStringExtra(GCMIntentService.TRANSACTION_ID));
-		final Context context = this.getApplicationContext();
+		final Context context = this;
 		if (transactionId != null) {
+			Log.e("onNewIntent", "transactionid not null");
 			new AsyncTask<Long, Void, Transaction>() {
 				private Exception exceptionThrown;
-
 				@Override
 				protected Transaction doInBackground(Long... params) {
 					endpoint = CloudEndpointUtils.updateBuilder(
@@ -181,9 +182,11 @@ public class CustomerListActivity extends ActionBarActivity
 									new JacksonFactory(), null)).build();
 					Driver d = Utils.getDriver(context);
 					if (d != null) {
+						Log.e("onNewIntent", " driver not null ");
 						Transaction t;
 						try {
-							t = endpoint.acceptTransaction(d.getEmail(),
+							Log.e("onNewIntent", "get transaction");
+							t = endpoint.getTransaction(d.getEmail(),
 									params[0]).execute();
 						} catch (IOException e) {
 							exceptionThrown = e;

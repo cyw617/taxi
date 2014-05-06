@@ -29,7 +29,7 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 	// Tracking the progress of finding near drivers
 	private ProgressBar mProgressBar;
 	// Delay before sending next inquiry to server
-	private int mDelay = 300;
+	private int mDelay = 2000;
 	Customer customer;
 	static AnyTaxi endpoint;
 
