@@ -1,18 +1,14 @@
 package comp3111h.anytaxi.customer;
 
 import java.io.IOException;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.model.Driver;
@@ -20,14 +16,13 @@ import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
-
-import comp3111h.anytaxi.customer.RequestToTrackingActivity.LoadingDriverTask;
 
 public class TrackingActivity extends ActionBarActivity {
 
@@ -37,6 +32,7 @@ public class TrackingActivity extends ActionBarActivity {
 	private static Marker marker;
 
 	Driver myDriver;
+	private SupportMapFragment mMapFragment;
 	private static Bundle driverInfo;
 	private static String driverEmail;
 	private static AnyTaxi endpoint;
@@ -49,15 +45,16 @@ public class TrackingActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracking);
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		endpoint = CloudEndpointUtils.updateBuilder(
 				new AnyTaxi.Builder(AndroidHttp.newCompatibleTransport(),
 						new JacksonFactory(), null)).build();
+        
+        mMapFragment = SupportMapFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.map, mMapFragment)
+                .commit(); 
+        getSupportFragmentManager().executePendingTransactions();
 
-		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-				.getMap();
-		mMap.setMyLocationEnabled(true);
 		// We get the previous RequestToTrackingActivity as an Intent
 		Intent prevIntent = getIntent();
 		driverInfo = prevIntent.getExtras();
@@ -66,19 +63,32 @@ public class TrackingActivity extends ActionBarActivity {
 		try {
 			myDriver = endpoint.getDriver(driverEmail).execute();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		driverLoc = myDriver.getLoc();
 		myDriverLoc = new LatLng(driverLoc.getLatitude(),
 				driverLoc.getLongitude());
-		CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(myDriverLoc,
+
+	}
+	
+	@Override
+	public void onStart(){
+		super.onStart();
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+        LocationUtils.mMap = mMapFragment.getMap();
+        LocationUtils.mMap.setMyLocationEnabled(true);
+        CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(myDriverLoc,
 				15);
 		mMap.animateCamera(cameraup);
-
+		
 		new TrackingDriverTask().execute();
-
+        
 	}
 
 	public void goBack(View view) {
@@ -93,15 +103,25 @@ public class TrackingActivity extends ActionBarActivity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			marker = mMap.addMarker(new MarkerOptions().position(myDriverLoc));
+			//Auto-generated method stub
+			marker = mMap.addMarker(new MarkerOptions().position(myDriverLoc)
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.taxipointer)));
 
 			while (true) {
-				GeoPt newLoc = myDriver.getLoc();
-				myDriverLoc = new LatLng(newLoc.getLatitude(),
-						newLoc.getLongitude());
-				publishProgress(myDriverLoc);
-				sleep();
+				
+				if(myDriver!=null)
+				{
+					GeoPt newLoc = myDriver.getLoc();
+					myDriverLoc = new LatLng(newLoc.getLatitude(),
+							newLoc.getLongitude());
+					publishProgress(myDriverLoc);
+					sleep();
+				}
+				else
+				{
+					
+				}
+				
 			}
 		}
 

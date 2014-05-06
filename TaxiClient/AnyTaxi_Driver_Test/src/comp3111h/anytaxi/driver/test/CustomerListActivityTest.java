@@ -5,6 +5,7 @@ import comp3111h.anytaxi.driver.CustomerListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityUnitTestCase;
+import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
 
@@ -42,5 +43,27 @@ public class CustomerListActivityTest extends ActivityUnitTestCase<CustomerListA
 		assertNotNull(getActivity());
 	}
 	
+	@MediumTest
+	public void testListEmpty(){ // checks if clear list works
+		getActivity().clearItems();
+		assertEquals("List should be clean after clear",getActivity().numItemsInStrArr(), 0);
+	}
 	
+	@MediumTest
+	public void testRemoveItemInList(){ // checks if removing items in list works
+		int size = getActivity().numItemsInStrArr();
+		for(int i = 0; i<size ; i++){
+			getActivity().removeItem();
+		}
+		assertEquals("List shoud be clean after removing items", getActivity().numItemsInStrArr(), 0);
+	}
+	
+	@MediumTest
+	public void testRemoveItemInListUsingIndex(){ // checks if removing items in list using works
+		int size = getActivity().numItemsInStrArr();
+		for(int i = 0; i<size ; i++){
+			getActivity().removeItemInList(0);
+		}
+		assertEquals("List shoud be clean after removing items", getActivity().numItemsInStrArr(), 0);
+	}
 }

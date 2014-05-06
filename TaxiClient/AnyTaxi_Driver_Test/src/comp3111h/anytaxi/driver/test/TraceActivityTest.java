@@ -31,9 +31,9 @@ public class TraceActivityTest extends ActivityUnitTestCase<TraceActivity>{
 	}
 	
 	@Override
-	protected void tearDown() throws Exception{
-		//this method is called every time after any test execution
+	public void tearDown() throws Exception {
 		super.tearDown();
+		setActivity(null);
 	}
 	
 	@SmallTest

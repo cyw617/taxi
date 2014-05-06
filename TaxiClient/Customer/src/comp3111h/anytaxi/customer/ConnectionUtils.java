@@ -85,8 +85,7 @@ class ConnectionUtils {
 				Log.d(LocationUtils.APPTAG,
 						myActivity.getString(R.string.resolved));
 				// Display the result
-				RequestActivity.mConnectionState.setText(R.string.connected);
-				RequestActivity.mConnectionStatus.setText(R.string.resolved);
+
 				break;
 
 			// If any other result was returned by Google Play services
@@ -96,9 +95,6 @@ class ConnectionUtils {
 						myActivity.getString(R.string.no_resolution));
 
 				// Display the result
-				RequestActivity.mConnectionState.setText(R.string.disconnected);
-				RequestActivity.mConnectionStatus
-						.setText(R.string.no_resolution);
 
 				break;
 			}

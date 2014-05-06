@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,13 +34,13 @@ public class RequestActivity extends ActionBarActivity implements
         GooglePlayServicesClient.OnConnectionFailedListener {
     private final static String TAG = "RequestActivity";
 
-    // Temporary Variable
-    // Inspecting the connection status
-    static TextView mConnectionState;
-    static TextView mConnectionStatus;
-    static TextView mAddress;
-    static TextView mLatLng;
-    static ProgressBar mActivityIndicator;
+
+	// Temporary Variable
+	// Inspecting the connection status
+
+	static TextView mAddress;
+
+	static ProgressBar mActivityIndicator;
 
     private SupportMapFragment mMapFragment;
     
@@ -51,7 +52,6 @@ public class RequestActivity extends ActionBarActivity implements
     ArrayAdapter<String> adapter;
 
     private Button requestButton;
-    private Button moreButton;
 
     // Stores the current instantiation of the location client in this object
     private LocationClient mLocationClient;
@@ -68,41 +68,39 @@ public class RequestActivity extends ActionBarActivity implements
          * CustomerAccountInfo.WEB_CLIENT_ID);
          */
 
-        mLocationClient = new LocationClient(this, this, this);
-        mConnectionState = (TextView) findViewById(R.id.text_connection_state);
-        mConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
-        mAddress = (TextView) findViewById(R.id.address);
-        mLatLng = (TextView) findViewById(R.id.lat_lng);
-        mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
 
-        // Set up the autoComplete TextView
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.common_locations));
-        myDestination_Field = (MultiAutoCompleteTextView) findViewById(R.id.destination);
-    
-        myDestination_Field.setAdapter(adapter);
-        myDestination_Field
-            .setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+		mLocationClient = new LocationClient(this, this, this);
+
+		mAddress = (TextView) findViewById(R.id.addressNew);
+		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
+
 
         requestButton = (Button) findViewById(R.id.request_btn);
         requestButton.setOnClickListener(onRequestListener);
+		// Set up the autoComplete TextView
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_dropdown_item_1line, getResources()
+						.getStringArray(R.array.common_locations));
+		myDestination_Field = (MultiAutoCompleteTextView) findViewById(R.id.destination);
 
-        moreButton = (Button) findViewById(R.id.more);
-        moreButton.setOnClickListener(createButtonListener);
+		myDestination_Field.setAdapter(adapter);
+		myDestination_Field
+				.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
         
         mMapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.request_map_container, mMapFragment)
+                .add(R.id.map, mMapFragment)
                 .commit(); 
         getSupportFragmentManager().executePendingTransactions();
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
-        
-        LocationUtils.mMap = mMapFragment.getMap();
-        LocationUtils.mMap.setMyLocationEnabled(true);
+
         
         /*
          * Connect the client. Don't re-start any requests here; instead, wait
@@ -110,6 +108,19 @@ public class RequestActivity extends ActionBarActivity implements
          */
         mLocationClient.connect();
     }
+
+    /**
+     * 
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocationUtils.mMap = mMapFragment.getMap();
+        LocationUtils.mMap.setMyLocationEnabled(true);
+    }
+
+		
+
 
     /*
      * Called when the Activity is no longer visible at all. Stop updates and
@@ -140,8 +151,6 @@ public class RequestActivity extends ActionBarActivity implements
     public void onConnected(Bundle bundle) {
         Log.i(TAG, "Location Client is connected to GooglePlayService.");
 
-        mConnectionStatus.setText(R.string.connected);
-
         Location currentLoc = mLocationClient.getLastLocation();
         while (currentLoc == null) {
             currentLoc = mLocationClient.getLastLocation();
@@ -153,6 +162,7 @@ public class RequestActivity extends ActionBarActivity implements
         CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(locationNew,
                 15);
         LocationUtils.mMap.animateCamera(cameraup);
+
 
         LocationUtils.getAddress(this, currentLoc);
     }
@@ -189,25 +199,33 @@ public class RequestActivity extends ActionBarActivity implements
     }
 
     @Override
+    public void onBackPressed() {
+        exit();
+    }
+    
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
+		if (id == R.id.action_settings) {
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		
+		if(id == R.id.action_carpool) {
+			Intent TestGroupMessageTable = new Intent(RequestActivity.this,
+					IndexActivity.class);
+			startActivity(TestGroupMessageTable);
+		}
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        exit();
-    }
+
 
     // When taxi button is pressed,
     // the user will be redirected to RequestToTrackingActivity
@@ -239,9 +257,10 @@ public class RequestActivity extends ActionBarActivity implements
                     // new EndpointsTask(RequestActivity.this, endpoint,
                     // c).execute();
 
-                    String curAddress = (String) mAddress.getText();
+                    String curAddress = String.valueOf( mAddress.getText());
 
                     myDestination = myDestination_Field.getText().toString();
+
 
                     Bundle customerInfo = new Bundle();
                     customerInfo.putString("EMAIL", Utils.customer.getEmail());
@@ -250,6 +269,7 @@ public class RequestActivity extends ActionBarActivity implements
                     customerInfo.putDouble("LAT", locationNew.latitude);
                     customerInfo.putDouble("LON", locationNew.longitude);
                     customerInfo.putString("DEST", myDestination);
+
 
                     Intent intent = new Intent(RequestActivity.this,
                             RequestToTrackingActivity.class);
@@ -272,14 +292,7 @@ public class RequestActivity extends ActionBarActivity implements
         }
     };
 
-    private OnClickListener createButtonListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent TestGroupMessageTable = new Intent(RequestActivity.this,
-                    IndexActivity.class);
-            startActivity(TestGroupMessageTable);
-        }
-    };
+
 
     private void exit() {
         new AlertDialog.Builder(this)
@@ -295,6 +308,15 @@ public class RequestActivity extends ActionBarActivity implements
                         })
                 .setNegativeButton(getString(R.string.quit_Negative), null)
                 .show();
+    }
+    
+    public SupportMapFragment getMapFragment() {
+        return mMapFragment;
+    }
+
+
+    public LocationClient getLocationClient() {
+        return mLocationClient;
     }
 
 }

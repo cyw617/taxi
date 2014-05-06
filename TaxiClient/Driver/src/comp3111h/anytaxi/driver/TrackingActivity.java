@@ -10,7 +10,7 @@ public class TrackingActivity extends ActionBarActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracking);
 		
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	public void finishActivity(View view){

@@ -20,7 +20,7 @@
         android:text="lat_lng"
         android:textColor="#ff0000" />
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/address2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -73,7 +73,7 @@
         android:text="More.." />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/addressNew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -88,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/addressNew"
         android:ems="10"
         android:hint="y (in map)" />
     <EditText
