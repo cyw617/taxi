@@ -77,7 +77,8 @@
         <activity
             android:name="comp3111h.anytaxi.driver.CustomerListActivity"
             android:label="Dynamic List"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
         </activity>
         
         <activity

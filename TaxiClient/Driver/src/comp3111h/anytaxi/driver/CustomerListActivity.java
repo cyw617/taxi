@@ -164,35 +164,28 @@ public class CustomerListActivity extends ActionBarActivity
 	}
 
 	@Override
-	protected void onNewIntent(Intent intent)
-	{
+	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		Long transactionId = Long.parseLong(intent
 				.getStringExtra(GCMIntentService.TRANSACTION_ID));
 		final Context context = this.getApplicationContext();
-		if (transactionId != null)
-		{
-			new AsyncTask<Long, Void, Transaction>()
-			{
+		if (transactionId != null) {
+			new AsyncTask<Long, Void, Transaction>() {
 				private Exception exceptionThrown;
 
 				@Override
-				protected Transaction doInBackground(Long... params)
-				{
+				protected Transaction doInBackground(Long... params) {
 					endpoint = CloudEndpointUtils.updateBuilder(
 							new AnyTaxi.Builder(AndroidHttp
 									.newCompatibleTransport(),
 									new JacksonFactory(), null)).build();
 					Driver d = Utils.getDriver(context);
-					if (d != null)
-					{
+					if (d != null) {
 						Transaction t;
-						try
-						{
+						try {
 							t = endpoint.acceptTransaction(d.getEmail(),
 									params[0]).execute();
-						} catch (IOException e)
-						{
+						} catch (IOException e) {
 							exceptionThrown = e;
 							return null;
 						}
@@ -202,17 +195,13 @@ public class CustomerListActivity extends ActionBarActivity
 				}
 
 				@Override
-				protected void onPostExecute(Transaction t)
-				{
-					if (t == null)
-					{
+				protected void onPostExecute(Transaction t) {
+					if (t == null) {
 						Toast.makeText(
 								context,
 								"It's too late! The order has been accepted by someone else.",
 								Toast.LENGTH_LONG).show();
-					} 
-					else
-					{
+					} else {
 						// TODO: add something meaningful!
 						String customerLoc = t.getCustomerLocStr();
 						String customerDes = t.getDestLocStr();
@@ -221,8 +210,7 @@ public class CustomerListActivity extends ActionBarActivity
 						strArr.add(customerLoc + "\t" + customerDes);
 						arrAdapter.notifyDataSetChanged();
 					}
-					if (exceptionThrown != null)
-					{
+					if (exceptionThrown != null) {
 						Log.e(TAG, "Exception", exceptionThrown);
 					}
 				}
