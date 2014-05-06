@@ -107,14 +107,14 @@ public class CustomerListActivity extends ActionBarActivity {
     }
 	
    
-	public void removeItem(View view){
+	public void removeItem(){
 		if(strArr.isEmpty()!=true){
 			strArr.remove(0);
 			arrAdapter.notifyDataSetChanged();
 		}
 	}
 	
-	public void clearItems(View view){
+	public void clearItems(){
 		strArr.clear();
 		arrAdapter.notifyDataSetChanged();
 	}
