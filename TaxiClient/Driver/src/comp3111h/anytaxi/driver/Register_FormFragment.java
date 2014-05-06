@@ -322,6 +322,7 @@ public class Register_FormFragment extends Fragment {
                 return;
             }
             
+            GCMIntentService.register(context);            
             Intent intent = new Intent(this.context, CustomerListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
