@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.model.Driver;
+import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
 import com.appspot.hk_taxi.anyTaxi.model.Transaction;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,6 +31,10 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
 public class TraceActivity extends FragmentActivity{
 
+	// service
+	private LocationBroadcastService myService;
+	private Intent serviceIntent;
+	
 	private String TAG = "TraceActivity";
 
 	private TextView mAddress;
@@ -100,13 +105,21 @@ public class TraceActivity extends FragmentActivity{
 		{
 			showError(this,"FuckTheCode!latlntParseFailed");
 		}
+		
+		Utils.putPreference(this, Utils.DRIVER_LAT, Float.valueOf(latFloat).toString());
+		Utils.putPreference(this, Utils.DRIVER_LNG, Float.valueOf(lntFloat).toString());
+		
 
 		// Open Shared Preferences
 		mPrefs = getSharedPreferences(LocationUtils.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
 		// Get an editor
 		mEditor = mPrefs.edit();
+		
+		serviceIntent = new Intent(this, LocationBroadcastService.class);
 	}
+	
+
 
 
 

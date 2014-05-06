@@ -33,6 +33,9 @@ public class Utils {
     public static final String CUSTOMER_LATLNG = "__CUSTOMER_LATLNG__";
     public static final String CUSTOMER_LIST_ID = "__CUSTOMER_LIST_ID__";
     public static final String TRASACTION_ID = "__TRANSACTION_ID__";
+    
+    public static final String DRIVER_LAT = "__DRIVER_LATITUDE__";
+    public static final String DRIVER_LNG = "__DRIVER_LONGITUDE__";
 
 
     static final String WEB_CLIENT_ID = "1072316261853-u0gafkut9f919bau91gh9bgjb9555hh2."
