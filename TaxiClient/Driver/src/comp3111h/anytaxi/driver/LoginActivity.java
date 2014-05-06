@@ -6,6 +6,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Window;
@@ -16,6 +17,7 @@ import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
+
 import comp3111h.anytaxi.driver.R;
 
 public class LoginActivity extends ActionBarActivity {
@@ -24,14 +26,20 @@ public class LoginActivity extends ActionBarActivity {
 
 	protected static GoogleAccountCredential credential;  
 	protected static AnyTaxi endpoint;
-
-	@Override
-	public void onStart() {
-		super.onStart();
+	
+    @Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);		
         
-		credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);         
+        credential = GoogleAccountCredential.usingAudience(this, Utils.AUDIENCE);  
+        Utils.driver = Utils.getDriver(this);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();     
 		startActivityForResult(credential.newChooseAccountIntent(), Utils.REQUEST_ACCOUNT_PICKER);
 	}
 
