@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
+import com.appspot.hk_taxi.anyTaxi.model.Driver;
+import com.appspot.hk_taxi.anyTaxi.model.Transaction;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -40,16 +42,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.jackson2.JacksonFactory;
 public class TraceActivity extends FragmentActivity{
-	
 
-    
+	private String TAG = "TraceActivity";
 
 	private TextView mAddress;
 	private ProgressBar mActivityIndicator;
 
-    
 	//The lat and lng passed by CusTomerListActivity
 	private float latFloat;
 	private float lntFloat;
@@ -57,45 +59,44 @@ public class TraceActivity extends FragmentActivity{
     // Handle to SharedPreferences for this app
     SharedPreferences mPrefs;
 
-    // Handle to a SharedPreferences editor
-    SharedPreferences.Editor mEditor;
-    
-    /*
-     * Note if updates have been turned on. Starts out as "false"; is set to "true" in the
-     * method handleRequestSuccess of LocationUpdateReceiver.
-     *
-     */
-    
-	
+	// Handle to a SharedPreferences editor
+	SharedPreferences.Editor mEditor;
+
+	/*
+	 * Note if updates have been turned on. Starts out as "false"; is set to "true" in the
+	 * method handleRequestSuccess of LocationUpdateReceiver.
+	 *
+	 */    
+
 	/*CURRENT LOCATION INFO VAR END*/
-    
+
 	public static GoogleMap mMap;
 	private SupportMapFragment mMapFragment;
-	
+
 	int index; // index of item onclick in customer list
 	String customerLoc;
 	String customerDes;
 	float[] myLatLng;
 	
 
-	
-	
+	private AnyTaxi endpoint;    
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_trace);
-		
-		// Get handles to the UI view objects
-        mAddress = (TextView) findViewById(R.id.address);
-        mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
 
-        mMapFragment = SupportMapFragment.newInstance();
-        FragmentTransaction fragmentTransaction =
-                 getSupportFragmentManager().beginTransaction();
-         fragmentTransaction.add(R.id.map, mMapFragment);
-         fragmentTransaction.commit();
-         getSupportFragmentManager().executePendingTransactions();
-		
+		// Get handles to the UI view objects
+		mAddress = (TextView) findViewById(R.id.address);
+		mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
+
+		mMapFragment = SupportMapFragment.newInstance();
+		FragmentTransaction fragmentTransaction =
+				getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.add(R.id.map, mMapFragment);
+		fragmentTransaction.commit();
+		getSupportFragmentManager().executePendingTransactions();
+
 		Intent intent = getIntent();
 		customerLoc = intent.getStringExtra(Utils.CUSTOMER_LOC);
 		customerDes = intent.getStringExtra(Utils.CUSTOMER_DES);
@@ -113,61 +114,99 @@ public class TraceActivity extends FragmentActivity{
 		{
 			showError(this,"FuckTheCode!latlntParseFailed");
 		}
-        // Open Shared Preferences
-        mPrefs = getSharedPreferences(LocationUtils.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
-        // Get an editor
-        mEditor = mPrefs.edit();
+		// Open Shared Preferences
+		mPrefs = getSharedPreferences(LocationUtils.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
+		// Get an editor
+		mEditor = mPrefs.edit();
 	}
-	
 
-	
+
+
 	public void accept(View view){
+
+		new AsyncTask<Long, Void, Transaction>() {
+			private Exception exceptionThrown;
+
+			@Override
+			protected Transaction doInBackground(Long... params) {
+				endpoint = CloudEndpointUtils.updateBuilder(
+						new AnyTaxi.Builder(AndroidHttp
+								.newCompatibleTransport(),
+								new JacksonFactory(), null)).build();
+				Driver d = Utils.getDriver(TraceActivity.this);
+				if (d != null) {
+					Transaction t;
+					try {
+						t = endpoint.acceptTransaction(d.getEmail(),
+								params[0]).execute();
+					} catch (IOException e) {
+						exceptionThrown = e;
+						return null;
+					}
+					return t;
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Transaction t) {
+				if (t == null) {
+					Toast.makeText(
+							TraceActivity.this,
+							"It's too late! The order has been accepted by someone else.",
+							Toast.LENGTH_LONG).show();
+				} else {
+					// TODO: add truely meaningful accept
+				}
+				if (exceptionThrown != null) {
+					Log.e(TAG, "Exception", exceptionThrown);
+				}
+			}
+		}.execute(transactionId);
+
 		// block cloud message
 		CustomerListActivity.removeItemInList(index); //test cases needed
-		finish();
-		
+		finish();		
 	}
-	
+
 	public void decline(View view){
 		CustomerListActivity.removeItemInList(index); //test cases needed
 		finish();
 	}
-		
-    /*
-     * Called when the Activity is restarted, even before it becomes visible.
-     */
-    @Override
-    public void onStart() {
 
-        super.onStart();
-    }
-    
-    /*
-     * Called when the Activity is no longer visible at all.
-     * Stop updates and disconnect.
-     */
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-    /*
-     * Called when the Activity is going into the background.
-     * Parts of the UI may be visible, but the Activity is inactive.
-     */
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
+	/*
+	 * Called when the Activity is restarted, even before it becomes visible.
+	 */
+	@Override
+	public void onStart() {
 
+		super.onStart();
+	}
+
+	/*
+	 * Called when the Activity is no longer visible at all.
+	 * Stop updates and disconnect.
+	 */
+	@Override
+	public void onStop() {
+		super.onStop();
+	}
+	/*
+	 * Called when the Activity is going into the background.
+	 * Parts of the UI may be visible, but the Activity is inactive.
+	 */
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
     /*
      * Called when the system detects that this Activity is now visible.
      */
     @Override
     public void onResume() {
         super.onResume();
-
-
         mMap = mMapFragment.getMap();
         mMap.setMyLocationEnabled(true);
         
@@ -176,16 +215,15 @@ public class TraceActivity extends FragmentActivity{
         mMap.animateCamera(cameraup);
         final Marker marker = mMap.addMarker(new MarkerOptions().position(locationNew));
     }
-    
+
 	public static void showError(final Activity activity, String message) {
-		  final String errorMessage = message == null ? "Error" : "[Error ] "
-		      + message;
-		  activity.runOnUiThread(new Runnable() {
-		    public void run() {
-		      Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG)
-		          .show();
-		    }
-		  });
-		}
- 
+		final String errorMessage = (message == null) ? "Error" : "[Error ] "
+				+ message;
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG)
+				.show();
+			}
+		});
+	}
 }

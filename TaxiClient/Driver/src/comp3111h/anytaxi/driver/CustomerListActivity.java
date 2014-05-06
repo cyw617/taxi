@@ -34,8 +34,6 @@ public class CustomerListActivity extends ActionBarActivity
 	private static ArrayAdapter<String> arrAdapter;
 	Bundle customerInfo;
 
-	private AnyTaxi endpoint;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -172,61 +170,15 @@ public class CustomerListActivity extends ActionBarActivity
 		Log.e("onNewIntent", "Start onNewIntent");
 		Long transactionId = Long.parseLong(intent
 				.getStringExtra(GCMIntentService.TRANSACTION_ID));
-		final Context context = this;
-		if (transactionId != null) {
-			Log.e("onNewIntent", "transactionid not null");
-			new AsyncTask<Long, Void, Transaction>() {
-				private Exception exceptionThrown;
-				@Override
-				protected Transaction doInBackground(Long... params) {
-					endpoint = CloudEndpointUtils.updateBuilder(
-							new AnyTaxi.Builder(AndroidHttp
-									.newCompatibleTransport(),
-									new JacksonFactory(), null)).build();
-					Driver d = Utils.getDriver(context);
-					if (d != null) {
-						Log.e("onNewIntent", " driver not null ");
-						Transaction t;
-						try {
-							Log.e("onNewIntent", "get transaction");
-							t = endpoint.getTransaction(d.getEmail(),
-									params[0]).execute();
-						} catch (IOException e) {
-							exceptionThrown = e;
-							return null;
-						}
-						return t;
-					}
-					return null;
-				}
+		Float latitude = Float.parseFloat(intent
+				.getStringExtra(GCMIntentService.LATITUDE));
+		Float longitude = Float.parseFloat(intent
+				.getStringExtra(GCMIntentService.LONGITUDE));
+		String customerLoc = intent.getStringExtra(GCMIntentService.CUR_LOC_STR);
+		String customerDes = intent.getStringExtra(GCMIntentService.DEST_LOC_STR);
 
-				@Override
-				protected void onPostExecute(Transaction t) {
-					if (t == null) {
-						Toast.makeText(
-								context,
-								"It's too late! The order has been accepted by someone else.",
-								Toast.LENGTH_LONG).show();
-					} else {
-						// TODO: add something meaningful!
-						String customerLoc = t.getCustomerLocStr();
-						String customerDes = t.getDestLocStr();
-						float lat = t.getCustomerLoc().getLatitude();
-						float lng = t.getCustomerLoc().getLongitude();
-						float[] latlng = new float[]{lat,lng};
-
-						// Update the customer List
-						strArr.add(customerLoc + "\t" + customerDes);
-						arrAdapter.notifyDataSetChanged();
-						
-						customerInfo.putFloatArray(customerLoc + "\t" + customerDes, latlng);
-						
-					}
-					if (exceptionThrown != null) {
-						Log.e(TAG, "Exception", exceptionThrown);
-					}
-				}
-			}.execute(transactionId);
-		}
+		// Update the customer List
+		strArr.add(customerLoc + "\t" + customerDes);
+		arrAdapter.notifyDataSetChanged();
 	}
 }

@@ -22,6 +22,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 	final static public String FAIL = "__FAIL__";
 	final static public String CUR_LOC_STR = "__CUR_LOC_STR__";
 	final static public String DEST_LOC_STR = "__DEST_LOC_STR__";
+	final static public String LATITUDE = "__LATITUDE__";
+	final static public String LONGITUDE = "__LONGTITUDE__";
 
 	public GCMIntentService() {
 		super(PROJECT_NUMBER);
@@ -89,6 +91,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 			notification.putExtra(TRANSACTION_ID, intent.getStringExtra("transactionKey"));
 			notification.putExtra(CUR_LOC_STR, intent.getStringExtra("curLocStr"));
 			notification.putExtra(DEST_LOC_STR, intent.getStringExtra("destLocStr"));
+			notification.putExtra(CUR_LOC_STR, intent.getStringExtra("lat"));
+			notification.putExtra(DEST_LOC_STR, intent.getStringExtra("long"));
 			notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(notification);
 		}
