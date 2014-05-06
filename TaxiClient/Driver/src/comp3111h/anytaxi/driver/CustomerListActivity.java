@@ -29,6 +29,8 @@ public class CustomerListActivity extends ActionBarActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customer_list);
 
+		customerInfo = new Bundle();
+		
 		listView = (ListView) findViewById(R.id.listView1);
 		strArr = new ArrayList<String>();
 		// arrAdapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -57,7 +59,7 @@ public class CustomerListActivity extends ActionBarActivity
 				String[] tokens = LocDes.split(delims);
 				String Loc = tokens[0];
 				String Des = tokens[1];
-				float[] myLatLng = customerInfo.getFloatArray(LocDes);
+				float[] myLatLng = customerInfo.getFloatArray(Utils.CUSTOMER_LATLNG);
 				intent.putExtra(Utils.CUSTOMER_LOC, Loc);
 				intent.putExtra(Utils.CUSTOMER_DES, Des);
 				intent.putExtra(Utils.CUSTOMER_LATLNG, myLatLng);

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.model.Driver;
@@ -44,10 +45,6 @@ public class TrackingActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracking);
-
-		endpoint = CloudEndpointUtils.updateBuilder(
-				new AnyTaxi.Builder(AndroidHttp.newCompatibleTransport(),
-						new JacksonFactory(), null)).build();
         
         mMapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
@@ -60,17 +57,34 @@ public class TrackingActivity extends ActionBarActivity {
 		driverInfo = prevIntent.getExtras();
 		driverEmail = driverInfo.getString("Email");
 
-		try {
-			myDriver = endpoint.getDriver(driverEmail).execute();
-		} catch (IOException e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		driverLoc = myDriver.getLoc();
-		myDriverLoc = new LatLng(driverLoc.getLatitude(),
-				driverLoc.getLongitude());
-
+		new AsyncTask<String, Void, Driver>() {
+			Exception exception;
+			
+			@Override
+			protected Driver doInBackground(String...params) {
+				try {
+					endpoint = CloudEndpointUtils.updateBuilder(
+							new AnyTaxi.Builder(AndroidHttp.newCompatibleTransport(),
+									new JacksonFactory(), null)).build();
+					return endpoint.getDriver(params[0]).execute();
+				} catch (IOException e) {
+					exception = e;
+					return null;
+				}
+			}
+			protected void onPostExecute(Driver d) {
+				if (exception != null) {
+					Toast.makeText(TrackingActivity.this, "Unable to track your driver!",
+							Toast.LENGTH_LONG).show();
+					Log.e(TAG, "Can't get driver", exception);
+				} else {
+					myDriver = d;
+					driverLoc = myDriver.getLoc();
+					myDriverLoc = new LatLng(driverLoc.getLatitude(),
+							driverLoc.getLongitude());
+				}
+			}
+		}.execute(driverEmail);
 	}
 	
 	@Override
