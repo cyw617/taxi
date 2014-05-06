@@ -29,7 +29,6 @@ public class TrackingActivity extends ActionBarActivity {
 
 	private static final String TAG = "TrackingActivity";
 	final int driverUpDelay = 500;
-	public static GoogleMap mMap;
 	private static Marker marker;
 
 	Driver myDriver;
@@ -82,6 +81,14 @@ public class TrackingActivity extends ActionBarActivity {
 					driverLoc = myDriver.getLoc();
 					myDriverLoc = new LatLng(driverLoc.getLatitude(),
 							driverLoc.getLongitude());
+					
+			        LocationUtils.mMap = mMapFragment.getMap();
+			        LocationUtils.mMap.setMyLocationEnabled(true);
+			        CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(myDriverLoc,
+							15);
+			        LocationUtils.mMap.animateCamera(cameraup);
+					
+					new TrackingDriverTask().execute();
 				}
 			}
 		}.execute(driverEmail);
@@ -95,13 +102,6 @@ public class TrackingActivity extends ActionBarActivity {
 	@Override
 	public void onResume(){
 		super.onResume();
-        LocationUtils.mMap = mMapFragment.getMap();
-        LocationUtils.mMap.setMyLocationEnabled(true);
-        CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(myDriverLoc,
-				15);
-		mMap.animateCamera(cameraup);
-		
-		new TrackingDriverTask().execute();
         
 	}
 
@@ -118,7 +118,7 @@ public class TrackingActivity extends ActionBarActivity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			//Auto-generated method stub
-			marker = mMap.addMarker(new MarkerOptions().position(myDriverLoc)
+			marker = LocationUtils.mMap.addMarker(new MarkerOptions().position(myDriverLoc)
 					.icon(BitmapDescriptorFactory.fromResource(R.drawable.taxipointer)));
 
 			while (true) {
