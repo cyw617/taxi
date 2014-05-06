@@ -74,28 +74,6 @@ public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity> i
         assertEquals(redirect.getComponent().getShortClassName(), ".RequestToTrackingActivity");
     }
     
-    @SmallTest
-    public void testCreateButtonListener() {
-        // getActivity().onStart();
-        
-        Button moreButton = (Button) getActivity().findViewById(R.id.more);
-        
-        assertNotNull("More button is not found.", moreButton);
-        
-        moreButton.performClick();
-        
-        Button requestButton = (Button) getActivity().findViewById(R.id.request_btn);
-        
-        assertNotNull("Request button is not found.", requestButton);
-        
-        requestButton.performClick();
-        
-        
-        final Intent redirect = getStartedActivityIntent();
-        assertNotNull("No activity is started.", redirect);
-        assertEquals(redirect.getComponent().getShortClassName(), ".IndexActivity");
-    }
-    
 /*    @MediumTest
     public void testOnConnected() throws Exception {
         // prepare a mock location for the location service
