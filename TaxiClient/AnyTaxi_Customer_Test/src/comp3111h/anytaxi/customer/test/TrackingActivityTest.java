@@ -42,4 +42,10 @@ public class TrackingActivityTest extends ActivityUnitTestCase<TrackingActivity>
 		Thread.sleep(5000);
 		assertNotNull(getActivity());
 	}
+
+	@Override
+	public void tearDown() throws Exception {
+		super.tearDown();
+		setActivity(null);
+	}
 }
