@@ -72,6 +72,7 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 			GeoPt tempPt = new GeoPt();
 			tempPt.setLatitude((float) preIntentBundle.getDouble("LAT"));
 			tempPt.setLongitude((float) preIntentBundle.getDouble("LON"));
+			
 
 			endpoint = CloudEndpointUtils.updateBuilder(
 					new AnyTaxi.Builder(AndroidHttp.newCompatibleTransport(),
@@ -152,6 +153,7 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 			customerInfoTrans.setCustomerLoc(customerLoc);
 			customerInfoTrans.setDestLocStr(destLocStr);
 			// customerInfoTrans.setDestLoc(destLoc);
+			assert customerInfoTrans.getCustomerLoc() != null;
 
 			try {
 				initialTrans = endpoint.addTransaction(

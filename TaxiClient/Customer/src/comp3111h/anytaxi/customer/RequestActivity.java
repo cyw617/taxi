@@ -257,8 +257,6 @@ public class RequestActivity extends ActionBarActivity implements
                                                                     // from map
                     c.setLoc(p);
 
-                    // new EndpointsTask(RequestActivity.this, endpoint,
-                    // c).execute();
 
                     String curAddress = String.valueOf( mAddress.getText());
 
