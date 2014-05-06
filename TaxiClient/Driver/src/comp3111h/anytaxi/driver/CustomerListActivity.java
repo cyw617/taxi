@@ -159,6 +159,10 @@ public class CustomerListActivity extends ActionBarActivity
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		Log.e("onNewIntent", "Start onNewIntent");
+		String gcm = intent.getStringExtra(GCMIntentService.GCM_INTENT);
+		if (gcm == null) {
+			return;
+		}
 		Long transactionId = Long.parseLong(intent
 				.getStringExtra(GCMIntentService.TRANSACTION_ID));
 		Float latitude = Float.parseFloat(intent
