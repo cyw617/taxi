@@ -51,8 +51,8 @@ public class TraceActivity extends FragmentActivity{
 
     
 	//The lat and lng passed by CusTomerListActivity
-	private double latDouble;
-	private double lntDouble;
+	private float latFloat;
+	private float lntFloat;
 	
     // Handle to SharedPreferences for this app
     SharedPreferences mPrefs;
@@ -73,6 +73,10 @@ public class TraceActivity extends FragmentActivity{
 	private SupportMapFragment mMapFragment;
 	
 	int index; // index of item onclick in customer list
+	String customerLoc;
+	String customerDes;
+	float[] myLatLng;
+	
 
 	
 	
@@ -93,32 +97,27 @@ public class TraceActivity extends FragmentActivity{
          getSupportFragmentManager().executePendingTransactions();
 		
 		Intent intent = getIntent();
-		String latString = intent.getStringExtra("Latitude");
-		String lntString = intent.getStringExtra("Longitude");
+		customerLoc = intent.getStringExtra(Utils.CUSTOMER_LOC);
+		customerDes = intent.getStringExtra(Utils.CUSTOMER_DES);
+		myLatLng = intent.getFloatArrayExtra(Utils.CUSTOMER_LATLNG);
+		
 		index = intent.getIntExtra("customer_list_id", 0);
 		//test cases needed
 		
-		if(latString!=null&&lntString!=null)
+		if(myLatLng!=null)
 		{
-			latDouble = Double.parseDouble(latString);
-			lntDouble = Double.parseDouble(lntString);
+			latFloat = myLatLng[0];
+			lntFloat = myLatLng[1];
 		}
 		else
 		{
 			showError(this,"FuckTheCode!latlntParseFailed");
 		}
-		
-		
-
-
         // Open Shared Preferences
         mPrefs = getSharedPreferences(LocationUtils.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
         // Get an editor
         mEditor = mPrefs.edit();
-
-        
-
 	}
 	
 
@@ -161,10 +160,6 @@ public class TraceActivity extends FragmentActivity{
         super.onPause();
     }
 
-
-
-    /*
-    
     /*
      * Called when the system detects that this Activity is now visible.
      */
@@ -176,7 +171,7 @@ public class TraceActivity extends FragmentActivity{
         mMap = mMapFragment.getMap();
         mMap.setMyLocationEnabled(true);
         
-        LatLng locationNew = new LatLng(latDouble,lntDouble);
+        LatLng locationNew = new LatLng(latFloat,lntFloat);
         CameraUpdate cameraup=CameraUpdateFactory.newLatLngZoom(locationNew,15);
         mMap.animateCamera(cameraup);
         final Marker marker = mMap.addMarker(new MarkerOptions().position(locationNew));

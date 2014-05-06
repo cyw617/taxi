@@ -27,7 +27,11 @@ public class Utils {
     public static final String PREFS_LOC_KEY = "__LOC__";
     public static final String PREFS_REGDATE_KEY = "__REGDATE__";
 	
-    public static final String SUCCESS_SERVICE_KEY = "__SUCCESS__";   
+    public static final String SUCCESS_SERVICE_KEY = "__SUCCESS__";  
+    public static final String CUSTOMER_LOC = "__CUSTOMER_LOCATION__";
+    public static final String CUSTOMER_DES = "__CUSTOMER_DESTINATION__";
+    public static final String CUSTOMER_LATLNG = "__CUSTOMER_LATLNG__";
+    public static final String CUSTOMER_LIST_ID = "__CUSTOMER_LIST_ID__";
 
 
     static final String WEB_CLIENT_ID = "1072316261853-u0gafkut9f919bau91gh9bgjb9555hh2."

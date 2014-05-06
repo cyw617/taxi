@@ -32,6 +32,7 @@ public class CustomerListActivity extends ActionBarActivity
 	private ListView listView;
 	private static ArrayList<String> strArr;
 	private static ArrayAdapter<String> arrAdapter;
+	Bundle customerInfo;
 
 	private AnyTaxi endpoint;
 
@@ -60,18 +61,20 @@ public class CustomerListActivity extends ActionBarActivity
 
 				Intent intent = new Intent(CustomerListActivity.this,
 						TraceActivity.class);
-				String latlnt = (String) parent.getItemAtPosition(position);
+				String LocDes = (String) parent.getItemAtPosition(position);
 				/*
 				 * Set up the string delimiter as "\t" The lat and lnt are
 				 * separated by a "\t"
 				 */
 				String delims = "[\t]+";
-				String[] tokens = latlnt.split(delims);
-				String latString = tokens[1];
-				String lntString = tokens[2];
-
-				intent.putExtra("Latitude", latString);
-				intent.putExtra("Longitude", lntString);
+				String[] tokens = LocDes.split(delims);
+				String Loc = tokens[1];
+				String Des = tokens[2];
+				float[] myLatLng = customerInfo.getFloatArray(LocDes);
+				intent.putExtra(Utils.CUSTOMER_LOC, Loc);
+				intent.putExtra(Utils.CUSTOMER_DES, Des);
+				intent.putExtra(Utils.CUSTOMER_LATLNG, myLatLng);
+				intent.putExtra(Utils.CUSTOMER_LIST_ID,id);
 				startActivity(intent);
 			}
 		});
@@ -205,10 +208,16 @@ public class CustomerListActivity extends ActionBarActivity
 						// TODO: add something meaningful!
 						String customerLoc = t.getCustomerLocStr();
 						String customerDes = t.getDestLocStr();
+						float lat = t.getCustomerLoc().getLatitude();
+						float lng = t.getCustomerLoc().getLongitude();
+						float[] latlng = new float[]{lat,lng};
 
 						// Update the customer List
 						strArr.add(customerLoc + "\t" + customerDes);
 						arrAdapter.notifyDataSetChanged();
+						
+						customerInfo.putFloatArray(customerLoc + "\t" + customerDes, latlng);
+						
 					}
 					if (exceptionThrown != null) {
 						Log.e(TAG, "Exception", exceptionThrown);
