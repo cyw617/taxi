@@ -101,12 +101,7 @@ public class RequestActivity extends ActionBarActivity implements
     public void onStart() {
         super.onStart();
 
-        
-        /*
-         * Connect the client. Don't re-start any requests here; instead, wait
-         * for onResume()
-         */
-        mLocationClient.connect();
+       
     }
 
     /**
@@ -115,6 +110,14 @@ public class RequestActivity extends ActionBarActivity implements
     @Override
     public void onResume() {
         super.onResume();
+        
+        /*
+         * Connect the client. Don't re-start any requests here; instead, wait
+         * for onResume()
+         */
+       
+        mLocationClient.connect();
+        
         LocationUtils.mMap = mMapFragment.getMap();
         LocationUtils.mMap.setMyLocationEnabled(true);
     }
@@ -309,7 +312,6 @@ public class RequestActivity extends ActionBarActivity implements
                 .setNegativeButton(getString(R.string.quit_Negative), null)
                 .show();
     }
-    
     public SupportMapFragment getMapFragment() {
         return mMapFragment;
     }
