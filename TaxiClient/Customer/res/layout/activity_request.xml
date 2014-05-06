@@ -21,34 +21,6 @@
         android:indeterminate="true"
         android:visibility="gone" />
 
-    <EditText
-        android:id="@+id/addressNew"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:inputType="textPostalAddress"
-        android:maxLines="1"
-        android:textColor="@color/yellow1" >
-
-        <requestFocus />
-    </EditText>
-
-    <MultiAutoCompleteTextView
-        android:id="@+id/destination"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/addressNew"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
-        android:ems="10"
-        android:hint="Destination"
-        android:inputType="textAutoCorrect"
-        android:maxLines="1"
-        android:textColor="@color/grey" 
-        android:popupBackground="@null" />
-
     <Button
         android:id="@+id/request_btn"
         android:layout_width="wrap_content"
@@ -61,5 +33,35 @@
         android:height="50dp"
         android:text="AnyTaxi"
         android:width="250dp" />
+
+    <EditText
+        android:id="@+id/addressNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:inputType="textPostalAddress"
+        android:maxLines="1" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/addressNew"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="Destination"
+        android:inputType="textAutoCorrect"
+        android:maxLines="1"
+        android:popupBackground="@null"
+        android:textColor="@color/grey" >
+
+        <requestFocus />
+    </MultiAutoCompleteTextView>
 
 </RelativeLayout>
