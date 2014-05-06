@@ -108,7 +108,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if (driver != null && driver.getDeviceRegistrationID() == null) {
 			driver.setDeviceRegistrationID(deviceRegistrationID);
 			try {
-				endpoint.updateDriver(driver).execute();
+				Driver d = endpoint.getDriver(Utils.driver.getEmail()).execute();
+				d.setDeviceRegistrationID(deviceRegistrationID);
+				endpoint.updateDriver(d).execute();
 			} catch (IOException e) {
 				Log.e(GCMIntentService.class.getName(),
 						"Exception received when attempting to register with server at "
@@ -130,7 +132,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if (registrationId != null && registrationId.length() > 0) {
 			try {
 				Driver driver = Utils.getDriver(context);
-				driver.setDeviceRegistrationID(null);
+				driver.setDeviceRegistrationID(registrationId);
 				endpoint.updateDriver(driver).execute();
 			} catch (IOException e) {
 				Log.e(GCMIntentService.class.getName(),
