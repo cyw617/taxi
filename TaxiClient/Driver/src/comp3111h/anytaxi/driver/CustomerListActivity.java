@@ -1,13 +1,10 @@
 package comp3111h.anytaxi.driver;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -17,17 +14,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
-import com.appspot.hk_taxi.anyTaxi.model.Driver;
-import com.appspot.hk_taxi.anyTaxi.model.Transaction;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.json.jackson2.JacksonFactory;
 
 public class CustomerListActivity extends ActionBarActivity
 {
-
 	protected static final String TAG = "CustomerListActivity";
 	private ListView listView;
 	private static ArrayList<String> strArr;
@@ -66,13 +55,15 @@ public class CustomerListActivity extends ActionBarActivity
 				 */
 				String delims = "[\t]+";
 				String[] tokens = LocDes.split(delims);
-				String Loc = tokens[1];
-				String Des = tokens[2];
+				String Loc = tokens[0];
+				String Des = tokens[1];
 				float[] myLatLng = customerInfo.getFloatArray(LocDes);
 				intent.putExtra(Utils.CUSTOMER_LOC, Loc);
 				intent.putExtra(Utils.CUSTOMER_DES, Des);
 				intent.putExtra(Utils.CUSTOMER_LATLNG, myLatLng);
 				intent.putExtra(Utils.CUSTOMER_LIST_ID,id);
+				
+				intent.putExtra(Utils.TRASACTION_ID, customerInfo.getLong(Utils.TRASACTION_ID));
 				startActivity(intent);
 			}
 		});
@@ -177,6 +168,9 @@ public class CustomerListActivity extends ActionBarActivity
 		String customerLoc = intent.getStringExtra(GCMIntentService.CUR_LOC_STR);
 		String customerDes = intent.getStringExtra(GCMIntentService.DEST_LOC_STR);
 
+		float[] fa = {latitude, longitude};
+		customerInfo.putFloatArray(Utils.CUSTOMER_LATLNG, fa);
+		customerInfo.putLong(Utils.TRASACTION_ID, transactionId);
 		// Update the customer List
 		strArr.add(customerLoc + "\t" + customerDes);
 		arrAdapter.notifyDataSetChanged();

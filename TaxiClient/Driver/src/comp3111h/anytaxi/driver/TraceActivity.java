@@ -1,23 +1,13 @@
 package comp3111h.anytaxi.driver;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -29,12 +19,6 @@ import android.widget.Toast;
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.appspot.hk_taxi.anyTaxi.model.Transaction;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,7 +27,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
 public class TraceActivity extends FragmentActivity{
 
@@ -77,7 +60,7 @@ public class TraceActivity extends FragmentActivity{
 	String customerLoc;
 	String customerDes;
 	float[] myLatLng;
-	
+	Long transactionId;
 
 	private AnyTaxi endpoint;    
 
@@ -101,6 +84,9 @@ public class TraceActivity extends FragmentActivity{
 		customerLoc = intent.getStringExtra(Utils.CUSTOMER_LOC);
 		customerDes = intent.getStringExtra(Utils.CUSTOMER_DES);
 		myLatLng = intent.getFloatArrayExtra(Utils.CUSTOMER_LATLNG);
+		
+		transactionId = intent.getLongExtra(Utils.TRASACTION_ID, 0);
+		transactionId = (transactionId == 0)? null : transactionId;
 		
 		index = intent.getIntExtra("customer_list_id", 0);
 		//test cases needed
