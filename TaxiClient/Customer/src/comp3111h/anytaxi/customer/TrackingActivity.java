@@ -1,18 +1,14 @@
 package comp3111h.anytaxi.customer;
 
 import java.io.IOException;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.appspot.hk_taxi.anyTaxi.AnyTaxi;
 import com.appspot.hk_taxi.anyTaxi.model.Driver;
@@ -20,15 +16,13 @@ import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
-
-import comp3111h.anytaxi.customer.RequestToTrackingActivity.LoadingDriverTask;
 
 public class TrackingActivity extends ActionBarActivity {
 
@@ -110,14 +104,24 @@ public class TrackingActivity extends ActionBarActivity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			//Auto-generated method stub
-			marker = mMap.addMarker(new MarkerOptions().position(myDriverLoc));
+			marker = mMap.addMarker(new MarkerOptions().position(myDriverLoc)
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.taxipointer)));
 
 			while (true) {
-				GeoPt newLoc = myDriver.getLoc();
-				myDriverLoc = new LatLng(newLoc.getLatitude(),
-						newLoc.getLongitude());
-				publishProgress(myDriverLoc);
-				sleep();
+				
+				if(myDriver!=null)
+				{
+					GeoPt newLoc = myDriver.getLoc();
+					myDriverLoc = new LatLng(newLoc.getLatitude(),
+							newLoc.getLongitude());
+					publishProgress(myDriverLoc);
+					sleep();
+				}
+				else
+				{
+					
+				}
+				
 			}
 		}
 
