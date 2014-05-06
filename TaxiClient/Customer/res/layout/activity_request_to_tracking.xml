@@ -6,16 +6,37 @@
     tools:context="comp3111h.anytaxi.customer.RequestToTrackingActivity"
     tools:ignore="MergeRootFrame" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent" 
+        android:layout_gravity="center"
+		android:orientation="vertical"
+		android:padding="20dp">
+		
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:scaleType="centerInside"
+			android:layout_gravity="center_horizontal"
+			android:gravity="center"
+			android:src="@drawable/waitdriver" />
 
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_gravity="center_horizontal"
+			android:gravity="center"
+			android:textStyle="bold"
+			android:textSize="16sp"
+			android:text="Looking for available drivers.." />
+	
         <ProgressBar
             android:id="@+id/loadingdriverprogress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:layout_marginBottom="112dp" />
 
         <ProgressBar
@@ -23,11 +44,11 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/loadingdriverprogress"
-            android:layout_alignLeft="@+id/loadingdriverprogress"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:layout_marginBottom="32dp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </FrameLayout>
 
