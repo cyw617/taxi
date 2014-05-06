@@ -79,7 +79,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	public void onMessage(Context context, Intent intent) {
 		boolean fail = "true".equals(intent.getStringExtra("fail"));
 		if (fail) {
-			Intent notification = new Intent(context, TrackingActivity.class);
+			Intent notification = new Intent(context, TraceActivity.class);
 			notification.putExtra(FAIL, fail);
 			notification.putExtra(TRANSACTION_ID, intent.getStringExtra("transactionKey"));
 			notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

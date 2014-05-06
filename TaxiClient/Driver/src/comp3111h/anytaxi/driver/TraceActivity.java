@@ -41,10 +41,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-public class TraceActivity extends FragmentActivity implements
-		LocationListener,
-		GooglePlayServicesClient.ConnectionCallbacks,
-		GooglePlayServicesClient.OnConnectionFailedListener{
+public class TraceActivity extends FragmentActivity{
 	
 
     
@@ -128,8 +125,6 @@ public class TraceActivity extends FragmentActivity implements
 	
 	public void accept(View view){
 		// block cloud message
-		Intent intent = new Intent(TraceActivity.this, TrackingActivity.class);
-		startActivity(intent);
 		CustomerListActivity.removeItemInList(index); //test cases needed
 		finish();
 		

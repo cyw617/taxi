@@ -210,7 +210,8 @@ public class CustomerListActivity extends ActionBarActivity
 								context,
 								"It's too late! The order has been accepted by someone else.",
 								Toast.LENGTH_LONG).show();
-					} else
+					} 
+					else
 					{
 						// TODO: add something meaningful!
 						String customerLoc = t.getCustomerLocStr();
