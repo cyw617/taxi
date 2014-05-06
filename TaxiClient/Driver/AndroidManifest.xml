@@ -19,8 +19,17 @@
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 	
-	<permission android:name="comp3111h.anytaxi.driver.gcm.permission.C2D_MESSAGE" 
+	<!-- Settings for GCM -->
+	<permission
+	    android:name="comp3111h.anytaxi.driver.permission.C2D_MESSAGE"
 	    android:protectionLevel="signature" />
+	
+	<uses-permission android:name="comp3111h.anytaxi.driver.permission.C2D_MESSAGE" />
+	
+	<!-- App receives GCM messages. -->
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<!-- Keeps the processor from sleeping when a message is received. -->
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	
 	<uses-feature
         android:glEsVersion="0x00020000"
@@ -97,6 +106,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comp3111h.anytaxi.driver.TraceActivity" />
         </activity>
+        
+        <receiver
+	        android:name="com.google.android.gcm.GCMBroadcastReceiver"
+	        android:permission="com.google.android.c2dm.permission.SEND" >
+	        <intent-filter>
+	            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+	            <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+	            <category android:name="com.droidersuin.pushnotifications" />
+	        </intent-filter>
+    	</receiver>
+
+    	<service android:name="comp3111h.anytaxi.driver.GCMIntentService" />
         
         <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
