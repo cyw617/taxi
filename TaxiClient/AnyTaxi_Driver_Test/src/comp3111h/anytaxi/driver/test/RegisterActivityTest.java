@@ -145,7 +145,7 @@ public class RegisterActivityTest extends ActivityUnitTestCase<RegisterActivity>
         assertTrue("No internet connection.", Utils.isOnline(getActivity()));
         Thread.sleep(5000);
         
-        // RequestActivity should be started
+        // RegisterActivity should be started
         //@Tim TODO Activity not start, the test below will fail. 
         //final Intent redirect = getStartedActivityIntent();
         //assertNotNull("No activity is started.", redirect);
