@@ -57,7 +57,7 @@ public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity> i
 		// getActivity().onCreateOptionsMenu(new MenuBuilder(rContext));
 	}
 
-	@SmallTest
+/*	@MediumTest
 	public void testOnRequestListener() throws Exception {
 		getActivity().onStart();
 
@@ -72,7 +72,7 @@ public class RequestActivityTest extends ActivityUnitTestCase<RequestActivity> i
 		final Intent redirect = getStartedActivityIntent();
 		assertNotNull("No activity is started.", redirect);
 		assertEquals(redirect.getComponent().getShortClassName(), ".RequestToTrackingActivity");
-	}
+	}*/
 
 /*	@MediumTest
 	public void testOnConnected() throws Exception {
