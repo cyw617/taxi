@@ -8,7 +8,6 @@ import android.view.ContextThemeWrapper;
 import android.widget.Button;
 
 import comp3111h.anytaxi.customer.IndexActivity;
-import comp3111h.anytaxi.customer.CustomerAccountInfo;
 import comp3111h.anytaxi.customer.R;
 
 public class IndexActivityTest extends ActivityUnitTestCase<IndexActivity>

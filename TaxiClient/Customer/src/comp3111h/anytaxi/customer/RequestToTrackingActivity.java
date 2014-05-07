@@ -40,24 +40,16 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 	// The second transaction contains customer info plus transaction ID
 	Transaction initialTrans;
 	// The final transaction contains drivers info as well
-	Transaction returnedTrans;
+	public Transaction returnedTrans;
 
 	// Conform to the variables provided in Transaction class on server side
-	private Long id;
-
 	private String customerEmail;
-
-	private String driverEmail;
 
 	private String customerLocStr;
 	private String destLocStr;
 
 	private GeoPt customerLoc;
-	private GeoPt driverLoc;
 	private GeoPt destLoc;
-
-	private Integer numDriverNotified;
-	private String cursor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +83,7 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 		}
 
 		mProgressBar = (ProgressBar) findViewById(R.id.loadingdriverprogress);
-		customer = Utils.customer;
+		customer = Utils.getCustomer(this);
 
 		new LoadingDriverTask().execute();
 	}
@@ -161,28 +153,26 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 				initialTrans = endpoint.addTransaction(
 						Utils.customer.getEmail(), customerInfoTrans).execute();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// simulating long-running operation mer
+			// simulating long-running operation
 			returnedTrans = new Transaction();
 			returnedTrans.setDriverEmail(null);
 			Integer i = 0;
 			
 			
 			do {
-				sleep();
 				i++;
 				try {
 					returnedTrans = endpoint.getTransaction(
 							Utils.customer.getEmail(), initialTrans.getId())
 							.execute();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				i = (i >= 9) ? 9 : i;
 				publishProgress(i * 10);
+				sleep();
 			} while ((returnedTrans == null
 					|| returnedTrans.getDriverEmail() == null)&&i<=6);
 
