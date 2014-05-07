@@ -41,7 +41,7 @@ public class IndexActivity extends Activity {
 		refreshButton.setOnClickListener(showClientListListener);
 		callButton.setOnClickListener(callListener);
 		showlist.setOnClickListener(showlistListener);
-		showlist.setText("null");
+		showlist.setText("TaxiShare List is empty");
 
 	}
 

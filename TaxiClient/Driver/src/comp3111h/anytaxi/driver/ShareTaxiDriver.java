@@ -37,6 +37,7 @@ public class ShareTaxiDriver extends Activity
 
 		refreshButton.setOnClickListener(showClientListListener);
 		showlist.setOnClickListener(showlistListener);
+		showlist.setText("TaxiShare List is empty");
 
 	}
 
@@ -59,7 +60,8 @@ public class ShareTaxiDriver extends Activity
 	private void join()
 	{
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(ShareTaxiDriver.this);
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				ShareTaxiDriver.this);
 		builder.setTitle("Are you sure???"); // title bar string
 		builder.setMessage("do you want to pick up this order "); // message to
 																	// display
@@ -75,7 +77,13 @@ public class ShareTaxiDriver extends Activity
 		} // end anonymous inner class
 		); // end call to method setPositiveButton
 
-		builder.show(); // display the Dialog
+		try
+		{
+			builder.show(); // display the Dialog
+		} catch (Exception e)
+		{
+			;
+		}
 	} // end method deleteContact
 
 	private OnClickListener showClientListListener = new OnClickListener()
