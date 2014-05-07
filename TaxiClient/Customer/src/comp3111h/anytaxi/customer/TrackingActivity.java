@@ -16,7 +16,6 @@ import com.appspot.hk_taxi.anyTaxi.model.Driver;
 import com.appspot.hk_taxi.anyTaxi.model.GeoPt;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,7 +30,7 @@ public class TrackingActivity extends ActionBarActivity {
 	final int driverUpDelay = 500;
 	private static Marker marker;
 
-	Driver myDriver;
+	public Driver myDriver;
 	private SupportMapFragment mMapFragment;
 	private static Bundle driverInfo;
 	private static String driverEmail;
@@ -84,11 +83,12 @@ public class TrackingActivity extends ActionBarActivity {
 							driverLoc.getLongitude());
 					
 			        LocationUtils.mMap = mMapFragment.getMap();
-			        LocationUtils.mMap.setMyLocationEnabled(true);
-			        CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(myDriverLoc,
-							15);
-			        LocationUtils.mMap.animateCamera(cameraup);
-					
+			        if (LocationUtils.mMap != null) {
+				        LocationUtils.mMap.setMyLocationEnabled(true);
+				        CameraUpdate cameraup = CameraUpdateFactory.newLatLngZoom(myDriverLoc,
+								15);
+				        LocationUtils.mMap.animateCamera(cameraup);
+			        }					
 					new TrackingDriverTask().execute();
 				}
 			}
@@ -96,17 +96,6 @@ public class TrackingActivity extends ActionBarActivity {
 		
 		transactionId = getIntent().getLongExtra(Utils.PREFS_TRANSACTION_KEY, -1);
 		assert transactionId != -1;
-	}
-	
-	@Override
-	public void onStart(){
-		super.onStart();
-	}
-	
-	@Override
-	public void onResume(){
-		super.onResume();
-        
 	}
 
 	public void goBack(View view) {
@@ -120,8 +109,10 @@ public class TrackingActivity extends ActionBarActivity {
 
 		@Override
 		protected void onPreExecute() {
-			marker = LocationUtils.mMap.addMarker(new MarkerOptions().position(myDriverLoc)
-					.icon(BitmapDescriptorFactory.fromResource(R.drawable.taxipointer)));
+			if (LocationUtils.mMap != null) {
+				marker = LocationUtils.mMap.addMarker(new MarkerOptions().position(myDriverLoc)
+						.icon(BitmapDescriptorFactory.fromResource(R.drawable.taxipointer)));
+			}
 		}
 
 		@Override
@@ -158,7 +149,9 @@ public class TrackingActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onProgressUpdate(LatLng...location) {
-			marker.setPosition(location[0]);
+			if (marker != null) {
+				marker.setPosition(location[0]);
+			}
 		}
 		
 		@Override
