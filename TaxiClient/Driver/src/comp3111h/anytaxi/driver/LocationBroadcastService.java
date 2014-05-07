@@ -140,18 +140,25 @@ GooglePlayServicesClient.OnConnectionFailedListener,
   @Override
   public void onLocationChanged(Location location) {
       // Report to the UI that the location was updated
+	  
       String msg = Double.toString(location.getLatitude()) + "," +
               Double.toString(location.getLongitude());
+              
       Log.d("debug", msg);
       // Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
       appendLog(msg, Constants.LOCATION_FILE);
+      
+      
       if(endpoint == null)
       {
     	  Log.e("debug","endpoint is null on location changed");
       }
       
+      GeoPt driverLocNew = new GeoPt();
+      driverLocNew.setLatitude((float) location.getLatitude());
+      driverLocNew.setLongitude((float) location.getLongitude());
     try {
-		endpoint.updateDriverLocation(driverEmail, driverLoc);
+		endpoint.updateDriverLocation(driverEmail, driverLocNew);
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

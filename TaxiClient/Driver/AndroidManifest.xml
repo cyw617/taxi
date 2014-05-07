@@ -112,9 +112,9 @@
         
 
         <service android:name="comp3111h.anytaxi.driver.GCMIntentService" />
+       
         
-        <service android:name="comp3111h.anytaxi.driver.LocationBroadcastService"
-        android:process=":remote" />
+        <service android:enabled="true" android:name=".LocationBroadcastService" />
         
         <receiver
 	        android:name="com.google.android.gcm.GCMBroadcastReceiver"
