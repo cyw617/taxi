@@ -37,6 +37,7 @@ public class ShareTaxiDriver extends Activity
 
 		refreshButton.setOnClickListener(showClientListListener);
 		showlist.setOnClickListener(showlistListener);
+		showlist.setText("TaxiShare List is empty");
 
 	}
 
