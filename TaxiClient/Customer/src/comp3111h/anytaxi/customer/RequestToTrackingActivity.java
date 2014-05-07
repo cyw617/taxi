@@ -2,6 +2,8 @@ package comp3111h.anytaxi.customer;
 
 import java.io.IOException;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -88,7 +90,7 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 
 		}
 
-		mProgressBar = (ProgressBar) findViewById(R.id.loadingdriverprogress2);
+		mProgressBar = (ProgressBar) findViewById(R.id.loadingdriverprogress);
 		customer = Utils.customer;
 
 		new LoadingDriverTask().execute();
@@ -166,6 +168,8 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 			returnedTrans = new Transaction();
 			returnedTrans.setDriverEmail(null);
 			Integer i = 0;
+			
+			
 			do {
 				sleep();
 				i++;
@@ -179,11 +183,19 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 				}
 				i = (i >= 9) ? 9 : i;
 				publishProgress(i * 10);
-			} while (returnedTrans == null
-					|| returnedTrans.getDriverEmail() == null);
+			} while ((returnedTrans == null
+					|| returnedTrans.getDriverEmail() == null)&&i<=6);
 
-			publishProgress(Integer.valueOf(100));
-			return returnedTrans.getDriverEmail();
+			if(i>10)
+			{
+				return null;
+			}
+			else
+			{
+				publishProgress(Integer.valueOf(100));
+				return returnedTrans.getDriverEmail();
+			}
+			
 
 		}
 
@@ -196,6 +208,23 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 		protected void onPostExecute(String driverEmail) {
 			mProgressBar.setVisibility(ProgressBar.INVISIBLE);
 
+			if(driverEmail == null)
+			{
+				new AlertDialog.Builder(RequestToTrackingActivity.this)
+			    .setTitle("Not Found")
+			    .setMessage("No Driver Found, Go Back And Send Another Request")
+			    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			        	RequestToTrackingActivity.super.onBackPressed();
+			            // continue with delete
+			        }
+			     })
+			    .setIcon(android.R.drawable.ic_dialog_alert)
+			     .show();
+				
+				return;
+			}
+			
 			Bundle driverInfo = new Bundle();
 			driverInfo.putString("Email", driverEmail);
 

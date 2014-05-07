@@ -39,14 +39,7 @@
             android:gravity="center"
             android:layout_marginBottom="112dp" />
 
-        <ProgressBar
-            android:id="@+id/loadingdriverprogress2"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="32dp" />
+        
 
     </LinearLayout>
 
