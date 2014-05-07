@@ -3,7 +3,9 @@ package comp3111h.anytaxi.driver;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -30,8 +32,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import comp3111h.anytaxi.customer.RequestToTrackingActivity;
 public class TraceActivity extends FragmentActivity{
 
+	//Telephone number from customer
+	String tel;
 	// service
 	private LocationBroadcastService myService;
 	private Intent serviceIntent;
@@ -146,6 +151,8 @@ public class TraceActivity extends FragmentActivity{
 					try {
 						t = endpoint.acceptTransaction(d.getEmail(),
 								params[0]).execute();
+						tel = endpoint.getCustomer(t.getCustomerEmail())
+								.execute().getPhoneNumber().getNumber();
 					} catch (IOException e) {
 						exceptionThrown = e;
 						return null;
@@ -162,7 +169,6 @@ public class TraceActivity extends FragmentActivity{
 							TraceActivity.this,
 							"It's too late! The order has been accepted by someone else.",
 							Toast.LENGTH_LONG).show();
-					
 					sleep();
 					TraceActivity.super.onBackPressed();
 				} else {
@@ -177,6 +183,18 @@ public class TraceActivity extends FragmentActivity{
 		// block cloud message
 		CustomerListActivity.removeItemInList(index); //test cases needed
 		startService(new Intent(this, LocationBroadcastService.class));
+		
+		new AlertDialog.Builder(TraceActivity.this)
+	    .setTitle("Customer Contact")
+	    .setMessage("Phone Number" + tel)
+	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	        	TraceActivity.super.onBackPressed();
+	            // continue with delete
+	        }
+	     })
+	    .setIcon(android.R.drawable.ic_dialog_alert)
+	     .show();
 
 	}
 	
