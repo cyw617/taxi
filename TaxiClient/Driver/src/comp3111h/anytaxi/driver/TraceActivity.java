@@ -32,7 +32,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import comp3111h.anytaxi.customer.RequestToTrackingActivity;
+
+
+
 public class TraceActivity extends FragmentActivity{
 
 	//Telephone number from customer
