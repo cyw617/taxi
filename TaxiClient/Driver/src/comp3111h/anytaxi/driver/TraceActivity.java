@@ -162,6 +162,9 @@ public class TraceActivity extends FragmentActivity{
 							TraceActivity.this,
 							"It's too late! The order has been accepted by someone else.",
 							Toast.LENGTH_LONG).show();
+					
+					sleep();
+					TraceActivity.super.onBackPressed();
 				} else {
 					// TODO: add truely meaningful accept
 				}
@@ -175,6 +178,14 @@ public class TraceActivity extends FragmentActivity{
 		CustomerListActivity.removeItemInList(index); //test cases needed
 		startService(new Intent(this, LocationBroadcastService.class));
 
+	}
+	
+	private void sleep() {
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			Log.e(TAG, e.toString());
+		}
 	}
 
 	public void finish(View view){
