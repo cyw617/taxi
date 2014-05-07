@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -121,10 +122,15 @@ public class TraceActivity extends FragmentActivity{
 	
 
 
-
-
 	public void accept(View view){
-
+		Button accept, finish, decline;
+		accept = (Button)findViewById(R.id.button1);
+		decline = (Button)findViewById(R.id.button2);
+		finish = (Button)findViewById(R.id.button3);
+		accept.setVisibility(View.GONE);
+		decline.setVisibility(View.GONE);
+		finish.setVisibility(View.VISIBLE);
+		
 		new AsyncTask<Long, Void, Transaction>() {
 			private Exception exceptionThrown;
 
@@ -168,7 +174,9 @@ public class TraceActivity extends FragmentActivity{
 		// block cloud message
 		CustomerListActivity.removeItemInList(index); //test cases needed
 		startService(new Intent(this, LocationBroadcastService.class));
-		
+	}
+
+	public void finish(View view){
 		finish();		
 	}
 

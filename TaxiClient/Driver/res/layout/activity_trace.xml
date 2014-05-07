@@ -45,6 +45,7 @@
         android:text="Decline" 
         android:onClick="decline"/>
 
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -61,4 +62,16 @@
         android:layout_centerHorizontal="true"
         android:indeterminate="true"
         android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="54dp"
+        android:visibility="gone"
+        android:onClick="finish"
+        android:text="Finish" />
+
    </RelativeLayout>
