@@ -243,18 +243,13 @@ public class RequestActivity extends ActionBarActivity implements
             if (curLocGlobal != null) {
                 LatLng locationNew = new LatLng(curLocGlobal.getLatitude(),
                         curLocGlobal.getLongitude());
+                Utils.updateCustomer(RequestActivity.this);
 
                 if (Utils.customer != null) {
                     Customer c = Utils.customer;
                     GeoPt p = new GeoPt();
-                    p.setLatitude((float) locationNew.latitude); // @ Ryan
-                                                                    // please
-                                                                    // get 1.00
-                                                                    // from map
-                    p.setLongitude((float) locationNew.longitude); // @ Ryan
-                                                                    // please
-                                                                    // get 2.00
-                                                                    // from map
+                    p.setLatitude((float) locationNew.latitude); 
+                    p.setLongitude((float) locationNew.longitude); 
                     c.setLoc(p);
 
 

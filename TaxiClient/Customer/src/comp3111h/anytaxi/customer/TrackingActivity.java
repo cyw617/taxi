@@ -38,6 +38,7 @@ public class TrackingActivity extends ActionBarActivity {
 	private static AnyTaxi endpoint;
 	private static GeoPt driverLoc;
 	private static LatLng myDriverLoc;
+	private static Long transactionId;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -92,6 +93,9 @@ public class TrackingActivity extends ActionBarActivity {
 				}
 			}
 		}.execute(driverEmail);
+		
+		transactionId = getIntent().getLongExtra(Utils.PREFS_TRANSACTION_KEY, -1);
+		assert transactionId != -1;
 	}
 	
 	@Override
@@ -110,6 +114,9 @@ public class TrackingActivity extends ActionBarActivity {
 	}
 
 	class TrackingDriverTask extends AsyncTask<Void, LatLng, Void> {
+		
+		Exception exception;
+		int exceptionCount = 0;
 
 		@Override
 		protected void onPreExecute() {
@@ -118,16 +125,26 @@ public class TrackingActivity extends ActionBarActivity {
 		}
 
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected Void doInBackground(Void...params) {
 
-			while (true) {
+			while (exceptionCount < 5) {
 				
 				if(myDriver!=null)
 				{
-					GeoPt newLoc = myDriver.getLoc();
-					myDriverLoc = new LatLng(newLoc.getLatitude(),
-							newLoc.getLongitude());
-					publishProgress(myDriverLoc);
+					LatLng newLoc = null;
+					try {
+						GeoPt temp = endpoint.getDriverLocation(Utils.customer.getEmail(),
+								transactionId).execute();
+						if (temp == null) {
+							throw new IOException("Can't get driver location");
+						}
+						newLoc = new LatLng(temp.getLatitude(), temp.getLongitude());
+						
+					} catch (IOException e) {
+						exception = e;
+						exceptionCount++;
+					}
+					publishProgress(newLoc);
 					sleep();
 				}
 				else
@@ -136,12 +153,20 @@ public class TrackingActivity extends ActionBarActivity {
 				}
 				
 			}
+			return null;
 		}
-
-	}
-
-	protected void onProgressUpdate(LatLng location) {
-		marker.setPosition(location);
+		
+		@Override
+		protected void onProgressUpdate(LatLng...location) {
+			marker.setPosition(location[0]);
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			if (exception != null) {
+				CloudEndpointUtils.logAndShow(TrackingActivity.this, TAG, exception);
+			}
+		}
 	}
 
 	private void sleep() {

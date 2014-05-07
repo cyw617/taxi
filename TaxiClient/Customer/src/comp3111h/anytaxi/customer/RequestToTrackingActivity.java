@@ -201,6 +201,10 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 
 			Intent intent = new Intent(RequestToTrackingActivity.this,
 					TrackingActivity.class);
+			if (returnedTrans != null) {
+				String.valueOf(returnedTrans.getId());
+				intent.putExtra(Utils.PREFS_TRANSACTION_KEY, returnedTrans.getId());
+			}
 			intent.putExtras(driverInfo);
 			startActivity(intent);
 			finish();

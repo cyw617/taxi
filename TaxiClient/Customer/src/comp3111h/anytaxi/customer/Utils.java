@@ -25,6 +25,8 @@ public class Utils {
 	public static final String PREFS_TEL_KEY = "__TEL__";
 	public static final String PREFS_LOC_KEY = "__LOC__";
 	public static final String PREFS_REGDATE_KEY = "__REGDATE__";
+	
+	public static final String PREFS_TRANSACTION_KEY = "__TRANSACTION__";
 
 	public static final String SUCCESS_SERVICE_KEY = "__SUCCESS__";
 
