@@ -186,7 +186,7 @@ public class RequestToTrackingActivity extends ActionBarActivity {
 			} while ((returnedTrans == null
 					|| returnedTrans.getDriverEmail() == null)&&i<=6);
 
-			if(i>10)
+			if(i>=6)
 			{
 				return null;
 			}
