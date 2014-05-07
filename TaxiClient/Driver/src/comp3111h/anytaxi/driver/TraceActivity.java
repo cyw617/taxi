@@ -185,19 +185,6 @@ public class TraceActivity extends FragmentActivity{
 		// block cloud message
 		CustomerListActivity.removeItemInList(index); //test cases needed
 		startService(new Intent(this, LocationBroadcastService.class));
-		
-		new AlertDialog.Builder(TraceActivity.this)
-	    .setTitle("Customer Contact")
-	    .setMessage("Phone Number" + tel)
-	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int which) { 
-	        	TraceActivity.super.onBackPressed();
-	            // continue with delete
-	        }
-	     })
-	    .setIcon(android.R.drawable.ic_dialog_alert)
-	     .show();
-
 	}
 	
 	private void sleep() {
@@ -210,7 +197,18 @@ public class TraceActivity extends FragmentActivity{
 
 	public void finish(View view){
 
-		finish();		
+		new AlertDialog.Builder(TraceActivity.this)
+	    .setTitle("Customer Contact")
+	    .setMessage("Phone Number: " + tel)
+	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	        	TraceActivity.super.onBackPressed();
+	            // continue with delete
+	        }
+	     })
+	    .setIcon(android.R.drawable.ic_dialog_alert)
+	     .show();
+				
 	}
 
 	public void decline(View view){
