@@ -9,7 +9,7 @@ Our product presentation slides
 
 
 Our product demo videos
-===
+---
 1. Broadcast request, Address autofill in, GCM service, Decline Response, and more. <url>https://www.youtube.com/watch?v=bRtXU1lam48</url>
 2. Avoid Driver race condition, Accept Response, and more. <url>https://www.youtube.com/watch?v=InPjygNuhUU</url>
 3. Sign up, Phone number validation checking, Sign out, and more. <url>https://www.youtube.com/watch?v=X52mwksOxsY</url>
@@ -17,7 +17,7 @@ Our product demo videos
 
 
 How to build (and test coverage report)
-===
+---
 First download the project, uncompress it, and put it into a directory.
 
 <code>cd</code> into this directory, and the <code>TaxiClient</code> subdir.
