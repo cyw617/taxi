@@ -1,7 +1,17 @@
-taxi
+AnyTaxi
 ====
-<url>http://en.wikipedia.org/wiki/Geohash</url>
-This will be our algorithm to search for drivers nearby.
+Read our wiki page for everything: <url>https://github.com/cyw617/taxi/wiki</url>
+
+
+Our product presentation slides
+===
+<url>http://prezi.com/wexodsbaefpt/comp3111h-anytaxi-product/</url>
+
+
+Our product demo videos
+===
+<url>htt[://www.youtube.com</url>
+
 
 How to build (and test coverage report)
 ===
