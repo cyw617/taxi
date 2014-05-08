@@ -5,10 +5,9 @@ import android.test.ServiceTestCase;
 import android.test.mock.MockApplication;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.view.ContextThemeWrapper;
-import comp3111h.anytaxi.driver.CustomerListActivity;
+
 import comp3111h.anytaxi.driver.GCMIntentService;
 import comp3111h.anytaxi.driver.R;
-import comp3111h.anytaxi.driver.TraceActivity;
 
 
 public class GCMIntentServiceTest extends ServiceTestCase<GCMIntentService> {

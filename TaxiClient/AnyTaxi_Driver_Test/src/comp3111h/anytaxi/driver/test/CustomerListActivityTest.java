@@ -1,13 +1,18 @@
 package comp3111h.anytaxi.driver.test;
 
-import comp3111h.anytaxi.driver.R;
-import comp3111h.anytaxi.driver.CustomerListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.test.ActivityUnitTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ContextThemeWrapper;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import comp3111h.anytaxi.driver.CustomerListActivity;
+import comp3111h.anytaxi.driver.GCMIntentService;
+import comp3111h.anytaxi.driver.R;
 
 public class CustomerListActivityTest extends ActivityUnitTestCase<CustomerListActivity>{
 	
@@ -29,12 +34,6 @@ public class CustomerListActivityTest extends ActivityUnitTestCase<CustomerListA
 				CustomerListActivity.class);
 		
 		this.startActivity(intent, null, null);
-	}
-	
-	@Override
-	protected void tearDown() throws Exception{
-		//this method is called every time after any test execution
-		super.tearDown();
 	}
 	
 	@SmallTest
@@ -62,8 +61,26 @@ public class CustomerListActivityTest extends ActivityUnitTestCase<CustomerListA
 	public void testRemoveItemInListUsingIndex(){ // checks if removing items in list using works
 		int size = getActivity().numItemsInStrArr();
 		for(int i = 0; i<size ; i++){
-			getActivity().removeItemInList(0);
+			CustomerListActivity.removeItemInList(0);
 		}
 		assertEquals("List shoud be clean after removing items", getActivity().numItemsInStrArr(), 0);
+	}
+	
+	@MediumTest
+	public void testTouchOnItem(){
+
+		Intent intent = new Intent();
+		intent.putExtra(GCMIntentService.GCM_INTENT, "GCM");
+		intent.putExtra(GCMIntentService.TRANSACTION_ID, "1");
+		intent.putExtra(GCMIntentService.LATITUDE, "1");
+		intent.putExtra(GCMIntentService.LONGITUDE, "1");
+		getActivity().onNewIntent(intent);
+		getActivity();
+		getActivity().listView.performItemClick(CustomerListActivity.arrAdapter.getView(0, null, null),
+				0, CustomerListActivity.arrAdapter.getItemId(0));
+
+	    final Intent launchIntent = this.getStartedActivityIntent();
+	    assertNotNull("Intent was null", launchIntent);
+	    assertEquals(launchIntent.getComponent().getShortClassName(), ".TraceActivity");
 	}
 }

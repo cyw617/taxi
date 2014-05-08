@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,10 +19,11 @@ import android.widget.ListView;
 public class CustomerListActivity extends ActionBarActivity
 {
 	protected static final String TAG = "CustomerListActivity";
-	private ListView listView;
-	private static ArrayList<String> strArr;
-	private static ArrayAdapter<String> arrAdapter;
+	public ListView listView;
+	public static ArrayList<String> strArr;
+	public static ArrayAdapter<String> arrAdapter;
 	Bundle customerInfo;
+	private Menu mOptionsMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -75,7 +77,6 @@ public class CustomerListActivity extends ActionBarActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
@@ -158,7 +159,7 @@ public class CustomerListActivity extends ActionBarActivity
 	}
 
 	@Override
-	protected void onNewIntent(Intent intent) {
+	public void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		Log.e("onNewIntent", "Start onNewIntent");
 		String gcm = intent.getStringExtra(GCMIntentService.GCM_INTENT);
