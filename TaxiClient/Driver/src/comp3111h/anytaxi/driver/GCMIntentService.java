@@ -85,7 +85,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			notification.putExtra(FAIL, fail);
 			notification.putExtra(TRANSACTION_ID, intent.getStringExtra("transactionKey"));
 			notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(notification);
+			context.startActivity(notification);
 		} else {
 			Intent notification = new Intent(context, CustomerListActivity.class);
 			notification.putExtra(TRANSACTION_ID, intent.getStringExtra("transactionKey"));
@@ -98,7 +98,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			notification.putExtra(LONGITUDE, intent.getStringExtra("long"));
 
 			notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(notification);
+			context.startActivity(notification);
 		}
 	}
 

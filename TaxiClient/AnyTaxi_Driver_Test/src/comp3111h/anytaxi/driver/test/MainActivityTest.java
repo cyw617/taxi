@@ -42,7 +42,7 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 	public void testLoginActivityStart() {
 		
 	    Utils.updateDriver(targetContext, null);
-	    assertNull("customer wasn't null", Utils.getDriver(getActivity()));
+	    assertNull("driver wasn't null", Utils.getDriver(getActivity()));
 	    
 	    getActivity().onStart();
 	    
@@ -55,7 +55,7 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 	public void testRequestActivityStart() throws InterruptedException {
 		
 	    Utils.updateDriver(targetContext, TestUtils.getDriver());
-	    assertNotNull("customer was null", Utils.getDriver(getActivity()));
+	    assertNotNull("driver was null", Utils.getDriver(getActivity()));
 	    
 	    getActivity().onResume();
 	    assertTrue("Unable to connect Internet", Utils.isOnline(getActivity()));
