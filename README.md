@@ -4,7 +4,7 @@ Read our wiki page for everything: <url>https://github.com/cyw617/taxi/wiki</url
 
 
 Our product presentation slides
-===
+---
 <url>http://prezi.com/wexodsbaefpt/comp3111h-anytaxi-product/</url>
 
 
